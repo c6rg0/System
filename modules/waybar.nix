@@ -279,8 +279,8 @@
     '';
 
     settings = [{
-      layer = "bottom";
-      position = "bottom";
+      layer = "top";
+      position = "top";
 
       modules-left = [
       "sway/mode" 

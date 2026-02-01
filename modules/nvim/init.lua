@@ -1,7 +1,7 @@
 local vim = vim
 local Plug = vim.fn['plug#']
 
-vim.cmd('let g:python3_host_prog = "/usr/bin/python3"')
+vim.cmd('let g:python3_host_prog = "/usr/bin/env python3"')
 vim.cmd('set guicursor=n-v-c-i:block')
 vim.cmd('set number')
 
@@ -12,10 +12,15 @@ Plug("nvim-lualine/lualine.nvim")
 Plug("preservim/nerdtree")
 Plug 'nvim-lua/plenary.nvim'
 Plug("nvim-telescope/telescope.nvim")
+Plug("BurntSushi/ripgrep")
+Plug("/sharkdp/fd")
 
 Plug("nvim-treesitter/nvim-treesitter")
 Plug("lukas-reineke/indent-blankline.nvim")
-Plug("ellisonleao/gruvbox.nvim")
+
+-- Plug("ellisonleao/gruvbox.nvim")
+Plug("EdenEast/nightfox.nvim")
+
 Plug("akinsho/bufferline.nvim")
 Plug("brenoprata10/nvim-highlight-colors")
 Plug("MeanderingProgrammer/render-markdown.nvim")
@@ -33,6 +38,7 @@ local builtin = require('telescope.builtin')
 
 vim.lsp.enable("lua_ls", "pyright", "ts_ls")
 
+--[[
 require("gruvbox").setup({
   terminal_colors = true, -- add neovim terminal colors
   undercurl = true,
@@ -56,9 +62,13 @@ require("gruvbox").setup({
   dim_inactive = false,
   transparent_mode = false,
 })
+--]]
 
-vim.o.background = "dark"
-vim.cmd([[colorscheme gruvbox]])
+-- vim.o.background = "dark"
+-- vim.cmd([[colorscheme gruvbox]])
+
+require('nightfox').compile()
+vim.cmd([[colorscheme carbonfox]])
 
 require('lualine').setup {
    options = {
@@ -132,7 +142,7 @@ require('lualine').setup {
 }
 
 require('bufferline').setup()
-require('nvim-highlight-colors').setup({})
+require('render-markdown').setup({})
 require("ibl").setup()
 vim.opt.termguicolors = true
 
