@@ -66,6 +66,7 @@
       yt-dlp
       zathura
       qutebrowser
+      gammastep
     ];
   
   home.sessionVariables = {

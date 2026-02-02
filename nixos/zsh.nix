@@ -21,6 +21,8 @@
       ld0 = "swaymsg output eDP-1 disable";
       ld1 = "swaymsg output eDP-1 enable";
       py = "python";
+      night = "gammastep -O 4500K";
+      day = "exec gammastep -O 6500K";
     };
 
     histSize = 10000;

@@ -19,20 +19,20 @@
 
 	/* Colors (gruvbox) */
 	@define-color black	#282828;
-	@define-color red	#cc241d;
-	@define-color green	#98971a;
-	@define-color yellow	#d79921;
-	@define-color blue	#458588;
-	@define-color purple	#b16286;
-	@define-color aqua	#689d6a;
+	@define-color red	#fb4914;
+	@define-color green	#b8bb26;
+	@define-color yellow	#fabd2f;
+	@define-color blue	#83a598;
+	@define-color purple	#d3869b;
+	@define-color aqua	#8ec07c;
 	@define-color gray	#928374;
 	@define-color brgray	#7C6F64;
-	@define-color brred	#9d0006;
-	@define-color brgreen	#79740e;
-	@define-color bryellow	#b57614;
-	@define-color brblue	#076678;
-	@define-color brpurple	#8f3f71;
-	@define-color braqua	#427b58;
+	@define-color brred	#cc241d;
+	@define-color brgreen	#98971a;
+	@define-color bryellow	#d79921;
+	@define-color brblue	#458588;
+	@define-color brpurple	#b16286;
+	@define-color braqua	#689d6a;
 	@define-color white	#f9f5d7;
 	@define-color bg2	#d5c4a1;
 
