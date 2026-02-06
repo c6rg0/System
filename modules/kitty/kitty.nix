@@ -16,7 +16,7 @@
       italic_font = "auto";
       bold_italic_font = "auto";
 
-      include = "/home/gabriel/.config/modules/kitty/carbon.conf";
+      include = "/home/gabriel/.config/modules/kitty/current-theme.conf";
 
       cursor_shape = "block";
       cursor_blind_interval = 0;

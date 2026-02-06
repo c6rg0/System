@@ -17,9 +17,7 @@ Plug("/sharkdp/fd")
 
 Plug("nvim-treesitter/nvim-treesitter")
 Plug("lukas-reineke/indent-blankline.nvim")
-
--- Plug("ellisonleao/gruvbox.nvim")
-Plug("EdenEast/nightfox.nvim")
+Plug("ellisonleao/gruvbox.nvim")
 
 Plug("akinsho/bufferline.nvim")
 Plug("brenoprata10/nvim-highlight-colors")
@@ -38,7 +36,6 @@ local builtin = require('telescope.builtin')
 
 vim.lsp.enable("lua_ls", "pyright", "ts_ls")
 
---[[
 require("gruvbox").setup({
   terminal_colors = true, -- add neovim terminal colors
   undercurl = true,
@@ -62,13 +59,9 @@ require("gruvbox").setup({
   dim_inactive = false,
   transparent_mode = false,
 })
---]]
 
--- vim.o.background = "dark"
--- vim.cmd([[colorscheme gruvbox]])
-
-require('nightfox').compile()
-vim.cmd([[colorscheme carbonfox]])
+vim.o.background = "dark"
+vim.cmd([[colorscheme gruvbox]])
 
 require('lualine').setup {
    options = {
@@ -144,7 +137,9 @@ require('lualine').setup {
 require('bufferline').setup()
 require('render-markdown').setup({})
 require("ibl").setup()
+
 vim.opt.termguicolors = true
+require('nvim-highlight-colors').setup({})
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "nix", "lua", "yaml", "markdown" },
