@@ -42,6 +42,11 @@
     - Please back up your previous config before running it, and don't execute random 
       scripts from the internet (the script is less than 20 lines long, read it first!). 
 
+- Also, please generate your own hardware-configuration.nix, and that you have enabled 
+  flakes functionality before using this config.
+- If you have a different user name (that isn't "gabriel"), this config won't work unless
+  you swap out the "gabriel"s in the configuration.nix for your own.
+
 
 ## Credits:
 Waybar config = [mxkrsv/dotfiles-old](https://github.com/mxkrsv/dotfiles-old/tree/master/.config/waybar)

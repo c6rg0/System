@@ -22,21 +22,10 @@
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
   
-  /*
-  boot.kernelModules = [ 
-    "kvm-intel" 
-    "vfio_pci"
-    "vfio"
-    "vfio_iommu_type1"
-  ];
-  */
+  boot.kernelModules = [];
 
   boot.kernelParams = [ 
     "nvidia-drm.modeset=1"
-    /*
-    "intel_iommu=on"
-    "vfio-pci.ids=1e0f:0001,10de:1f99"
-    */
   ];
 
   nix.settings.experimental-features = [ 
@@ -48,7 +37,7 @@
   users.users.gabriel = {
     isNormalUser = true;
     description = "Gabriel";
-    extraGroups = [ "networkmanager" "wheel" "libvirtd"];
+    extraGroups = [ "networkmanager" "wheel"];
     shell = pkgs.zsh;
     packages = with pkgs; [];
   };
@@ -85,17 +74,8 @@
 
   services.flatpak.enable = true;
 
-  programs.virt-manager.enable = true;
-  virtualisation.spiceUSBRedirection.enable = true;
-  virtualisation.libvirtd = {
-    enable = true;
-    qemu = {
-      package = pkgs.qemu_kvm;
-      runAsRoot = true;
-      swtpm.enable = true;
-    };
-  };
-  services.qemuGuest.enable = true;
-  services.spice-vdagentd.enable = true;  
+  documentation.enable = true;
+  documentation.man.enable = true;
+  documentation.dev.enable = true;
 
 }
