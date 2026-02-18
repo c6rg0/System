@@ -3,8 +3,8 @@
 {
   programs.neovim = {
     enable = true;
-    
-    extraLuaConfig = ''
+ 
+    initLua = ''
       ${builtins.readFile ./init.lua}
 
     '';

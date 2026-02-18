@@ -11,12 +11,12 @@
       linux_display_server = "wayland";
 
       font_size = "17.5";
-      font_family = "AurulentSansM Nerd Font Mono";
+      font_family = "Jetbrains Nerd Font Mono";
       bold_font = "auto";
       italic_font = "auto";
       bold_italic_font = "auto";
 
-      include = "/home/gabriel/.config/modules/kitty/current-theme.conf";
+      include = "/home/gabriel/.config/modules/kitty/gruvbox-dark.conf";
 
       cursor_shape = "block";
       cursor_blind_interval = 0;

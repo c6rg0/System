@@ -67,6 +67,9 @@
       zathura
       qutebrowser
       gammastep
+      obs-studio
+      slurp
+      zenity
     ];
   
   home.sessionVariables = {
@@ -76,6 +79,24 @@
   };
 
   services.dunst.enable = true;  # Notifications
+
+  xdg = {
+    portal = {
+      enable = true;
+
+      config = {
+        sway = {
+          default = [ "gtk" ];
+          "org.freedesktop.impl.portal.Screenshot" = [ "wlr" ];
+          "org.freedesktop.impl.portal.ScreenCast" = [ "wlr" ];
+        };
+      };
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-wlr
+        xdg-desktop-portal-gtk
+      ];
+    };
+  };
 
 }
 

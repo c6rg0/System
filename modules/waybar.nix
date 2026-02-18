@@ -19,29 +19,28 @@
 
 	/* Colors (gruvbox) */
 	@define-color black	#282828;
-	@define-color red	#fb4914;
-	@define-color green	#b8bb26;
-	@define-color yellow	#fabd2f;
-	@define-color blue	#83a598;
-	@define-color purple	#d3869b;
-	@define-color aqua	#8ec07c;
+	@define-color red	#cc241d;
+	@define-color green	#98971a;
+	@define-color yellow  #d79921;
+	@define-color blue	#458588;
+	@define-color purple	#b16286;
+	@define-color aqua	#689d6a;
 	@define-color gray	#928374;
 	@define-color brgray	#7C6F64;
-	@define-color brred	#cc241d;
-	@define-color brgreen	#98971a;
-	@define-color bryellow	#d79921;
-	@define-color brblue	#458588;
-	@define-color brpurple	#b16286;
-	@define-color braqua	#689d6a;
-	@define-color white	#f9f5d7;
-	@define-color bg2	#d5c4a1;
+	@define-color brred	#9d0006;
+	@define-color brgreen	#79740e;
+	@define-color bryellow	#b57614;
+	@define-color brblue	#076678;
+	@define-color brpurple	#8f3f71;
+	@define-color braqua	#427b58;
+	@define-color white	#fbf1c7;
 
 	@define-color warning 	@bryellow;
 	@define-color critical	@brred;
 	@define-color mode	@black;
-	@define-color unfocused	@brgray;
-	@define-color focused	@bg2;
-	@define-color inactive	@bg2;
+	@define-color unfocused	@black;
+	@define-color focused	@white;
+	@define-color inactive	@black;
 	@define-color sound	@bryellow;
 	@define-color network	@yellow;
 	@define-color memory	@green;
@@ -50,7 +49,7 @@
 	@define-color layout	@brblue;
 	@define-color battery	@braqua;
 	@define-color date	@black;
-	@define-color time	@bg2;
+	@define-color time	@white;
 
 	/* Reset all styles */
 	* {
@@ -68,7 +67,7 @@
 	#waybar {
 		background: rgba(40, 40, 40, 0.8784313725); /* #282828e0 */
 		color: @white;
-		font-family: AurulentSansM Nerd Font Mono, Siji;
+		font-family: Jetbrains Nerd Font Mono, Siji;
 		font-size: 12pt;
 		/* font-weight: bold; */
 	}
@@ -77,7 +76,6 @@
 	#battery,
 	#clock,
 	#cpu,
-	#language,
 	#memory,
 	#mode,
 	#network,
@@ -186,12 +184,6 @@
 		color: @black;
 	}
 
-	#language {
-		background: @layout;
-		color: @black;
-
-	}
-
 	#battery {
 		background: @battery;
 		color: @white;
@@ -211,7 +203,7 @@
 		color: @black;
 	}
 
-	#custom-arrow1 {
+  	#custom-arrow1 {
 		font-size: 11pt;
 		color: @time;
 		background: @date;
@@ -220,61 +212,52 @@
 	#custom-arrow2 {
 		font-size: 11pt;
 		color: @date;
-		background: @layout;
+		background: @battery;
 		padding: 0;
 		margin: 0;
 	}
 
 	#custom-arrow3 {
 		font-size: 11pt;
-		color: @layout;
-		background: @battery;
-		padding: 0;
-		margin: 0;
-	}
-
-	#custom-arrow4 {
-		font-size: 11pt;
 		color: @battery;
 		background: @temp;
 	}
 
-	#custom-arrow5 {
+	#custom-arrow4 {
 		font-size: 11pt;
 		color: @temp;
 		background: @cpu;
 	}
 
-	#custom-arrow6 {
+	#custom-arrow5 {
 		font-size: 11pt;
 		color: @cpu;
 		background: @memory;
 	}
 
-	#custom-arrow7 {
+	#custom-arrow6 {
 		font-size: 11pt;
 		color: @memory;
 		background: @network;
 	}
 
-	#custom-arrow8 {
+	#custom-arrow7 {
 		font-size: 11pt;
 		color: @network;
 		background: @sound;
 	}
 
-	#custom-arrow9 {
+	#custom-arrow8 {
 		font-size: 11pt;
 		color: @sound;
 		background: transparent;
 	}
 
-	#custom-arrow10 {
+	#custom-arrow9 {
 		font-size: 11pt;
 		color: @unfocused;
 		background: transparent;
 	}
-     
 
     '';
 
@@ -285,52 +268,50 @@
       modules-left = [
       "sway/mode" 
       "sway/workspaces" 
-      "custom/arrow10"
+      "custom/arrow9"
       ];
 
       modules-right = [
-        "custom/arrow9" 
-	"pulseaudio" 
-	"custom/arrow8" 
-	"network" 
-	"custom/arrow7" 
-	"memory" 
-	"custom/arrow6" 
-	"cpu" 
-	"custom/arrow5" 
-	"temperature" 
-	"custom/arrow4" 
-	"battery" 
-	"custom/arrow3" 
-	"sway/language" 
-	"custom/arrow2" 
-	"tray"
-	"clock#date" 
-	"custom/arrow1" 
-	"clock#time" 
-	]; 
-      
+        "custom/arrow8" 
+          "pulseaudio" 
+          "custom/arrow7" 
+          "network" 
+          "custom/arrow6" 
+          "memory" 
+          "custom/arrow5" 
+          "cpu" 
+          "custom/arrow4" 
+          "temperature" 
+          "custom/arrow3" 
+          "battery" 
+          "custom/arrow2" 
+          "tray"
+          "clock#date" 
+          "custom/arrow1" 
+          "clock#time" 
+      ]; 
+
       battery = {
         format-time = "{H}:{M:02}";
         format = "{icon} {capacity}% ({time})";
-	format-charging = " {capacity}% ({time})";
-	format-charging-full =  " {capacity}%";
-	format-full = "{icon} {capacity}%";
-	format-alt = "{icon} {power}W";
-	format-icons = [ "" "" "" "" "" ];
-	tooltip =  false;
+        format-charging = " {capacity}% ({time})";
+        format-charging-full =  " {capacity}%";
+        format-full = "{icon}  {capacity}%";
+        format-alt = "{icon}  {power}W";
+        format-icons = [ "" "" "" "" "" ];
+        tooltip =  false;
       };
 
       "clock#time" = {
         interval = 10;
-	format = "{:%H:%M}";
-	tooltip = false;
+        format = "{:%H:%M}";
+        tooltip = false;
       };
 
       "clock#date" = {
         interval = 20;
-	format = "{:%e %b %Y}";
-	tooltip = false;
+        format = "{:%e %b %Y}";
+        tooltip = false;
       };
 
       cpu = {
@@ -343,137 +324,125 @@
           critical = 90;
         };
       };
-     
-      "sway/language" = {
-        format = "<span size='18pt'></span>  {}";
-        min-length = 5;
-        on-click =  "swaymsg 'input * xkb_switch_layout next'";
-        tooltip = false;
-      };
 
       memory = {
         interval = 5;
-        format = " {used:0.1f}G/{total:0.1f}G";
+        format = "  {used:0.1f}G/{total:0.1f}G";
         states = {
           warning = 70;
-	  critical = 90;
-	 };
-	tooltip = false;
+          critical = 90;
+        };
+        tooltip = false;
       };
 
       network = {
         interval = 5;
-	format-wifi = "<span size='18pt'></span>  {essid} ({signalStrength}%)";
-	format-ethernet = "<span size='18pt'></span>  {ifname}";
-	format-disconnected = "No connection";
-	format-alt = "<span size='18pt'></span>  {ipaddr}/{cidr}";
-	tooltip = false;
+        format-wifi = "<span size='18pt'></span>   {essid} ({signalStrength}%)";
+        format-ethernet = "<span size='18pt'></span>  {ifname}";
+        format-disconnected = "No connection";
+        format-alt = "<span size='18pt'></span>  {ipaddr}/{cidr}";
+        tooltip = false;
       };
 
       "sway/mode" = {
         format = "{}";
-	tooltip = false;
+        tooltip = false;
       };
 
       "sway/window" = {
         format = "{}";
-	max-length = 30;
-	tooltip = false;
+        max-length = 30;
+        tooltip = false;
       };
 
       "sway/workspaces" = {
-         disable-scroll-wraparound = true;
-	 smooth-scrolling-threshold =  4;
-	 enable-bar-scroll = true;
-	 format = "{name}";
-       };
+        disable-scroll-wraparound = true;
+        smooth-scrolling-threshold =  4;
+        enable-bar-scroll = true;
+        format = "{name}";
+      };
 
-       pulseaudio = {
-         format = "{icon} {volume}%";
-	 format-bluetooth = "{icon}  {volume}%";
-	 format-muted = "<span size='18pt'></span> ";
-	 format-icons = {
-	   headphone = "<span size='40pt'></span> ";
-	   hands-free = "<span size='40pt'></span> 󱡏";
-	   headset = "<span size='40pt'></span> ";
-	   phone = "<span size='40pt'></span> ";
-	   portable = "";
-	   car = "";
-	   default = [ "" "" ];
-	 };
-	 scroll-step = 1;
-	 on-click = "pactl set-sink-mute @DEFAULT_SINK@ toggle";
-	 tooltip = false;
-       };
+      pulseaudio = {
+        format = "{icon} {volume}%";
+        format-bluetooth = "{icon}  {volume}%";
+        format-muted = "<span size='18pt'></span> ";
+        format-icons = {
+          headphone = "<span size='40pt'></span> ";
+          hands-free = "<span size='40pt'></span> 󱡏";
+          headset = "<span size='40pt'></span> ";
+          phone = "<span size='40pt'></span> ";
+          portable = "";
+          car = "";
+          default = [ "" "" ];
+        };
+        scroll-step = 1;
+        on-click = "pactl set-sink-mute @DEFAULT_SINK@ toggle";
+        tooltip = false;
+      };
 
-       temperature = {
-         critical-threshold = 90;
-         interval = 5;
-         format = "{icon} {temperatureC}°";
-         format-icons = [
-           ""
-	   ""
-	   ""
-	   ""
-	   ""
-         ];
-         tooltip = false;
-       };
+      temperature = {
+        critical-threshold = 90;
+        interval = 5;
+        format = "{icon} {temperatureC}°";
+        format-icons = [
+          ""
+            ""
+            ""
+            ""
+            ""
+        ];
+        tooltip = false;
+      };
 
-       tray = {
-         icon-size = 18;
-	 spacing = 10;
-       };
+      tray = {
+        icon-size = 18;
+        spacing = 10;
+      };
 
-       "custom/arrow1" = {
-         format = "";
-	 tooltip = false;
-       };
+      "custom/arrow1" = {
+        format = "";
+        tooltip = false;
+      };
 
-       "custom/arrow2" = {
-         format = "";
-	 tooltip = false;
-       };
+      "custom/arrow2" = {
+        format = "";
+        tooltip = false;
+      };
 
-       "custom/arrow3" = {
-         format = "";
-	 tooltip = false;
-       };
+      "custom/arrow3" = {
+        format = "";
+        tooltip = false;
+      };
 
-       "custom/arrow4" = {
-         format = "";
-	 tooltip = false;
-       };
+      "custom/arrow4" = {
+        format = "";
+        tooltip = false;
+      };
 
-       "custom/arrow5" = {
-         format = "";
-	 tooltip = false;
-       };
+      "custom/arrow5" = {
+        format = "";
+        tooltip = false;
+      };
 
-       "custom/arrow6" = {
-         format = "";
-	 tooltip = false;
-       };
+      "custom/arrow6" = {
+        format = "";
+        tooltip = false;
+      };
 
-       "custom/arrow7" = {
-         format = "";
-	 tooltip = false;
-       };
+      "custom/arrow7" = {
+        format = "";
+        tooltip = false;
+      };
 
-       "custom/arrow8" = {
-         format = "";
-	 tooltip = false;
-       };
+      "custom/arrow8" = {
+        format = "";
+        tooltip = false;
+      };
 
-       "custom/arrow9" = {
-         format = "";
-	 tooltip = false;
-       };
-
-       "custom/arrow10" = {
-         format = "";
-	 tooltip = false;
-       };
+      "custom/arrow9" = {
+        format = "";
+        tooltip = false;
+      };
     }];
   };
 }

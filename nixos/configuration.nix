@@ -20,7 +20,7 @@
     timeout = 0; # This does nothing, in the boot menu, use "shift + t" to disable the boot menu
   };
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_6_18;
   
   boot.kernelModules = [];
 
@@ -78,4 +78,5 @@
   documentation.man.enable = true;
   documentation.dev.enable = true;
 
+  programs.nix-ld.enable = true;
 }
