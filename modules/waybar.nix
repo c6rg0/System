@@ -298,7 +298,7 @@
         format-charging-full =  " {capacity}%";
         format-full = "{icon}  {capacity}%";
         format-alt = "{icon}  {power}W";
-        format-icons = [ "" "" "" "" "" ];
+        format-icons = [ "  " "  " "  " "  " "  " ];
         tooltip =  false;
       };
 

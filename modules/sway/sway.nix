@@ -68,8 +68,8 @@ wayland.windowManager.sway = {
       "${modifier}+l" = "exec swaylock -c 282828";
 
       # Symbols used for programming
-      "${modifier}+p" = "exec exec wtype '|'";
-      "${modifier}+s" = "exec exec wtype '\'";
+      "${modifier}+o" = "exec exec wtype '|'";
+      "${modifier}+s" = "exec exec wtype '\\'";
       "${modifier}+Shift+Escape" = "exec exec wtype '`'";
 
       "${modifier}+k" = "kill";

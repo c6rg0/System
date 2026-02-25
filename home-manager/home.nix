@@ -55,7 +55,9 @@
       osu-lazer-bin
       protonup-qt
       wine
-      krita
+
+      # Dependency breaking krita, wait a day or two to uncomment this (25/02/26)
+      # krita 
 
       onefetch
       btop

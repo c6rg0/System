@@ -11,7 +11,7 @@
     ./audio.nix
     ./tablet.nix
     ./flatpaks.nix
-    ];
+  ];
 
   system.stateVersion = "25.05"; # Read the docs before touching!
   boot.loader = {
@@ -21,7 +21,7 @@
   };
 
   boot.kernelPackages = pkgs.linuxPackages_6_18;
-  
+
   boot.kernelModules = [];
 
   boot.kernelParams = [ 
@@ -41,31 +41,33 @@
     shell = pkgs.zsh;
     packages = with pkgs; [];
   };
-  
+
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
+  
     # Rules:
     # Only install things here that require root;
     # Are hardware related;
     # Or are needed if you can't access the user.
 
-    #Hardware
+      #Hardware
     lm_sensors
     bluez
     mesa
 
-    # Root
+      # Root
     home-manager
-    
-    # Troubleshooting
+    wtype
+    pavucontrol
+    ldacbt
+    blueman
+
+      # Troubleshooting
     vim
     busybox
     unzip
-
     flatpak
-    
-    dnsmasq # For virtualisation
-    wtype 
+
   ];
 
   programs.steam = {
