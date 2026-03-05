@@ -14,6 +14,13 @@
     
     # Theme
     promptInit = "source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+
+    shellInit = ''
+      export SYSTEMD_PAGER=cat
+      export PAGER=cat
+      export MANPAGER='nvim +Man!'
+      export PATH=/home/gabriel/.local/bin:$PATH
+    '';
     
     shellAliases = {
       bt = "bluetoothctl";

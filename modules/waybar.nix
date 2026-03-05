@@ -365,15 +365,15 @@
       pulseaudio = {
         format = "{icon} {volume}%";
         format-bluetooth = "{icon}  {volume}%";
-        format-muted = "<span size='18pt'></span>   ";
+        format-muted = "<span size='18pt'></span>  ";
         format-icons = {
-          headphone = "<span size='40pt'></span>   ";
-          hands-free = "<span size='40pt'></span> 󱡏  ";
-          headset = "<span size='40pt'></span>   ";
-          phone = "<span size='40pt'></span>   ";
+          headphone = "<span size='40pt'></span>  ";
+          hands-free = "<span size='40pt'></span> 󱡏 ";
+          headset = "<span size='40pt'></span>  ";
+          phone = "<span size='40pt'></span>  ";
           portable = "  ";
           car = "  ";
-          default = [ "  " "  " ];
+          default = [ " " "  "];
         };
         scroll-step = 1;
         on-click = "pactl set-sink-mute @DEFAULT_SINK@ toggle";

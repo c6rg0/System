@@ -8,8 +8,11 @@
 !shell.nix
 !apply.sh
 
-# Nix
+# Include these
 !home-manager/
 !modules/
 !nixos/
+!nixpkgs/
+!devshell/
 !Showcase_images/
+!.p10k.zsh

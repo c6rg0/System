@@ -54,6 +54,8 @@
     lm_sensors
     bluez
     mesa
+    qemu
+    quickemu
 
       # Root
     home-manager
@@ -67,18 +69,24 @@
     busybox
     unzip
     flatpak
+    man-pages
+    man-pages-posix
+    linux-manual
 
   ];
+
+  services.flatpak.enable = true;
 
   programs.steam = {
     enable = true;
   };
 
-  services.flatpak.enable = true;
-
   documentation.enable = true;
-  documentation.man.enable = true;
-  documentation.dev.enable = true;
+  documentation.man = {
+    enable = true;
+    cache.enable = true;
+  };
 
+  documentation.dev.enable = true;
   programs.nix-ld.enable = true;
 }

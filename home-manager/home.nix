@@ -40,7 +40,6 @@
       
       wl-clipboard-rs
       killall
-      ventoy
       ntfs3g
       file
     
@@ -55,9 +54,7 @@
       osu-lazer-bin
       protonup-qt
       wine
-
-      # Dependency breaking krita, wait a day or two to uncomment this (25/02/26)
-      # krita 
+      krita 
 
       onefetch
       btop
@@ -72,6 +69,8 @@
       obs-studio
       slurp
       zenity
+      anki
+      ghidra
     ];
   
   home.sessionVariables = {

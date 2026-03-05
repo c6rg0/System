@@ -11,24 +11,24 @@
     my-modules.flake = false;
   };
 
-  outputs = { self, nixpkgs, home-manager, my-home, my-modules, ... }: {
+  outputs = { self, nixpkgs, home-manager, my-home, my-modules, ... }@inputs: {
     nixosConfigurations = {
       gabriel = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs;};
         system = "x86_64-linux";
+
         modules = [
           ./configuration.nix
-          home-manager.nixosModules.home-manager
-          {
-	    nixpkgs.config.permittedInsecurePackages = [
-              "ventoy-1.1.10"
-            ];
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.gabriel = "${my-home}/home.nix";
-	    home-manager.extraSpecialArgs = { inherit my-modules; };
-            # Optionally, use home-manager.extraSpecialArgs to 
-	    # pass arguments to home.nix
-          }
+            home-manager.nixosModules.home-manager
+            {
+              nixpkgs.config.permittedInsecurePackages = [
+                "ventoy-1.1.10"
+              ];
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.gabriel = "${my-home}/home.nix";
+              home-manager.extraSpecialArgs = { inherit my-modules; };
+            }
         ];
       };
     };

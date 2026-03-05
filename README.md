@@ -8,7 +8,7 @@
 > Shell = zsh\
 > Text editor = Neovim\
 > Info-fetcher = Fastfetch 
-> App launcher = Rofi\
+> App launcher = Rofi
 
 
 ## Showcase
@@ -26,7 +26,7 @@
 - Generate/use your own `hardware-configuration.nix`, and ensure that flakes are enabled 
   before using this config.
 - If you have a different user name (that isn't "gabriel"), swap out the "gabriel"s 
-  in the [`install.sh`, `nixos/configuration.nix`, `nixos/update.sh`] for your own.
+  in the [`install.sh`, `nixos/configuration.nix`, `nixos/update.sh`] to your own.
 - Read scripts before use; they're all short, and it's good practice.
 
 
