@@ -19,6 +19,7 @@
     "${my-modules}/fastfetch/fastfetch.nix"
     "${my-modules}/rofi.nix"
     "${my-modules}/gtk.nix"
+    "${my-modules}/ghostty.nix"
   ];
 
   # Packages that should be installed to the user profile.

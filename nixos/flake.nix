@@ -11,10 +11,9 @@
     my-modules.flake = false;
   };
 
-  outputs = { self, nixpkgs, home-manager, my-home, my-modules, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, my-home, my-modules, ... }: {
     nixosConfigurations = {
       gabriel = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;};
         system = "x86_64-linux";
 
         modules = [

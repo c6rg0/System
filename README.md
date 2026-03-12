@@ -48,4 +48,5 @@ Waybar config = [mxkrsv/dotfiles-old](https://github.com/mxkrsv/dotfiles-old/tre
 Colour scheme = [hmorhetz/gruvbox](https://github.com/morhetz/gruvbox)
 *(Used extensively lol)*
 
+Wallpapers = [exorcist/wallpapers](https://codeberg.org/exorcist/wallpapers)
 
