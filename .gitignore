@@ -1,14 +1,14 @@
 # Ignore everything
 /*
 
-# But not these files
+# But include these files
 !.gitignore
 !README.md
 !HELPME.md
 !shell.nix
 !apply.sh
 
-# Include these
+# and these dirs
 !home-manager/
 !modules/
 !nixos/

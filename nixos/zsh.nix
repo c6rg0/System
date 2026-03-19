@@ -30,6 +30,7 @@
       py = "python";
       night = "gammastep -O 4500K";
       day = "exec gammastep -O 6500K";
+      up = "cd /etc/nixos/ && sudo nix flake update && sudo nixos-rebuild switch --flake .#gabriel";
     };
 
     histSize = 10000;

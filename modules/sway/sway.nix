@@ -65,7 +65,7 @@ wayland.windowManager.sway = {
       "${modifier}+Space" = "exec ${menu}";
       "${modifier}+b" = "exec firefox";
       "${modifier}+w" = "exec waybar";
-      "${modifier}+l" = "exec swaylock -c 282828";
+      "${modifier}+Shift+l" = "exec swaylock -c 282828";
 
       # Symbols used for programming
       "${modifier}+o" = "exec exec wtype '|'";

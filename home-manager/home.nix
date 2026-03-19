@@ -47,7 +47,7 @@
       qimgv
       libreoffice
       pastel
-      teams-for-linux
+      teams-for-linux # build failure with electron
       spotify
       gimp
       neomutt

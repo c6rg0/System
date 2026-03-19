@@ -3,7 +3,10 @@ local Plug = vim.fn['plug#']
 
 vim.cmd("let g:python3_host_prog = '/usr/bin/env python3'")
 vim.cmd("set guicursor=n-v-c-i:block")
-vim.cmd("set number")
+vim.o.number = true
+vim.o.relativenumber = true
+vim.o.wrap = true 
+vim.o.winborder = "rounded" 
 
 vim.call("plug#begin")
 Plug("nvim-tree/nvim-web-devicons")
@@ -87,7 +90,7 @@ require('lualine').setup {
         'Filetype',
         'CursorMoved',
         'CursorMovedI',
-        'ModeChanged',
+       'ModeChanged',
       }
     },
   },
