@@ -72,6 +72,7 @@
       zenity
       anki
       ghidra
+      vscode-fhs
     ];
   
   home.sessionVariables = {

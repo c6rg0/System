@@ -33,11 +33,7 @@ vim.call("plug#end")
 local async = require("plenary.async")
 local builtin = require('telescope.builtin')
 
---vim.lsp.lua_ls.setup({})
---vim.lsp.pyright.setup({})
---vim.lsp.ts_ls.setup({})
-
-vim.lsp.enable("lua_ls", "pyright", "ts_ls")
+vim.lsp.enable("lua_ls", "pyright", "ts_ls", "clangd")
 
 require("gruvbox").setup({
   terminal_colors = true, -- add neovim terminal colors
