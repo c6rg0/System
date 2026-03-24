@@ -30,6 +30,7 @@
     nerd-fonts.iosevka
     nerd-fonts.aurulent-sans-mono
     nerd-fonts.symbols-only
+    noto-fonts-cjk-sans
   ];
 
   programs.sway = {

@@ -84,7 +84,7 @@
   documentation.enable = true;
   documentation.man = {
     enable = true;
-    cache.enable = true;
+    cache.enable = false;
   };
 
   documentation.dev.enable = true;
