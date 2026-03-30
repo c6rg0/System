@@ -5,21 +5,19 @@
   home.stateVersion = "25.05";
   programs.home-manager.enable = true;
 
-  # Home Manager needs a bit of information about you and the
-  # paths it should manage.
   home.username = "gabriel";
   home.homeDirectory = "/home/gabriel";
   xdg.enable = true;
 
   imports = [
-    "${my-modules}/sway/sway.nix"
-    "${my-modules}/waybar.nix"
-    "${my-modules}/kitty/kitty.nix"
-    "${my-modules}/nvim/nvim.nix"
-    "${my-modules}/fastfetch/fastfetch.nix"
-    "${my-modules}/rofi.nix"
-    "${my-modules}/gtk.nix"
-    "${my-modules}/ghostty.nix"
+    ./modules/home-manager/sway/sway.nix
+    ./modules/home-manager/waybar.nix
+    ./modules/home-manager/kitty/kitty.nix
+    ./modules/home-manager/nvim/nvim.nix
+    ./modules/home-manager/fastfetch/fastfetch.nix
+    ./modules/home-manager/rofi.nix
+    ./modules/home-manager/gtk.nix
+    ./modules/home-manager/ghostty.nix
   ];
 
   # Packages that should be installed to the user profile.

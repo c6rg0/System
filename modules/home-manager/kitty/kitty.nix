@@ -16,7 +16,7 @@
       italic_font = "auto";
       bold_italic_font = "auto";
 
-      include = "/home/gabriel/.config/modules/kitty/gruvbox-dark.conf";
+      include = "/home/gabriel/nix-config/modules/home-manager/kitty/gruvbox-dark.conf";
 
       cursor_shape = "block";
       cursor_blind_interval = 0;
@@ -42,12 +42,6 @@
       tab_bar_align = "left";
       active_tab_font_style = "bold";
       inactive_tab_font_style = "normal";
-
-
-
-
-
-
     };
   };
 }
