@@ -57,26 +57,25 @@
 
 ### $ tree 
 `
-.
-├── dev
-│   └── `# Any nix dev shells go here`
-├── flake.lock
-├── flake.nix `# Inputs and outputs; connects everything`
-├── home.nix `# Declares inputs and short cross-host statements`
-├── hosts
-│   ├── desktop
-│   │   └── default.nix `# Declares inputs and short statements specific to host`
-│       └── hardware-configuration.nix
-│   └── laptop
-│       ├── default.nix
-│       └── hardware-configuration.nix
-├── modules
-│   ├── home-manager `# Where the files input by home.nix are`
-│   │   ├── *.nix
-│   └── nixos `# Pool of configs that can be used by hosts`
-│       ├── common.nix `# Any short statements I want to use between hosts`
-│       └── (something specific)*.nix
-├── nixpkgs `# Old config related to manually building packages for testing`
-│   └── config.nix
-└── update.sh
-`
+.\
+├── dev\
+│   └── `# Any nix dev shells go here`\
+├── flake.lock\
+├── flake.nix `# Inputs and outputs; connects everything`\
+├── home.nix `# Declares inputs and short cross-host statements`\
+├── hosts\
+│   ├── desktop\
+│   │   └── default.nix `# Declares inputs and short statements specific to host`\
+│       └── hardware-configuration.nix\
+│   └── laptop\
+│       ├── default.nix\
+│       └── hardware-configuration.nix\
+├── modules\
+│   ├── home-manager `# Where the files input by home.nix are`\
+│   │   ├── *.nix\
+│   └── nixos `# Pool of configs that can be used by hosts`\
+│       ├── common.nix `# Any short statements I want to use between hosts`\
+│       └── (something specific)*.nix\
+├── nixpkgs `# Old config related to manually building packages for testing`\
+│   └── config.nix\
+└── update.sh`
