@@ -56,7 +56,7 @@
 
 
 ### $ tree 
-`
+
 .\
 ├── dev\
 │   └── `# Any nix dev shells go here`\
@@ -78,4 +78,4 @@
 │       └── (something specific)*.nix\
 ├── nixpkgs `# Old config related to manually building packages for testing`\
 │   └── config.nix\
-└── update.sh`
+└── update.sh
