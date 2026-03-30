@@ -10,7 +10,7 @@
   xdg.enable = true;
 
   imports = [
-    ./modules/home-manager/sway/sway.nix
+    ./modules/home-manager/sway.nix
     ./modules/home-manager/waybar.nix
     ./modules/home-manager/kitty/kitty.nix
     ./modules/home-manager/nvim/nvim.nix

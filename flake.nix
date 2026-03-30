@@ -1,5 +1,5 @@
 {
-  description = "flake";
+  description = "c6rg0/nix-config";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     systems.url = "github:nix-systems/default-linux";

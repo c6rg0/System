@@ -1,52 +1,82 @@
 # My NixOS config:
-> Colour scheme = Gruvbox
-> Dotfile management = Home-manager\
-> Display manager = tuigreet (greetd)\
-> Window manager = Sway (wayland)\
-> Bar = Waybar\
-> Terminal = Kitty\
-> Shell = zsh\
-> Text editor = Neovim\
-> Info-fetcher = Fastfetch 
-> App launcher = Rofi
+![desktop](showcase/desktop.png)
+
+![rofi](showcase/rofi.png)
+
+![fastfetch](showcase/fastfetch.png)
+
+![neovim](showcase/neovim.png)
+
+> Colour scheme: Gruvbox\
+> Dotfile management: Home-manager\
+> Display manager: tuigreet (greetd)\
+> Window manager: Sway (wayland)\
+> Bar: Waybar\
+> Terminal: Kitty\
+> Shell: zsh\
+> Text editor: Neovim\
+> App launcher: Rofi\
+> Info-fetcher: Fastfetch 
 
 
-## Showcase
-![desktop](Showcase_images/desktop.png)
+## IMPORTANT!
+- Make sure that you have flakes enabled on your machine.
 
-![rofi](Showcase_images/rofi.png)
+- Don't use the `hardware-configuration.nix`s included in this repo;
+  they're not generated for your hardware. Instead, use your own generated 
+  during installation or make a new copy with `$ nixos-generate-config`.
 
-![fastfetch](Showcase_images/fastfetch.png)
+- Read any scripts before use; they're all short, and it's good practice.
 
-![neovim](Showcase_images/neovim.png)
-
-
-## IMPORTANT
-- Back up your previous config before using anything from here.
-- Generate/use your own `hardware-configuration.nix`, and ensure that flakes are enabled 
-  before using this config.
-- If you have a different user name (that isn't "gabriel"), swap out the "gabriel"s 
-  in the [`install.sh`, `nixos/configuration.nix`, `nixos/update.sh`] to your own.
-- Read scripts before use; they're all short, and it's good practice.
+- The scripts include commands for: updating/installing the config and 
+  removing redundanct versions of packages.
 
 
 ## Location
-- All files and dirs go to `~/.config`,
-- and `nixos/` is a mirror of `/etc/nixos` (hence the scripts).
+- You can clone this repo and it should be usable from any location.
+
+- I have it at `~/` for easy access.
 
 
 ## Extra
 - To disable the boot menu, use `shift+t ` in the menu until the timeout is 0.
-- If you execute install.sh (`./install.sh`), it'll move all the files to their place, 
   and install the config using the flake. 
 
 
 ## Credits:
-Waybar config = [mxkrsv/dotfiles-old](https://github.com/mxkrsv/dotfiles-old/tree/master/.config/waybar)
+- Waybar config: [mxkrsv/dotfiles-old](https://github.com/mxkrsv/dotfiles-old/tree/master/.config/waybar)
 *(I ported the config to nix, changed the colour scheme and order)*
 
-Colour scheme = [hmorhetz/gruvbox](https://github.com/morhetz/gruvbox)
+- Colour scheme: [hmorhetz/gruvbox](https://github.com/morhetz/gruvbox)
 *(Used extensively lol)*
 
-Wallpapers = [exorcist/wallpapers](https://codeberg.org/exorcist/wallpapers)
+- Wallpapers: 
+> [exorcist/wallpapers](https://codeberg.org/exorcist/wallpapers)
+> [nasa image-of-the-day](https://www.nasa.gov/image-of-the-day/)
 
+
+### $ tree 
+`
+.
+├── dev
+│   └── `# Any nix dev shells go here`
+├── flake.lock
+├── flake.nix `# Inputs and outputs; connects everything`
+├── home.nix `# Declares inputs and short cross-host statements`
+├── hosts
+│   ├── desktop
+│   │   └── default.nix `# Declares inputs and short statements specific to host`
+│       └── hardware-configuration.nix
+│   └── laptop
+│       ├── default.nix
+│       └── hardware-configuration.nix
+├── modules
+│   ├── home-manager `# Where the files input by home.nix are`
+│   │   ├── *.nix
+│   └── nixos `# Pool of configs that can be used by hosts`
+│       ├── common.nix `# Any short statements I want to use between hosts`
+│       └── (something specific)*.nix
+├── nixpkgs `# Old config related to manually building packages for testing`
+│   └── config.nix
+└── update.sh
+`
