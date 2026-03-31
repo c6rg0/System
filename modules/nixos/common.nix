@@ -5,7 +5,8 @@
     efi.canTouchEfiVariables = true;
     timeout = 0; # This does nothing, in the boot menu, use "shift + t" to disable the boot menu
   };
-  boot.kernelPackages = pkgs.linuxPackages_6_18;
+
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   nix.settings.experimental-features = [ 
     "nix-command" 
