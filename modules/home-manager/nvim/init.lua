@@ -1,5 +1,4 @@
 local vim = vim
-local Plug = vim.fn['plug#']
 
 vim.cmd("let g:python3_host_prog = '/usr/bin/env python3'")
 vim.cmd("set guicursor=n-v-c-i:block")
@@ -8,27 +7,28 @@ vim.o.relativenumber = true
 vim.o.wrap = true 
 vim.o.winborder = "rounded" 
 
-vim.call("plug#begin")
-Plug("nvim-tree/nvim-web-devicons")
-Plug("nvim-lualine/lualine.nvim")
+vim.pack.add({
+  "https://github.com/nvim-tree/nvim-web-devicons",
+  "https://github.com/nvim-lualine/lualine.nvim",
 
-Plug("preservim/nerdtree")
-Plug 'nvim-lua/plenary.nvim'
-Plug("nvim-telescope/telescope.nvim")
-Plug("BurntSushi/ripgrep")
-Plug("sharkdp/fd")
+  "https://github.com/preservim/nerdtree",
+  "https://github.com/nvim-lua/plenary.nvim",
+  "https://github.com/nvim-telescope/telescope.nvim",
+  "https://github.com/BurntSushi/ripgrep",
+  "https://github.com/sharkdp/fd",
 
-Plug("nvim-treesitter/nvim-treesitter")
-Plug("lukas-reineke/indent-blankline.nvim")
-Plug("ellisonleao/gruvbox.nvim")
+  "https://github.com/nvim-treesitter/nvim-treesitter",
+  "https://github.com/lukas-reineke/indent-blankline.nvim",
+  "https://github.com/ellisonleao/gruvbox.nvim",
 
-Plug("akinsho/bufferline.nvim")
-Plug("brenoprata10/nvim-highlight-colors")
-Plug("MeanderingProgrammer/render-markdown.nvim")
+  "https://github.com/akinsho/bufferline.nvim",
+  "https://github.com/brenoprata10/nvim-highlight-colors",
+  "https://github.com/MeanderingProgrammer/render-markdown.nvim",
 
-Plug("neovim/nvim-lspconfig")
-Plug("neoclide/coc.nvim")
-vim.call("plug#end")
+  "https://github.com/neovim/nvim-lspconfig",
+  "https://github.com/neoclide/coc.nvim",
+
+})
 
 local async = require("plenary.async")
 local builtin = require('telescope.builtin')

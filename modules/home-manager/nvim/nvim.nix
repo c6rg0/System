@@ -3,19 +3,18 @@
 {
   programs.neovim = {
     enable = true;
- 
+
     initLua = ''
       ${builtins.readFile ./init.lua}
 
     '';
   };
 
-home.packages = with pkgs; [
-  lua-language-server
-  pyright
-  nodePackages.typescript-language-server
-];
-
+  home.packages = with pkgs; [
+    lua-language-server
+      pyright
+      typescript-language-server
+  ];
 
 }
 
