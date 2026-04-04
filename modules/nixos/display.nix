@@ -27,7 +27,7 @@
 
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
-    nerd-fonts.iosevka
+    nerd-fonts.iosevka-term
     nerd-fonts.aurulent-sans-mono
     nerd-fonts.symbols-only
     noto-fonts-cjk-sans

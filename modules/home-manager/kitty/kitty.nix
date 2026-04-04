@@ -10,8 +10,8 @@
       enable_audio_bell = "no";
       linux_display_server = "wayland";
 
-      font_size = "17.5";
-      font_family = "Jetbrains Nerd Font Mono";
+      font_size = "19";
+      font_family = "IosevkaTerm Nerd Font Mono";
       bold_font = "auto";
       italic_font = "auto";
       bold_italic_font = "auto";

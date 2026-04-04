@@ -5,367 +5,575 @@
     enable = true;
     systemd.enable = true;
     style = ''
-      /* Keyframes */
+      @define-color color-bg                                  #1b1a1a;
+      @define-color color-fg                                  #ebdbb2;
+      @define-color color-button-bg                           #83a598;
+      @define-color color-button-fg                           #1b1a1a;
+      @define-color color-button-urgent-bg                    #fb4934;
+      @define-color color-button-urgent-fg                    #1b1a1a;
+      @define-color color-workspace-button-bg                 #504945;
+      @define-color color-workspace-button-fg                 #ebdbb2;
+      @define-color color-workspace-button-hover-bg           #665c54;
+      @define-color color-workspace-button-hover-fg           #ebdbb2;
+      @define-color color-workspace-button-focused-bg         #83a598;
+      @define-color color-workspace-button-focused-fg         #1b1a1a;
+      @define-color color-taskbar-button-minimized-bg         #bd788a;
+      @define-color color-taskbar-button-minimized-fg         #1b1a1a;
+      @define-color color-taskbar-button-active-bg            #BABD2C;
+      @define-color color-taskbar-button-active-fg            #1b1a1a;
+      @define-color color-widget-audio-bg                     #e3ac2b;
+      @define-color color-widget-audio-fg                     #1b1a1a;
+      @define-color color-widget-audio-hover-bg               #e3ac2b;
+      @define-color color-widget-audio-hover-fg               #1b1a1a;
+      @define-color color-widget-audio-muted-bg               #e3ac2b;
+      @define-color color-widget-audio-muted-fg               #1b1a1a;
+      @define-color color-widget-clock-bg                     #d5c4a1;
+      @define-color color-widget-clock-fg                     #1b1a1a;
+      @define-color color-widget-battery-bg                   #b8bb26;
+      @define-color color-widget-battery-fg                   #1b1a1a;
+      @define-color color-widget-battery-low-bg               #df402f;
+      @define-color color-widget-battery-low-fg               #1b1a1a;
+      @define-color color-widget-battery-low-blink-bg         #df402f;
+      @define-color color-widget-battery-low-blink-fg         #1b1a1a;
+      @define-color color-widget-backlight-bg                 #d3869b;
+      @define-color color-widget-backlight-fg                 #1b1a1a;
+      @define-color color-widget-temperature-bg               #8ec07c;
+      @define-color color-widget-temperature-fg               #1b1a1a;
+      @define-color color-widget-temperature-critical-bg      #df402f;
+      @define-color color-widget-temperature-critical-fg      #1b1a1a;
+      @define-color color-widget-memory-bg                    #83a598;
+      @define-color color-widget-memory-fg                    #1b1a1a;
+      @define-color color-widget-cpu-bg                       #d5c4a1;
+      @define-color color-widget-cpu-fg                       #1b1a1a;
+      @define-color color-widget-power-profile-balanced-bg    #d3869b;
+      @define-color color-widget-power-profile-balanced-fg    #1b1a1a;
+      @define-color color-widget-power-profile-performance-bg #fe8019;
+      @define-color color-widget-power-profile-performance-fg #1b1a1a;
+      @define-color color-widget-power-profile-saver-bg       #b8bb26;
+      @define-color color-widget-power-profile-saver-fg       #1b1a1a;
+      @define-color color-widget-network-bg                   #b8bb26;
+      @define-color color-widget-network-fg                    #1b1a1a;
+      @define-color color-widget-tray-bg                      #504945;
+      @define-color color-widget-tray-needs-attention         #fb4934;
+      @define-color color-widget-custom-notification-bg        #504945;
+      @define-color color-widget-custom-notification-fg        #dfcdb3;
+      @define-color color-widget-scratchpad-bg                #ff0000;
+      @define-color color-widget-scratchpad-fg                #ff0000;
+      @define-color color-widget-power-bg                     #83a598;
+      @define-color color-widget-power-fg                     #1b1a1a;
+      @define-color color-widget-window-bg                    #bd788a;
+      @define-color color-widget-window-fg                    #111111;
+      @define-color color-widget-keyboard-state-bg            #fe8019;
+      @define-color color-widget-keyboard-state-fg            #1b1a1a;
+      @define-color color-widget-language-bg                  #fe8019;
+      @define-color color-widget-language-fg                  #1b1a1a;
+      @define-color color-tooltip-bg                          #241F19;
+      @define-color color-tooltip-fg                          #ebdbb2;
+      @define-color color-menu-bg                             #241F19;
+      @define-color color-menuitem-bg                         #241F19;
+      @define-color color-menuitem-fg                         #ebdbb2;
+      @define-color color-menuitem-hover-bg                   #b8bb26;
+      @define-color color-menuitem-hover-fg                   #1b1a1a;
+      @define-color color-menuitem-active-bg                  #ebdbb2;
+      @define-color color-menuitem-active-fg                  #1b1a1a;
+      @define-color color-gradient-fade                       #fbf1c7;
 
-      @keyframes blink-critical {
-      	to {
-			/*color: @white;*/
-			background-color: @critical;
-		}
-	}
+      * {
+          font-family: "Iosevka Nerd Font Propo", monospace;
+          font-size: 15px;
+          font-weight: bold;
+          border: none;
+          border-radius: 100px;
+      }
+
+      window#waybar {
+          background: none;
+          border: none;
+          margin: 10px;
+      }
+
+      window#waybar > * {
+          margin: 3px;
+          margin-bottom: 0px;
+      }
+
+      window#waybar.hidden {
+          opacity: 0.2;
+      }
+
+      button {
+          border: none;
+          background-color: @color-button-bg;
+      }
+
+      /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
+      button:hover {
+          background: inherit;
+      }
+
+      /* you can set a style on hover for any module like this */
+      #pulseaudio:hover {
+          background-color: @color-widget-audio-hover-bg;
+          color: @color-widget-audio-hover-fg;
+      }
+
+      #workspaces {
+          padding: 0;
+          margin: 0;
+      }
+
+      #workspaces button {
+          transition: none;
+          padding: 0;
+          min-height: 0px;
+          min-width: 37px;
+          margin-left: 4px;
+          background: linear-gradient(to top, @color-workspace-button-bg, mix(@color-workspace-button-bg, @color-gradient-fade, 0.25));
+          color: @color-workspace-button-fg;
+      }
+
+      #workspaces button:hover {
+          background: linear-gradient(to top, @color-workspace-button-hover-bg, mix(@color-workspace-button-hover-bg, @color-gradient-fade, 0.25));
+          color: @color-workspace-button-hover-fg;
+      }
+
+      #workspaces button.active {
+          background: linear-gradient(to top, @color-workspace-button-focused-bg, mix(@color-workspace-button-focused-bg, @color-gradient-fade, 0.25));
+          color: @color-workspace-button-focused-fg;
+      }
+
+      #workspaces button.urgent {
+          background: linear-gradient(to top, @color-button-urgent-bg, mix(@color-button-urgent-bg, @color-gradient-fade, 0.25));
+          color: @color-button-urgent-fg;
+      }
+
+      #taskbar {
+          padding: 0px;
+          margin-left: 10px;
+          margin-right: 10px;
+      }
+
+      #taskbar.empty {
+        margin-left: 0px;
+        margin-right: 0px;
+        padding-left: 0px;
+        padding-right: 0px;
+        border-radius: 0px;
+        border-color: transparent;
+        border: none;
+        background-color: transparent;
+      }
+
+      #taskbar button {
+          padding-left: 8px;
+          min-width: 22px;
+          background: linear-gradient(to top, @color-workspace-button-bg, mix(@color-workspace-button-bg, @color-gradient-fade, 0.25));
+          color: @color-workspace-button-fg;
+      }
+
+      #taskbar button.active  {
+          background: linear-gradient(to top, @color-taskbar-button-active-bg, mix(@color-taskbar-button-active-bg, @color-gradient-fade, 0.25));
+          color: @color-taskbar-button-active-fg;
+      }
+
+      #taskbar button.minimized  {
+          background: linear-gradient(to top, @color-taskbar-button-minimized-bg, mix(@color-taskbar-button-minimized-bg, @color-gradient-fade, 0.25));
+          color: @color-taskbar-button-minimized-fg;
+      }
 
 
-	/* Styles */
+      #taskbar button.urgent{
+          background: linear-gradient(to top, @color-button-urgent-bg, mix(@color-button-urgent-bg, @color-gradient-fade, 0.25));
+          color: @color-button-urgent-fg;
+      }
 
-	/* Colors (gruvbox) */
-	@define-color black	#282828;
-	@define-color red	#cc241d;
-	@define-color green	#98971a;
-	@define-color yellow  #d79921;
-	@define-color blue	#458588;
-	@define-color purple	#b16286;
-	@define-color aqua	#689d6a;
-	@define-color gray	#928374;
-	@define-color brgray	#7C6F64;
-	@define-color brred	#9d0006;
-	@define-color brgreen	#79740e;
-	@define-color bryellow	#b57614;
-	@define-color brblue	#076678;
-	@define-color brpurple	#8f3f71;
-	@define-color braqua	#427b58;
-	@define-color white	#fbf1c7;
+      #mode {
+          background-color: #ff0000;
+          box-shadow: inset 0 -3px #0000ff;
+      }
 
-	@define-color warning 	@bryellow;
-	@define-color critical	@brred;
-	@define-color mode	@black;
-	@define-color unfocused	@black;
-	@define-color focused	@white;
-	@define-color inactive	@black;
-	@define-color sound	@bryellow;
-	@define-color network	@yellow;
-	@define-color memory	@green;
-	@define-color cpu	@brgreen;
-	@define-color temp	@aqua;
-	@define-color layout	@brblue;
-	@define-color battery	@braqua;
-	@define-color date	@black;
-	@define-color time	@white;
+      #clock,
+      #battery,
+      #cpu,
+      #memory,
+      #disk,
+      #temperature,
+      #backlight,
+      #network,
+      #pulseaudio,
+      #wireplumber,
+      #custom-media,
+      #tray,
+      #mode,
+      #idle_inhibitor,
+      #scratchpad,
+      #power-profiles-daemon,
+      #custom-notification,
+      #custom-power,
+      #keyboard-state,
+      #language,
+      #window,
+      #mpd {
+          padding: 0px 12px;
+      }
 
-	/* Reset all styles */
-	* {
-		border: none;
-		border-radius: 0;
-		min-height: 0;
-		margin: 0;
-		padding: 0;
-		box-shadow: none;
-		text-shadow: none;
-		icon-shadow: none;
-	}
+      #custom-power {
+          margin-left: 10px;
+      }
 
-	/* The whole bar */
-	#waybar {
-		background: rgba(40, 40, 40, 0.8784313725); /* #282828e0 */
-		color: @white;
-		font-family: Jetbrains Nerd Font Mono, Siji;
-		font-size: 12pt;
-		/* font-weight: bold; */
-	}
-	
-	/* Each module */
-	#battery,
-	#clock,
-	#cpu,
-	#memory,
-	#mode,
-	#network,
-	#pulseaudio,
-	#temperature,
-	#tray,
-	#backlight,
-	#idle_inhibitor,
-	#disk,
-	#user,
-	#mpris {
-		padding-left: 8pt;
-		padding-right: 8pt;
-	}
+      #window,
+      #workspaces {
+          margin: 0px 0px;
+      }
 
-	/* Each critical module */
-	#mode,
-	#memory.critical,
-	#cpu.critical,
-	#temperature.critical,
-	#battery.critical.discharging {
-		animation-timing-function: linear;
-		animation-iteration-count: infinite;
-		animation-direction: alternate;
-		animation-name: blink-critical;
-		animation-duration: 1s;
-	}
+      #window {
+          margin-left: 0px;
+      }
 
-	/* Each warning */
-	#network.disconnected,
-	#memory.warning,
-	#cpu.warning,
-	#temperature.warning,
-	#battery.warning.discharging {
-		color: @warning;
-	}
+      /* If workspaces is the leftmost module, omit left margin */
+      .modules-left > widget:first-child > #workspaces {
+          margin-left: 0;
+      }
 
-	/* And now modules themselves in their respective order */
+      /* If workspaces is the rightmost module, omit right margin */
+      .modules-right > widget:last-child > #workspaces {
+          margin-right: 0;
+      }
 
-	/* Current sway mode (resize etc) */
-	#mode {
-		color: @white;
-		background: @mode;
-	}
+      #custom-power {
+          background: linear-gradient(to top, @color-widget-power-bg, mix(@color-widget-power-bg, @color-gradient-fade, 0.25));
+          color: @color-widget-power-fg;
+          font-family: "Iosevka Nerd Font Propo", monospace;
+          font-size: 15px;
+          font-weight: bold;
+      }
 
-	/* Workspaces stuff */
-	#workspaces button {
-		/* font-weight: bold; */
-		padding-left: 2pt;
-		padding-right: 2pt;
-		color: @white;
-		background: @unfocused;
-	}
+      #window {
+          background: linear-gradient(to top, @color-widget-window-bg, mix(@color-widget-window-bg, @color-gradient-fade, 0.25));
+          color: @color-widget-window-fg;
+      }
 
-	/* Inactive (on unfocused output) */
-	#workspaces button.visible {
-		color: @white;
-		background: @inactive;
-	}
+      window#waybar.empty #window {
+          background: none;
+          margin: 0px;
+          padding: 0px;
+      }
 
-	/* Active (on focused output) */
-	#workspaces button.focused {
-		color: @black;
-		background: @focused;
-	}	
+      #clock {
+          background: linear-gradient(to top, @color-widget-clock-bg, mix(@color-widget-clock-bg, @color-gradient-fade, 0.25));
+          color: @color-widget-clock-fg;
+      }
 
-	/* Contains an urgent window */
-	#workspaces button.urgent {
-		color: @black;
-		background: @warning;
-	}
+      #battery {
+          background: linear-gradient(to top, @color-widget-battery-bg, mix(@color-widget-battery-bg, @color-gradient-fade, 0.25));
+          color: @color-widget-battery-fg;
+      }
 
-	/* Style when cursor is on the button */
-	#workspaces button:hover {
-		background: @black;
-		color: @white;
-	}
+      #battery.charging, #battery.plugged {
+          background: linear-gradient(to top, @color-widget-battery-bg, mix(@color-widget-battery-bg, @color-gradient-fade, 0.25));
+          color: @color-widget-battery-fg;
+      }
 
-	#window {
-		margin-right: 35pt;
-		margin-left: 35pt;
-	}
+      #battery.charging {
+      }
 
-	#pulseaudio {
-		background: @sound;
-		color: @black;
-	}
+      @keyframes blink-battery-low {
+          to {
+              background: linear-gradient(to top, @color-widget-battery-low-blink-bg, mix(@color-widget-battery-low-blink-bg, @color-gradient-fade, 0.25));
+              color: @color-widget-battery-low-blink-fg;
+          }
+      }
 
-	#network {
-		background: @network;
-		color: @white;
-	}
+      #battery:not(.charging) {
+      }
 
-	#memory {
-		background: @memory;
-		color: @black;
-	}
+      /* Using steps() instead of linear as a timing function to limit cpu usage */
+      #battery.critical:not(.charging) {
+          background: linear-gradient(to top, @color-widget-battery-low-bg, mix(@color-widget-battery-low-bg, @color-gradient-fade, 0.25));
+          color: @color-widget-battery-low-fg;
+          animation-name: blink-battery-low;
+          animation-duration: 0.5s;
+          animation-timing-function: steps(12);
+          animation-iteration-count: infinite;
+          animation-direction: alternate;
+      }
 
-	#cpu {
-		background: @cpu;
-		color: @white;
-	}
+      #power-profiles-daemon {
+      }
 
-	#temperature {
-		background: @temp;
-		color: @black;
-	}
+      #power-profiles-daemon.performance {
+          background: linear-gradient(to top, @color-widget-power-profile-performance-bg, mix(@color-widget-power-profile-performance-bg, @color-gradient-fade, 0.25));
+          color: @color-widget-power-profile-performance-fg;
+      }
 
-	#battery {
-		background: @battery;
-		color: @white;
-	}
+      #power-profiles-daemon.balanced {
+          background: linear-gradient(to top, @color-widget-power-profile-balanced-bg, mix(@color-widget-power-profile-balanced-bg, @color-gradient-fade, 0.25));
+          color: @color-widget-power-profile-balanced-fg;
+      }
 
-	#tray {
-		background: @date;
-	}
+      #power-profiles-daemon.power-saver {
+          background: linear-gradient(to top, @color-widget-power-profile-saver-bg, mix(@color-widget-power-profile-saver-bg, @color-gradient-fade, 0.25));
+          color: @color-widget-power-profile-saver-fg;
+      }
 
-	#clock.date {
-		background: @date;
-		color: @white;
-	}
+      label:focus {
+          background-color: #ff0000;
+      }
 
-	#clock.time {
-		background: @time;
-		color: @black;
-	}
+      #cpu {
+          min-width: 60px;
+          background: linear-gradient(to top, @color-widget-cpu-bg, mix(@color-widget-cpu-bg, @color-gradient-fade, 0.25));
+          color: @color-widget-cpu-fg;
+      }
 
-  	#custom-arrow1 {
-		font-size: 11pt;
-		color: @time;
-		background: @date;
-	}
-	
-	#custom-arrow2 {
-		font-size: 11pt;
-		color: @date;
-		background: @battery;
-		padding: 0;
-		margin: 0;
-	}
+      #memory {
+          background: linear-gradient(to top, @color-widget-memory-bg, mix(@color-widget-memory-bg, @color-gradient-fade, 0.25));
+          color: @color-widget-memory-fg;
+      }
 
-	#custom-arrow3 {
-		font-size: 11pt;
-		color: @battery;
-		background: @temp;
-	}
+      #disk {
+          background-color: #ff0000;
+      }
 
-	#custom-arrow4 {
-		font-size: 11pt;
-		color: @temp;
-		background: @cpu;
-	}
+      #backlight {
+          background: linear-gradient(to top, @color-widget-backlight-bg, mix(@color-widget-backlight-bg, @color-gradient-fade, 0.25));
+          color: @color-widget-backlight-fg;
+      }
 
-	#custom-arrow5 {
-		font-size: 11pt;
-		color: @cpu;
-		background: @memory;
-	}
+      #network {
+          background-color: #ff0000;
+      }
 
-	#custom-arrow6 {
-		font-size: 11pt;
-		color: @memory;
-		background: @network;
-	}
+      #network.disconnected {
+          background-color: #ff0000;
+      }
 
-	#custom-arrow7 {
-		font-size: 11pt;
-		color: @network;
-		background: @sound;
-	}
+      #pulseaudio {
+          background: linear-gradient(to top, @color-widget-audio-bg, mix(@color-widget-audio-bg, @color-gradient-fade, 0.25));
+          color: @color-widget-audio-fg;
+      }
 
-	#custom-arrow8 {
-		font-size: 11pt;
-		color: @sound;
-		background: transparent;
-	}
+      #pulseaudio.muted {
+          background: linear-gradient(to top, @color-widget-audio-muted-bg, mix(@color-widget-audio-muted-bg, @color-gradient-fade, 0.25));
+          color: @color-widget-audio-muted-fg;
+      }
 
-	#custom-arrow9 {
-		font-size: 11pt;
-		color: @unfocused;
-		background: transparent;
-	}
+      #keyboard-state {
+          background: linear-gradient(to top, @color-widget-keyboard-state-bg, mix(@color-widget-keyboard-state-bg, @color-gradient-fade, 0.25));
+          color: @color-widget-keyboard-state-fg;
+      }
 
+      #keyboard-state > label {
+          padding: 0px;
+      }
+
+      #keyboard-state > label.locked {
+          background: transparent;
+      }
+
+      #language {
+          background: linear-gradient(to top, @color-widget-language-bg, mix(@color-widget-language-bg, @color-gradient-fade, 0.25));
+          color: @color-widget-language-fg;
+      }
+
+      #wireplumber {
+          background-color: #ff0000;
+          color: #00ff00;
+      }
+
+      #wireplumber.muted {
+          background-color: #0000ff;
+      }
+
+      #custom-media {
+          background-color: #ff0000;
+          color: #0000ff;
+          min-width: 100px;
+      }
+
+      #custom-media.custom-spotify {
+          background-color: #00ff00;
+      }
+
+      #custom-media.custom-vlc {
+          background-color: #ff0000;
+      }
+
+      #temperature {
+          background: linear-gradient(to top, @color-widget-temperature-bg, mix(@color-widget-temperature-bg, @color-gradient-fade, 0.25));
+          color: @color-widget-temperature-fg;
+      }
+
+      #temperature.critical {
+          background: linear-gradient(to top, @color-widget-temperature-critical-bg, mix(@color-widget-temperature-critical-bg, @color-gradient-fade, 0.25));
+          color: @color-widget-temperature-critical-fg;
+      }
+
+      #tray {
+          background: linear-gradient(to top, @color-widget-tray-bg, mix(@color-widget-tray-bg, @color-gradient-fade, 0.25));
+      }
+
+      #tray > .passive {
+          -gtk-icon-effect: dim;
+      }
+
+      #tray > .needs-attention {
+          -gtk-icon-effect: highlight;
+          background: linear-gradient(to top, @color-widget-tray-needs-attention, mix(@color-widget-tray-needs-attention, @color-gradient-fade, 0.25));
+      }
+
+      #network {
+          background: linear-gradient(to top, @color-widget-network-bg, mix(@color-widget-network-bg, @color-gradient-fade, 0.25));
+          color: @color-widget-network-fg;
+      }
+
+      #custom-notification {
+          background: linear-gradient(to top, @color-widget-custom-notification-bg, mix(@color-widget-custom-notification-bg, @color-gradient-fade, 0.25));
+          color: @color-widget-custom-notification-fg;
+      }
+
+      tooltip {
+          background-color: @color-tooltip-bg;
+          border: none;
+          border-radius: 20px;
+      }
+
+      tooltip decoration {
+          box-shadow: none;
+      }
+
+      tooltip decoration:backdrop {
+          box-shadow: none;
+      }
+
+      tooltip label {
+          color: @color-tooltip-fg;
+          padding: 3px 7px;
+      }
+
+
+      menu {
+        border-width: 2px;
+        border-style: solid;
+        border-color: @color-menu-fg;
+        background: @color-menu-bg;
+        border-radius: 10px;
+      }
+
+      menuitem {
+        border-radius: 10px;
+      }
+
+      menuitem:hover {
+        color:  @color-menuitem-hover-fg;
+        background: @color-menuitem-hover-bg;
+      }
     '';
 
     settings = [{
       layer = "bottom";
       position = "bottom";
+      height = 30;
+      spacing = 3;
 
       modules-left = [
-      "sway/mode" 
-      "sway/workspaces" 
-      "custom/arrow9"
+        "sway/mode" 
+        "sway/workspaces" 
       ];
 
       modules-right = [
-        "custom/arrow8" 
-          "pulseaudio" 
-          "custom/arrow7" 
-          "network" 
-          "custom/arrow6" 
-          "memory" 
-          "custom/arrow5" 
-          "cpu" 
-          "custom/arrow4" 
-          "temperature" 
-          "custom/arrow3" 
-          "battery" 
-          "custom/arrow2" 
-          "tray"
-          "clock#date" 
-          "custom/arrow1" 
-          "clock#time" 
+        "tray"
+        "network" 
+        "cpu" 
+        "memory" 
+        "temperature" 
+        "pulseaudio" 
+        "battery" 
+        "clock" 
       ]; 
-
-      battery = {
-        format-time = "{H}:{M:02}";
-        format = "{icon} {capacity}% ({time})";
-        format-charging = " {capacity}% ({time})";
-        format-charging-full =  " {capacity}%";
-        format-full = "{icon}  {capacity}%";
-        format-alt = "{icon}  {power}W";
-        format-icons = [ "  " "  " "  " "  " "  " ];
-        tooltip =  false;
-      };
-
-      "clock#time" = {
-        interval = 10;
-        format = "{:%H:%M}";
-        tooltip = false;
-      };
-
-      "clock#date" = {
-        interval = 20;
-        format = "{:%e %b %Y}";
-        tooltip = false;
-      };
-
-      cpu = {
-        interval =  5;
-        tooltip = false;
-        format = "<span size='18pt'></span>   {usage}% ";
-        format-alt = "<span size='18pt'></span>   {load} ";
-        states = { 
-          warning = 70;
-          critical = 90;
-        };
-      };
-
-      memory = {
-        interval = 5;
-        format = "  {used:0.1f}G/{total:0.1f}G";
-        states = {
-          warning = 70;
-          critical = 90;
-        };
-        tooltip = false;
-      };
-
-      network = {
-        interval = 5;
-        format-wifi = "<span size='18pt'></span>   {essid} ({signalStrength}%)";
-        format-ethernet = "<span size='18pt'></span>  {ifname}";
-        format-disconnected = "No connection";
-        format-alt = "<span size='18pt'></span>  {ipaddr}/{cidr}";
-        tooltip = false;
-      };
 
       "sway/mode" = {
         format = "{}";
         tooltip = false;
       };
 
-      "sway/window" = {
-        format = "{}";
-        max-length = 30;
-        tooltip = false;
-      };
-
       "sway/workspaces" = {
+        format = "{icon}";
         disable-scroll-wraparound = true;
         smooth-scrolling-threshold =  4;
         enable-bar-scroll = true;
-        format = "{name}";
+      };
+
+      tray = {
+        icon-size = 21;
+        spacing = 10;
+      };
+
+      network = {
+        interval = 2;
+        format-wifi = "{essid} ({signalStrength}%)";
+        format-ethernet = "󰈀 {ifname}";
+        format-disconnected = "Disconnected";
+        format-alt = "↓{bandwidthDownBytes} ↑{bandwidthUpBytes}";
+        tooltip = false;
+      };
+
+      cpu = {
+        interval =  2;
+        tooltip = false;
+        format = " {usage}%";
+        format-alt = " {load}%";
+        states = { 
+          warning = 75;
+          critical = 90;
+        };
+      };
+
+      memory = {
+        interval = 5;
+        format = " {used:0.1f}G/{total:0.1f}G";
+        states = {
+          warning = 75;
+          critical = 90;
+        };
+        tooltip = false;
+      };
+
+      battery = {
+        format-time = "{H}:{M:02}";
+        format = "{icon} {capacity}% ({time})";
+        format-charging = "{capacity}% ({time}) ";
+        format-charging-full =  "{icon} {capacity}%";
+        format-full = "{icon} {capacity}%";
+        format-alt = "{icon} {power}W";
+        format-icons = [ 
+          "  " 
+          "  " 
+          "  " 
+          "  " 
+          "  " 
+        ];
+        tooltip =  false;
+      };
+
+      temperature = {
+        critical-threshold = 90;
+        interval = 5;
+        format = "{icon} {temperatureC}°C";
+        format-icons = [
+          ""
+          ""
+          ""
+          ""
+          ""
+        ];
+        tooltip = false;
       };
 
       pulseaudio = {
         format = "{icon} {volume}%";
         format-bluetooth = "{icon}  {volume}%";
-        format-muted = "<span size='18pt'></span>  ";
+        format-muted = " Muted";
         format-icons = {
           headphone = "<span size='40pt'></span>  ";
           hands-free = "<span size='40pt'></span> 󱡏 ";
@@ -380,70 +588,12 @@
         tooltip = false;
       };
 
-      temperature = {
-        critical-threshold = 90;
-        interval = 5;
-        format = "{icon} {temperatureC}°";
-        format-icons = [
-          ""
-            ""
-            ""
-            ""
-            ""
-        ];
-        tooltip = false;
-      };
-
-      tray = {
-        icon-size = 18;
-        spacing = 10;
-      };
-
-      "custom/arrow1" = {
-        format = "";
-        tooltip = false;
-      };
-
-      "custom/arrow2" = {
-        format = "";
-        tooltip = false;
-      };
-
-      "custom/arrow3" = {
-        format = "";
-        tooltip = false;
-      };
-
-      "custom/arrow4" = {
-        format = "";
-        tooltip = false;
-      };
-
-      "custom/arrow5" = {
-        format = "";
-        tooltip = false;
-      };
-
-      "custom/arrow6" = {
-        format = "";
-        tooltip = false;
-      };
-
-      "custom/arrow7" = {
-        format = "";
-        tooltip = false;
-      };
-
-      "custom/arrow8" = {
-        format = "";
-        tooltip = false;
-      };
-
-      "custom/arrow9" = {
-        format = "";
-        tooltip = false;
-      };
+      "clock" = {
+        format = " {:%H:%M}";
+        format-alt = " {:L%A, %b %d}";
+        tooltip = true;
+        tooltip-format = "{:%Y}";
+       };
     }];
   };
 }
-
