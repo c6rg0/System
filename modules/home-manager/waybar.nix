@@ -138,14 +138,19 @@
       }
 
       #workspaces button.active {
-          background: linear-gradient(to top, @color-workspace-button-focused-bg, mix(@color-workspace-button-focused-bg, @color-gradient-fade, 0.25));
           color: @color-workspace-button-focused-fg;
+          background: linear-gradient(to top, @color-workspace-button-focused-bg, mix(@color-workspace-button-focused-bg, @color-gradient-fade, 0.25));
       }
 
       #workspaces button.urgent {
           background: linear-gradient(to top, @color-button-urgent-bg, mix(@color-button-urgent-bg, @color-gradient-fade, 0.25));
           color: @color-button-urgent-fg;
       }
+
+      #workspaces button.focused {
+          color: @color-workspace-button-focused-fg;
+          background: linear-gradient(to top, @color-workspace-button-focused-bg, mix(@color-workspace-button-focused-bg, @color-gradient-fade, 0.25));
+      }	
 
       #taskbar {
           padding: 0px;
@@ -229,15 +234,15 @@
       #window {
           margin-left: 0px;
       }
+        
+      /* If workspaces is the rightmost module, omit right margin */
+      .modules-right > widget:last-child > #workspaces {
+          margin-right: 0;
+      }
 
       /* If workspaces is the leftmost module, omit left margin */
       .modules-left > widget:first-child > #workspaces {
           margin-left: 0;
-      }
-
-      /* If workspaces is the rightmost module, omit right margin */
-      .modules-right > widget:last-child > #workspaces {
-          margin-right: 0;
       }
 
       #custom-power {
