@@ -3,13 +3,14 @@ local vim = vim
 vim.cmd("let g:python3_host_prog = '/usr/bin/env python3'")
 vim.cmd("set guicursor=n-v-c-i:block")
 vim.o.number = true
-vim.o.relativenumber = true
+vim.o.relativenumber = false 
 vim.o.wrap = true 
-vim.o.winborder = "rounded" 
+--vim.o.winborder = "rounded" 
 
 vim.pack.add({
   "https://github.com/nvim-tree/nvim-web-devicons",
   "https://github.com/nvim-lualine/lualine.nvim",
+  "https://github.com/sindrets/diffview.nvim",
 
   "https://github.com/preservim/nerdtree",
   "https://github.com/nvim-lua/plenary.nvim",
@@ -132,8 +133,14 @@ require("ibl").setup()
 vim.opt.termguicolors = true
 require('nvim-highlight-colors').setup({})
 
+vim.opt_local.shiftwidth = 4
+vim.opt_local.tabstop = 4
+vim.opt_local.softtabstop = 4
+vim.opt_local.expandtab = true
+vim.g.diagnostics_active = true
+
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "nix", "lua", "yaml", "markdown" },
+  pattern = { "nix", "lua", "yaml", "markdown", "html", "ejs"},
   callback = function()
     vim.opt_local.shiftwidth = 2
     vim.opt_local.tabstop = 2

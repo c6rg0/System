@@ -7,6 +7,7 @@
   };
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  services.dbus.implementation = "broker";
 
   nix.settings.experimental-features = [ 
     "nix-command" 
@@ -16,7 +17,7 @@
   users.users.gabriel = {
     isNormalUser = true;
     description = "Gabriel";
-    extraGroups = [ "networkmanager" "wheel"];
+    extraGroups = [ "networkmanager" "wheel" "docker"];
     shell = pkgs.zsh;
   };
 
@@ -62,4 +63,12 @@
   documentation.dev.enable = true;
 
   programs.nix-ld.enable = true;
+
+  virtualisation.docker.enable = true;
+
+  environment.variables = {
+    # To fix a problem with anki
+    QTWEBENGINE_CHROMIUM_FLAGS = "--disable-gpu";
+  };
+
 }

@@ -6,7 +6,8 @@
   services.xserver.videoDrivers = [ "nvidia" ];
   
   hardware.nvidia = {
-    open = true;
+    # 1650 doesn't support open drivers
+    open = false;
     modesetting.enable = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
     powerManagement.enable = false;
