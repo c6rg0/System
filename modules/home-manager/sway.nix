@@ -59,15 +59,20 @@
         bars = [];
 
         keybindings = {
+          # exec ...
           "${modifier}+q" = "exec ${terminal}";
           "${modifier}+Space" = "exec ${menu}";
           "${modifier}+b" = "exec firefox";
           "${modifier}+w" = "exec waybar";
           "${modifier}+Shift+l" = "exec swaylock -c 282828";
+          "${modifier}+d" = "exec ld0";
+          "${modifier}+Shift+d" = "exec ld1";
+          "${modifier}+n" = "killall gammastep & exec night";
+          "${modifier}+Shift+n" = "killall gammastep & exec day";
 
           # Symbols used for programming
           "${modifier}+o" = "exec exec wtype '|'";
-          "${modifier}+s" = "exec exec wtype '\\'";
+          # '\' is (RightAlt + Minus)
           "${modifier}+Shift+Escape" = "exec exec wtype '`'";
 
           "${modifier}+k" = "kill";

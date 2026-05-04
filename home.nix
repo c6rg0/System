@@ -73,11 +73,11 @@
       wine
       etterna
 
-# What is this?
+# Dependencies for screensharing (iirc) 
       slurp
       zenity
 
-      ];
+    ];
 
   home.sessionVariables = {
     EDITOR = "nvim";

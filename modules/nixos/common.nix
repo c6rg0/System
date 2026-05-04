@@ -53,6 +53,12 @@
 
   programs.steam = {
     enable = true;
+    package = pkgs.steam.override {  
+      extraBwrapArgs = [  
+        "--bind $HOME/steamhome $HOME"  
+        "--bind $HOME/Games/Steam $HOME/.local/share/Steam"  
+      ];  
+    };
   };
   
   documentation.enable = true;

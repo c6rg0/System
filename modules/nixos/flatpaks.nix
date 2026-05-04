@@ -4,7 +4,6 @@ let
   grep = pkgs.gnugrep;
   # 1. Declare the Flatpaks you *want* on your system
   desiredFlatpaks = [
-    "org.onlyoffice.desktopeditors"
     "flathub"
     "org.vinegarhq.Sober"
   ];
