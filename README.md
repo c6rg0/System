@@ -1,4 +1,5 @@
 # My NixOS config:
+(Images have been outdated for a while, and still are)
 ![desktop](showcase/desktop.png)
 
 ![rofi](showcase/rofi.png)

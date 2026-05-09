@@ -36,9 +36,11 @@
       sqlitebrowser
       ghidra
       vscode-fhs
+      uv
 
 # Utils
       binutils
+      findutils
       wl-clipboard-rs
       killall
       ntfs3g

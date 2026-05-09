@@ -30,7 +30,9 @@
       py = "python";
       night = "gammastep -O 4500K";
       day = "exec gammastep -O 6500K";
-      up = "cd ~/nix-config/ && sudo nix flake update && sudo nixos-rebuild switch --flake .#laptop && cd";
+      # Replace "~/nix-config" with location if different
+      up = "CURRENT=$(pwd) && cd ~/nix-config && sudo nix flake update && sudo nixos-rebuild switch --flake .#laptop && cd $CURRENT
+      ";
     };
 
     histSize = 10000;
