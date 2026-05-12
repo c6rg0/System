@@ -22,10 +22,10 @@
   };
 
   environment.systemPackages = with pkgs; [
-
     # Rules:
     # Only install things here that require root,
     # or you want to persist if you can't access user. 
+
       #Hardware
     lm_sensors
     bluez
@@ -76,5 +76,4 @@
     # To fix a problem with anki
     QTWEBENGINE_CHROMIUM_FLAGS = "--disable-gpu";
   };
-
 }

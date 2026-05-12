@@ -4,6 +4,7 @@
   programs.waybar = {
     enable = true;
     systemd.enable = true;
+
     style = ''
       @define-color color-bg                                  #1b1a1a;
       @define-color color-fg                                  #ebdbb2;
@@ -52,11 +53,11 @@
       @define-color color-widget-power-profile-saver-bg       #b8bb26;
       @define-color color-widget-power-profile-saver-fg       #1b1a1a;
       @define-color color-widget-network-bg                   #b8bb26;
-      @define-color color-widget-network-fg                    #1b1a1a;
+      @define-color color-widget-network-fg                   #1b1a1a;
       @define-color color-widget-tray-bg                      #504945;
       @define-color color-widget-tray-needs-attention         #fb4934;
-      @define-color color-widget-custom-notification-bg        #504945;
-      @define-color color-widget-custom-notification-fg        #dfcdb3;
+      @define-color color-widget-custom-notification-bg       #504945;
+      @define-color color-widget-custom-notification-fg       #dfcdb3;
       @define-color color-widget-scratchpad-bg                #ff0000;
       @define-color color-widget-scratchpad-fg                #ff0000;
       @define-color color-widget-power-bg                     #83a598;

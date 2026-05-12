@@ -16,6 +16,4 @@
       pyright
       typescript-language-server
   ];
-
 }
-

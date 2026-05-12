@@ -1,7 +1,6 @@
 { config, pkgs, ... }:
 
 {
-
   console.keyMap = "uk";
 
   time.timeZone = "Europe/London";

@@ -49,6 +49,8 @@
       _7zz
       yt-dlp
       gammastep
+      pass
+      gnupg
 
 # School/Learning
       teams-for-linux 
@@ -60,6 +62,7 @@
       pastel
       spotify
       gimp
+      darktable
       neomutt
       krita 
       onefetch

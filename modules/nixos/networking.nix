@@ -16,5 +16,10 @@
 
   # Instrusion prevention software
   services.fail2ban.enable = true;
-  
+
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+  };
+  services.pcscd.enable = true;
 }
