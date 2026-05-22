@@ -2,12 +2,12 @@
 
 {
   nixpkgs.config.allowUnfree = true;
-
   services.xserver.videoDrivers = [ "nvidia" ];
   
   hardware.nvidia = {
     # 1650 doesn't support open drivers
     open = false;
+
     modesetting.enable = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
     powerManagement.enable = false;
@@ -15,6 +15,8 @@
   
   hardware.graphics.enable = true;
 
+  # These variables are wack, 
+  # 
   environment.variables = {
     LIBVA_DRIVER_NAME="nvidia";
     XDG_SESSION_TYPE = "wayland";

@@ -9,9 +9,8 @@
     ../../modules/nixos/networking.nix
     ../../modules/nixos/nvidia.nix
     ../../modules/nixos/tablet.nix
-    ../../modules/nixos/time_and_keys.nix
-    ../../modules/nixos/zsh.nix
-
+    ../../modules/nixos/locale.nix
+    ../../modules/nixos/shell.nix
   ];
 
   networking.hostName = "dell";

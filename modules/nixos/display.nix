@@ -28,7 +28,6 @@
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
     nerd-fonts.iosevka-term
-    nerd-fonts.aurulent-sans-mono
     nerd-fonts.symbols-only
     noto-fonts-cjk-sans
   ];
@@ -48,7 +47,6 @@
           SWAYSOCK \
           XDG_CURRENT_DESKTOP=sway \
           WAYLAND_DISPLAY
-          '';
+    '';
   };
-
 }

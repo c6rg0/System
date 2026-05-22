@@ -9,10 +9,13 @@
   hardware.bluetooth.enable = true;
   services.printing.enable = false;
   
+  networking.firewall.enable = true;
+
+  # "virbr0" = virtual bridge (for virtualization)
+  networking.firewall.trustedInterfaces = [ "virbr0" ];
+
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
-  networking.firewall.enable = true;
-  networking.firewall.trustedInterfaces = [ "virbr0" ];
 
   # Instrusion prevention software
   services.fail2ban.enable = true;
@@ -21,5 +24,6 @@
     enable = true;
     enableSSHSupport = true;
   };
+
   services.pcscd.enable = true;
 }

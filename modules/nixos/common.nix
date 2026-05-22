@@ -1,12 +1,15 @@
 { config, pkgs, lib, ... }:
+
 {
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.loader = {
     systemd-boot.enable = true;
     efi.canTouchEfiVariables = true;
-    timeout = 0; # This does nothing, in the boot menu, use "shift + t" to disable the boot menu
+    
+    # This does nothing, in the boot menu, use "shift + t" to disable the boot menu
+    timeout = 0; 
   };
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
   services.dbus.implementation = "broker";
 
   nix.settings.experimental-features = [ 
@@ -14,6 +17,7 @@
     "flakes" 
   ];
 
+  # Change "gabriel" if your user is different 
   users.users.gabriel = {
     isNormalUser = true;
     description = "Gabriel";
@@ -21,33 +25,20 @@
     shell = pkgs.zsh;
   };
 
-  environment.systemPackages = with pkgs; [
-    # Rules:
-    # Only install things here that require root,
-    # or you want to persist if you can't access user. 
+  environment.variables = {
+    # To fix a problem with anki
+    QTWEBENGINE_CHROMIUM_FLAGS = "--disable-gpu";
 
-      #Hardware
-    lm_sensors
-    bluez
-    mesa
-    qemu
-    quickemu
+    # Change this below if different
+    confLocation = "~/nix-config";
+  };
 
-      # Root
-    wtype
-    pavucontrol
-    ldacbt
-    blueman
-
-      # Troubleshooting
-    vim
-    busybox
-    unzip
-    flatpak
-    man-pages
-    man-pages-posix
-    linux-manual
-  ];
+  documentation.enable = true;
+  documentation.dev.enable = true;
+  documentation.man = {
+    enable = true;
+    cache.enable = false;
+  };
 
   services.flatpak.enable = true;
 
@@ -61,19 +52,6 @@
     };
   };
   
-  documentation.enable = true;
-  documentation.man = {
-    enable = true;
-    cache.enable = false;
-  };
-  documentation.dev.enable = true;
-
-  programs.nix-ld.enable = true;
-
-  virtualisation.docker.enable = true;
-
-  environment.variables = {
-    # To fix a problem with anki
-    QTWEBENGINE_CHROMIUM_FLAGS = "--disable-gpu";
-  };
+  # programs.nix-ld.enable = true;
+  # virtualisation.docker.enable = true;
 }

@@ -21,7 +21,6 @@
   ];
 
   home.packages = with pkgs;[
-
 # Dev tools
     git
       yazi
@@ -51,6 +50,8 @@
       gammastep
       pass
       gnupg
+      exiftool
+      alsa-lib
 
 # School/Learning
       teams-for-linux 
@@ -71,17 +72,18 @@
       zathura
       qutebrowser
       obs-studio
+      audacity
+      davinci-resolve
 
-# Gaming 
+# Games
       osu-lazer-bin
       protonup-qt
       wine
       etterna
 
-# Dependencies for screensharing (iirc) 
+# Dependencies for screensharing (AFAIK) 
       slurp
       zenity
-
     ];
 
   home.sessionVariables = {
@@ -92,24 +94,25 @@
 
   services.dunst.enable = true;  # Notifications
 
-# For OBS/Screensharing (only tried the OBS part lol)
-    xdg = {
-      portal = {
-        enable = true;
+  # For OBS/Screensharing (only tried the OBS part lol)
+  xdg = {
+    portal = {
+      enable = true;
 
-        config = {
-          sway = {
-            default = [ "gtk" ];
-            "org.freedesktop.impl.portal.Screenshot" = [ "wlr" ];
-            "org.freedesktop.impl.portal.ScreenCast" = [ "wlr" ];
-          };
+      config = {
+        sway = {
+          default = [ "gtk" ];
+          "org.freedesktop.impl.portal.Screenshot" = [ "wlr" ];
+          "org.freedesktop.impl.portal.ScreenCast" = [ "wlr" ];
         };
-        extraPortals = with pkgs; [
-          xdg-desktop-portal-wlr
-            xdg-desktop-portal-gtk
-        ];
       };
+
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-wlr
+          xdg-desktop-portal-gtk
+      ];
     };
+  };
 
 }
 
