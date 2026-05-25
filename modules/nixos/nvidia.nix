@@ -13,15 +13,20 @@
     powerManagement.enable = false;
   };
   
-  hardware.graphics.enable = true;
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [
+      vulkan-validation-layers
+    ];
+  };
 
   # These variables are wack, 
-  # 
   environment.variables = {
     LIBVA_DRIVER_NAME="nvidia";
-    XDG_SESSION_TYPE = "wayland";
-    GBM_BACKEND = "nvidia-drm";
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    GBM_BACKEND = "nvidia-drm";
+    XDG_SESSION_TYPE = "wayland";
+    WLR_RENDERER = "vulkan";
 
     __GL_GSYNC_ALLOWED = "0";
     __GL_VRR_ALLOWED = "0";

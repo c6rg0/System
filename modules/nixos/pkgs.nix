@@ -22,6 +22,7 @@
     flatpak
     man-pages
     man-pages-posix
+    std-man-pages
     linux-manual
   ];
 }

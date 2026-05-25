@@ -14,15 +14,14 @@
 > Shell: zsh\
 > Text editor: Neovim\
 > App launcher: Rofi\
-> Info-fetcher: Fastfetch 
 
 
 ## IMPORTANT!
 - Make sure that you have flakes enabled on your machine.
 
-- Don't use the `hardware-configuration.nix`s included in this repo;
-  they're not generated for your hardware. Instead, use your own generated 
-  during installation or make a new copy with `$ nixos-generate-config`.
+- Don't use the `hardware-configuration.nix`s included in this repo,
+  they're not generated for your hardware. Instead, use your own version 
+  created during installation or make a new copy (`$ nixos-generate-config`).
 
 - Read any scripts before use; they're all short, and it's good practice.
 
@@ -31,9 +30,9 @@
 
 
 ## Location
-- You can clone this repo and it should be usable from any location.
-
-- I have it at `~/` for easy access.
+- You can clone this repo and it should be usable from any location,
+- the only thing affected by the location is the `up` alias I made.
+- I personally have it at `~/`. 
 
 
 ## Extra
@@ -42,25 +41,21 @@
 
 
 ## Credits:
-- Waybar config: [mxkrsv/dotfiles-old](https://github.com/mxkrsv/dotfiles-old/tree/master/.config/waybar)
-*(I ported the config to nix, changed the colour scheme and order)*
-
 - Colour scheme: [hmorhetz/gruvbox](https://github.com/morhetz/gruvbox)
-*(Used extensively lol)*
+*(Used extensively)*
 
-- Wallpapers: 
-> [exorcist/wallpapers](https://codeberg.org/exorcist/wallpapers)
-> [nasa image-of-the-day](https://www.nasa.gov/image-of-the-day/)
+- Waybar config: [DreamMaoMao/mango-config](https://github.com/DreamMaoMao/mango-config)
+*(I ported the bar to nix and adjusted it)*
 
 
 ## $ tree 
 
 .\
 ├── dev\
-│   └── `# Any nix dev shells go here`\
+│   └── `# Example nix-shells go here`\
 ├── flake.lock\
-├── flake.nix `# Inputs and outputs; connects everything`\
-├── home.nix `# Declares inputs and short cross-host statements`\
+├── flake.nix `# Inputs and outputs - connects everything`\
+├── home.nix `# Declares home-manager inputs, user packages and other small bits`\
 ├── hosts\
 │   ├── desktop\
 │   │   └── default.nix `# Declares inputs and short statements specific to host`\
@@ -76,4 +71,4 @@
 │       └── (something specific)*.nix\
 ├── nixpkgs `# Old config related to manually building packages for testing`\
 │   └── config.nix\
-└── update.sh
+└── update.sh 

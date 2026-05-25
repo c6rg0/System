@@ -30,7 +30,7 @@
     QTWEBENGINE_CHROMIUM_FLAGS = "--disable-gpu";
 
     # Change this below if different
-    confLocation = "~/nix-config";
+    confLocation = "/home/gabriel/nix-config/";
   };
 
   documentation.enable = true;
@@ -44,12 +44,13 @@
 
   programs.steam = {
     enable = true;
-    package = pkgs.steam.override {  
-      extraBwrapArgs = [  
-        "--bind $HOME/steamhome $HOME"  
-        "--bind $HOME/Games/Steam $HOME/.local/share/Steam"  
-      ];  
-    };
+
+    # package = pkgs.steam.override {  
+      # extraBwrapArgs = [  
+        # "--bind $HOME/steamhome $HOME"  
+        # "--bind $HOME/Games/Steam $HOME/.local/share/Steam"  
+      # ];  
+    # };
   };
   
   # programs.nix-ld.enable = true;
