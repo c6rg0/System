@@ -43,7 +43,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.gabriel = import ./home.nix;
+            home-manager.users.gabriel = import ./modules/home-manager/home.nix;
             home-manager.extraSpecialArgs = { inherit inputs outputs; };
           }
         ];

@@ -2,10 +2,52 @@ local vim = vim
 
 vim.cmd("let g:python3_host_prog = '/usr/bin/env python3'")
 vim.cmd("set guicursor=n-v-c-i:block")
+
+-- The below are inspired by:
+-- https://github.com/sxyazi/dotfiles/blob/main/nvim/lua/core.lua
 vim.o.number = true
-vim.o.relativenumber = false 
-vim.o.wrap = true 
---vim.o.winborder = "rounded" 
+vim.opt.cursorline = true
+
+vim.o.wrap = false 
+vim.opt.linebreak = true
+vim.opt.showbreak = "↳"
+vim.opt.whichwrap = "h,l,<,>"
+
+vim.opt.scrolloff = 5
+vim.opt.sidescrolloff = 5
+vim.opt.virtualedit = "block"
+
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+vim.opt.infercase = true
+vim.opt.hlsearch = true 
+
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.smartindent = true
+
+vim.opt.foldlevel = 99
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+
+vim.opt.winblend = 0
+vim.opt.pumblend = 0
+vim.opt.pumheight = 15
+
+vim.opt.showmode = false
+vim.opt.showcmd = false
+-- vim.opt.cmdheight = 0
+vim.opt.laststatus = 3
+
+vim.opt.ruler = false
+vim.opt.signcolumn = "yes"
+
+vim.opt.clipboard = 'unnamedplus'
+-- {'n', 'v'} = modes
+-- <C-c> = Ctrl + C
+vim.keymap.set({'n', 'v'}, '<C-c>', '"+y', { noremap = true })
+vim.keymap.set({'n', 'v'}, '<C-v>', '"+p', { noremap = true })
+vim.keymap.set('i', '<C-v>', '<C-r>+', { noremap = true })
 
 vim.pack.add({
   "https://github.com/nvim-tree/nvim-web-devicons",

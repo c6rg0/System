@@ -49,26 +49,28 @@
 
 
 ## $ tree 
-
 .\
+├── README.md\
+├── clean.sh\
 ├── dev\
-│   └── `# Example nix-shells go here`\
+│   └── *.nix `# Boilerplate nix-shells`\
 ├── flake.lock\
-├── flake.nix `# Inputs and outputs - connects everything`\
-├── home.nix `# Declares home-manager inputs, user packages and other small bits`\
+├── flake.nix `# Inputs and outputs for the whole repo`\
 ├── hosts\
 │   ├── desktop\
-│   │   └── default.nix `# Declares inputs and short statements specific to host`\
-│       └── hardware-configuration.nix\
+│   │   ├── default.nix\
+│   │   └── hardware-configuration.nix\
 │   └── laptop\
-│       ├── default.nix\
+│       ├── default.nix `# Declares inputs and short statements specific to host`\
 │       └── hardware-configuration.nix\
 ├── modules\
-│   ├── home-manager `# Where the files input by home.nix are`\
-│   │   ├── *.nix\
-│   └── nixos `# Pool of configs that can be used by hosts`\
-│       ├── common.nix `# Any short statements I want to use between hosts`\
-│       └── (something specific)*.nix\
-├── nixpkgs `# Old config related to manually building packages for testing`\
-│   └── config.nix\
-└── update.sh 
+│   ├── home-manager `# User configuration`\
+│   │   ├── home.nix `# Declares home-manager inputs and other small configs`\
+│   │   └── *.nix\
+│   └── nixos `# Pool of system configs that can be used by hosts`\
+│   │   ├── common.nix `# Any short configs I want to use between hosts`\
+│   │   └── *.nix\
+├── nixpkgs\
+│   └── config.nix `# Old config related to manually building packages for testing`\
+└── update.sh\
+
