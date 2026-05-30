@@ -6,8 +6,22 @@
     systemd-boot.enable = true;
     efi.canTouchEfiVariables = true;
     
-    # This does nothing, in the boot menu, use "shift + t" to disable the boot menu
+    # If this does nothing,
+    # use "shift + t" in the boot menu
     timeout = 0; 
+  };
+  boot.tmp.cleanOnBoot = true;
+
+  nix = {
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 7d";
+    };
+
+    settings = {
+      auto-optimise-store = true;
+    };
   };
 
   services.dbus.implementation = "broker";

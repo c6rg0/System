@@ -19,14 +19,15 @@
 
 # Dev tools
     git
-    uv
     nixpkgs-review
     gh
     sqlitebrowser
     ghidra
     vscode-fhs
     onefetch
+    uv
     ruff
+    cutter
 
 # Languages
     python315

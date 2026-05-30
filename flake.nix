@@ -7,15 +7,15 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Any third party modules can be input here
-    # ... 
+    zen-browser.url = "github:0xc000022070/zen-browser-flake";
   };
 
   outputs = {
     self,
     nixpkgs,
-    home-manager,
     systems,
+    home-manager,
+    zen-browser,
     ...
   } @ inputs: let
     inherit (self) outputs;
