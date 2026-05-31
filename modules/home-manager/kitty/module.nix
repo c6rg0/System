@@ -16,7 +16,8 @@
       italic_font = "auto";
       bold_italic_font = "auto";
 
-      include = "/home/gabriel/nix-config/modules/home-manager/kitty/gruvbox-dark.conf";
+      # I hate how this doesn't support relative paths:
+      include = "/home/gabriel/Config/modules/home-manager/kitty/gruvbox-dark.conf";
 
       cursor_shape = "block";
       cursor_blind_interval = 0;

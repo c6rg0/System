@@ -11,14 +11,14 @@
 
   imports = [
     ./pkgs.nix
-    ./sway.nix
-    ./waybar.nix
-    ./kitty/kitty.nix
-    ./nvim/nvim.nix
-    ./rofi.nix
-    ./gtk.nix
-    ./fastfetch/fastfetch.nix
-    # ./ghostty.nix # I don't use this at all
+    ./sway/module.nix
+    ./waybar/module.nix
+    ./kitty/module.nix
+    ./nvim/module.nix
+    ./rofi/module.nix
+    ./gtk-qt/module.nix
+    ./fastfetch/module.nix
+    # ./ghostty/module.nix # I don't use this at all
   ];
 
   home.sessionVariables = {

@@ -31,8 +31,7 @@
       night = "gammastep -O 4500K";
       day = "exec gammastep -O 6500K";
 
-      up = "CURRENT=$(pwd) && cd $confLocation && sudo nix flake update && sudo nixos-rebuild switch --flake .#laptop && cd $CURRENT
-      ";
+      up = "CURRENT=$(pwd) && cd $CONFIG_lOCATION && sudo nix flake update && sudo nixos-rebuild switch --flake .#laptop && cd $CURRENT";
     };
 
     histSize = 10000;

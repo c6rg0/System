@@ -44,7 +44,7 @@
     QTWEBENGINE_CHROMIUM_FLAGS = "--disable-gpu";
 
     # Change this below if different
-    confLocation = "/home/gabriel/nix-config/";
+    CONFIG_lOCATION = "/home/gabriel/Config/";
   };
 
   documentation.enable = true;
@@ -67,6 +67,6 @@
     # };
   };
   
-  # programs.nix-ld.enable = true;
+  programs.nix-ld.enable = true;
   # virtualisation.docker.enable = true;
 }

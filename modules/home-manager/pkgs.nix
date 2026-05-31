@@ -27,7 +27,8 @@
     onefetch
     uv
     ruff
-    cutter
+    iaito
+    ghidra
 
 # Languages
     python315
@@ -57,6 +58,7 @@
     zathura
     obs-studio
     audacity
+    vlc
 
 # Games
     osu-lazer-bin
