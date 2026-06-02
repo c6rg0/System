@@ -3,10 +3,6 @@
 {
   programs.neovim = {
     enable = true;
-    initLua = ''
-      ${builtins.readFile ./init.lua}
-    '';
-
     withRuby = false;
     withPython3 = true;
   };
@@ -16,4 +12,9 @@
       pyright
       typescript-language-server
   ];
+
+  xdg.configFile."nvim/init.lua" = {
+    source = config.lib.file.mkOutOfStoreSymlink
+      "/home/gabriel/Config/modules/home-manager/nvim/init.lua";
+  };
 }

@@ -8,7 +8,7 @@ vim.cmd("set guicursor=n-v-c-i:block")
 vim.o.number = true
 vim.opt.cursorline = true
 
-vim.o.wrap = false 
+vim.o.wrap = true 
 vim.opt.linebreak = true
 vim.opt.showbreak = "↳"
 vim.opt.whichwrap = "h,l,<,>"

@@ -36,6 +36,7 @@
     typescript
 
 # Miscellaneous utils
+    awww
     wl-clipboard-rs
     gammastep
     alsa-lib

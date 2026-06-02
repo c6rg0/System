@@ -37,9 +37,6 @@
           pos = "0 0";
           res = "1920x1080";
         };
-        "*" = {
-          bg = "/home/gabriel/Pictures/wallpaper fill";
-        };
       };
 
       input = {

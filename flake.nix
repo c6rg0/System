@@ -49,8 +49,6 @@
         ];
         specialArgs = { inherit inputs outputs; };
       };
-
     };
   };
-
 }
