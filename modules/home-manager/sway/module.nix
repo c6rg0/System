@@ -32,6 +32,8 @@
         "eDP-1" = {
           pos = "0 0";
           res = "1920x1080";
+          render_bit_depth = "10";
+          hdr = "enable";
         };
         "HDMI-A-3" = {
           pos = "0 0";
@@ -79,7 +81,7 @@
 # Program launches
         "${modifier}+q" = "exec ${terminal}";
         "${modifier}+Space" = "exec ${menu}";
-        "${modifier}+b" = "exec firefox";
+        "${modifier}+b" = "exec zen-beta";
         "${modifier}+Shift+l" = "exec swaylock -c 282828";
 # "-c ..." specifies lock background colour
         "${modifier}+w" = "exec waybar";

@@ -25,6 +25,7 @@
   };
 
   services.dbus.implementation = "broker";
+  security.polkit.enable = true;
 
   nix.settings.experimental-features = [ 
     "nix-command" 
