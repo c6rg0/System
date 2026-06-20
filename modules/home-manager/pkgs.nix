@@ -1,4 +1,4 @@
-{ config, pkgs, my-modules, ... }:
+{ pkgs, ... }:
 
 {
   home.packages = with pkgs;[
@@ -13,9 +13,11 @@
     wev
     _7zz
     yt-dlp
+    ffmpeg
     pass
     gnupg
     exiftool
+    zip
 
 # Dev tools
     git
@@ -29,6 +31,7 @@
     ruff
     iaito
     ghidra
+    clang-tools
 
 # Languages
     python315
