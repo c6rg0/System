@@ -18,8 +18,7 @@
     ./rofi/module.nix
     ./gtk-qt/module.nix
     ./fastfetch/module.nix
-    ./awww/module.nix
-    # ./ghostty/module.nix # I don't use this at all
+    # ./quickshell/module.nix
   ];
 
   home.sessionVariables = {
@@ -48,6 +47,10 @@
           xdg-desktop-portal-gtk
       ];
     };
+  };
+
+  services.awww = {
+    enable = true;
   };
 }
 
