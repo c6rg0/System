@@ -76,7 +76,11 @@ vim.pack.add({
 local async = require("plenary.async")
 local builtin = require('telescope.builtin')
 
-vim.lsp.enable("lua_ls", "pyright", "ts_ls", "clangd")
+vim.lsp.enable("lua_ls", "pyright", "ts_ls", "clangd", "qmlls")
+
+vim.lsp.config("clangd", {
+  filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto","hpp"},
+})
 
 require("gruvbox").setup({
   terminal_colors = true, -- add neovim terminal colors
@@ -102,6 +106,7 @@ require("gruvbox").setup({
   transparent_mode = false,
 })
 
+--vim.o.background = "light"
 vim.o.background = "dark"
 vim.cmd([[colorscheme gruvbox]])
 

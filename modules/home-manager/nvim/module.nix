@@ -8,9 +8,10 @@
   };
 
   home.packages = with pkgs; [
+    vimPlugins.nvim-treesitter
     lua-language-server
-      pyright
-      typescript-language-server
+    typescript-language-server
+    pyright
   ];
 
   xdg.configFile."nvim/init.lua" = {
