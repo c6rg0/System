@@ -61,17 +61,16 @@
     hyprshot
     zathura
     obs-studio
-    audacity
     vlc
 
-# Games
+# Gaming
     osu-lazer-bin
     protonup-qt
     wine
     etterna
 
 # Dependencies for screensharing (AFAIK) 
-    slurp
-    zenity
+    # slurp
+    # zenity
   ];
 }
