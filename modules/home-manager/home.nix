@@ -18,7 +18,7 @@
     ./rofi/module.nix
     ./gtk-qt/module.nix
     ./fastfetch/module.nix
-    # ./quickshell/module.nix
+    ./quickshell/module.nix
   ];
 
   home.sessionVariables = {
