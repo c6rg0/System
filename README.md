@@ -1,9 +1,9 @@
 # My NixOS config:
-![desktop](showcase/desktop.png)
+![desktop](pictures/desktop.png)
 
-![rofi](showcase/rofi.png)
+![rofi](pictures/rofi.png)
 
-![neovim](showcase/neovim.png)
+![neovim](pictures/neovim.png)
 
 > Colour scheme: Gruvbox\
 > Dotfile management: Home-manager\
@@ -14,7 +14,7 @@
 > Shell: zsh\
 > Text editor: Neovim\
 > App launcher: Rofi\
-
+> Corners: Quickshell
 
 ## IMPORTANT!
 - Make sure that you have flakes enabled on your machine.
