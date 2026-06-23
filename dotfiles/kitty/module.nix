@@ -17,7 +17,7 @@
       bold_italic_font = "auto";
 
       # I hate how this doesn't support relative paths:
-      include = "/home/gabriel/Config/modules/home-manager/kitty/current.conf";
+      include = "/home/gabriel/System/dotfiles/kitty/current.conf";
 
       cursor_shape = "block";
       cursor_blind_interval = 0;

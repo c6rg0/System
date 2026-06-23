@@ -1,7 +1,7 @@
 {
   description = "c6rg0/nix-config";
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable-small";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     systems.url = "github:nix-systems/default-linux";
     hardware.url = "github:nixos/nixos-hardware";
     home-manager.url = "github:nix-community/home-manager";
@@ -29,7 +29,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.gabriel = import ./home.nix;
+            home-manager.users.gabriel = import ./dotfiles/home.nix;
             home-manager.extraSpecialArgs = { inherit inputs outputs; };
           }
         ];
@@ -43,7 +43,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.gabriel = import ./modules/home-manager/home.nix;
+            home-manager.users.gabriel = import ./dotfiles/home.nix;
             home-manager.extraSpecialArgs = { inherit inputs outputs; };
           }
         ];

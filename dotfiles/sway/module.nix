@@ -18,7 +18,7 @@
 
   wayland.windowManager.sway = {
     enable = true;
-    checkConfig = false;
+    checkConfig = true;
 
     # Fixes common GTK 3 issues
     wrapperFeatures.gtk = true; 

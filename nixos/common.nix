@@ -45,7 +45,7 @@
     QTWEBENGINE_CHROMIUM_FLAGS = "--disable-gpu";
 
     # Change this below if different
-    CONFIG_lOCATION = "/home/gabriel/Config/";
+    CONFIG_lOCATION = "/home/gabriel/System/";
   };
 
   documentation.enable = true;

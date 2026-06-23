@@ -18,6 +18,6 @@
 
   xdg.configFile."nvim/init.lua" = {
     source = config.lib.file.mkOutOfStoreSymlink
-      "/home/gabriel/Config/modules/home-manager/nvim/init.lua";
+      "/home/gabriel/System/dotfiles/nvim/init.lua";
   };
 }
