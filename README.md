@@ -1,7 +1,7 @@
 # My NixOS config:
 ![desktop](pictures/desktop.png)
 
-![rofi](pictures/rofi.png)
+![menu](pictures/menu.png)
 
 ![neovim](pictures/neovim.png)
 
@@ -14,6 +14,7 @@
 > Shell: zsh\
 > Text editor: Neovim\
 > App launcher: Rofi\
+> Wallpaper utility: awww\
 > Corners: Quickshell
 
 ## IMPORTANT!
@@ -51,7 +52,6 @@
 ## $ tree 
 .\
 ├── README.md\
-├── clean.sh\
 ├── dev\
 │   └── *.nix `# Boilerplate nix-shells`\
 ├── flake.lock\
@@ -68,9 +68,7 @@
 │   │   ├── home.nix `# Declares home-manager inputs and other small configs`\
 │   │   └── *.nix\
 │   └── nixos `# Pool of system configs that can be used by hosts`\
-│   │   ├── common.nix `# Any short configs I want to use between hosts`\
-│   │   └── *.nix\
-├── nixpkgs\
-│   └── config.nix `# Old config related to manually building packages for testing`\
-└── update.sh\
+│       ├── common.nix `# Any short configs I want to use between hosts`\
+│       └── *.nix\
+└── (anything else)
 
