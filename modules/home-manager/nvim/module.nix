@@ -12,6 +12,8 @@
     lua-language-server
     typescript-language-server
     pyright
+		ripgrep
+		fd
   ];
 
   xdg.configFile."nvim/init.lua" = {
