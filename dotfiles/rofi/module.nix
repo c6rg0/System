@@ -3,7 +3,7 @@
 {
   programs.rofi = {
     enable = true;
-    theme = "gruvbox-dark-hard";
+    theme = "purple";
 
     extraConfig = {
       modi = "window,drun,run";

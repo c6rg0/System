@@ -8,9 +8,9 @@
   programs.swaylock = {
     enable = true;
     settings = {
-      color = "282828";
+      color = "40332E";
       font-size = 24;
-      indicator-idle-visible = false;
+      indicator-idle-visible = true;
       indicator-radius = 100;
       show-failed-attempts = true;
     };
@@ -55,17 +55,17 @@
 
       colors = {
         focused = {
-          border      = "#3c3836";
-          background  = "#282828";
-          text        = "#fbf1c7";
-          indicator   = "#b8bb26";
+          border      = "#3A2930";
+          background  = "#2F2025";
+          text        = "#f2f2f2";
+          indicator   = "#CFB05F";
           childBorder = "#00000000";
         };
         unfocused = {
-          border      = "#1d2021";
-          background  = "#282828";
+          border      = "#2B2B2F";
+          background  = "#161618";
           text        = "#a89984";
-          indicator   = "#98971a";
+          indicator   = "#847068";
           childBorder = "#00000000";
         };
       };
@@ -81,7 +81,7 @@
 # Program launches
         "${modifier}+q" = "exec ${terminal}";
         "${modifier}+Space" = "exec ${menu}";
-        "${modifier}+b" = "exec zen-beta";
+        "${modifier}+b" = "exec firefox";
         "${modifier}+Shift+l" = "exec swaylock -c 282828";
 # "-c ..." specifies lock background colour
         "${modifier}+w" = "exec waybar";

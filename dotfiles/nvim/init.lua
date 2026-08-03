@@ -8,7 +8,7 @@ vim.cmd("set guicursor=n-v-c-i:block")
 vim.o.number = true
 vim.opt.cursorline = true
 
-vim.o.wrap = true 
+vim.o.wrap = true
 vim.opt.linebreak = true
 vim.opt.showbreak = "↳"
 vim.opt.whichwrap = "h,l,<,>"
@@ -20,7 +20,7 @@ vim.opt.virtualedit = "block"
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.infercase = true
-vim.opt.hlsearch = true 
+vim.opt.hlsearch = true
 
 vim.opt.tabstop = 2
 
@@ -89,6 +89,7 @@ vim.pack.add({
 
   -- Colour scheme
   "https://github.com/ellisonleao/gruvbox.nvim",
+  "https://github.com/c6rg0/kaolin.nvim",
 
   -- Displays written RGB/HEX colours
   "https://github.com/brenoprata10/nvim-highlight-colors",
@@ -117,17 +118,34 @@ vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live gr
 vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
 
+--[[
 vim.opt.termguicolors = true
 require("gruvbox").setup({
   --[[
   palette_overrides = {
     bright_green = "#990000",
   },
-  --]]
+  --
   transparent_mode = true,
 })
 vim.o.background = "dark" -- "dark"/"light"
-vim.cmd([[colorscheme gruvbox]])
+vim.cmd([[colorscheme gruvbox]]
+--]]
+
+
+require("kaolin").setup({
+  style = "shiva",
+  transparent = false,
+  italics = {
+    comments = false,
+    keywords = true,
+    functions = true,
+    strings = false,
+    variables = true,
+    bufferline = false,
+  },
+})
+vim.cmd([[colorscheme kaolin]])
 
 require('bufferline').setup()
 require('render-markdown').setup({})
@@ -137,7 +155,7 @@ require('nvim-highlight-colors').setup({})
 require('lualine').setup {
   options = {
     icons_enabled = true,
-    theme = 'auto',
+    theme = 'kaolin',
     section_separators = { left = '', right = '' },
     component_separators = { left = '', right = ''},
     ignore_focus = {},
