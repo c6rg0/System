@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, ... }:
 
 {
   programs.neovim = {
@@ -16,8 +16,9 @@
 		fd
   ];
 
-  xdg.configFile."nvim/init.lua" = {
-    source = config.lib.file.mkOutOfStoreSymlink
-      "/home/gabriel/System/dotfiles/nvim/init.lua";
+  xdg.configFile = {
+    "nvim/init.lua".source = 
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/System/dotfiles/nvim/init.lua";
   };
+
 }
