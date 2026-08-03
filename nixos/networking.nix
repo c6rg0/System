@@ -5,7 +5,13 @@
     openssh
   ];
   
-  networking.networkmanager.enable = true;
+  networking.networkmanager = {
+    enable = true;
+    settings.connectivity = {
+      uri = "http://nmcheck.gnome.org/check_network_status.txt";
+    };
+  };
+
   hardware.bluetooth.enable = true;
   services.printing.enable = false;
   

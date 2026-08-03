@@ -14,6 +14,7 @@
     pavucontrol
     ldacbt
     blueman
+    alsa-utils
 
       # Troubleshooting
     vim
