@@ -5,7 +5,7 @@
 
 ![neovim](pictures/neovim.png)
 
-> Colour scheme: Gruvbox\
+> Colour scheme: Gruvbox (with custom background colour)\
 > Dotfile management: Home-manager\
 > Display manager: tuigreet (greetd)\
 > Window manager: Sway (wayland)\
@@ -47,28 +47,3 @@
 
 - Waybar config: [DreamMaoMao/mango-config](https://github.com/DreamMaoMao/mango-config)
 *(I ported the bar to nix and adjusted it)*
-
-
-## $ tree 
-.\
-├── README.md\
-├── dev\
-│   └── *.nix `# Boilerplate nix-shells`\
-├── flake.lock\
-├── flake.nix `# Inputs and outputs for the whole repo`\
-├── hosts\
-│   ├── desktop\
-│   │   ├── default.nix\
-│   │   └── hardware-configuration.nix\
-│   └── laptop\
-│       ├── default.nix `# Declares inputs and short statements specific to host`\
-│       └── hardware-configuration.nix\
-├── modules\
-│   ├── home-manager `# User configuration`\
-│   │   ├── home.nix `# Declares home-manager inputs and other small configs`\
-│   │   └── *.nix\
-│   └── nixos `# Pool of system configs that can be used by hosts`\
-│       ├── common.nix `# Any short configs I want to use between hosts`\
-│       └── *.nix\
-└── (anything else)
-
