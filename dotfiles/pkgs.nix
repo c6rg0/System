@@ -25,18 +25,24 @@
     gh
     sqlitebrowser
     ghidra
-    vscode-fhs
+    # vscode-fhs
     onefetch
     uv
     ruff
     iaito
     ghidra
     clang-tools
+    gcc
+    # pkgsCross.i686-embedded.buildPackages.gcc
+    # libisoburn
+    gnumake
+    grub2
+
 
 # Languages
     python315
     nodejs_24
-    typescript
+    # typescript
 
 # Miscellaneous utils
     awww
@@ -45,8 +51,8 @@
     alsa-lib
 
 # School/Learning
-    teams-for-linux 
-    anki
+    # teams-for-linux 
+    # anki
 
 # General software
     qimgv
@@ -55,7 +61,7 @@
     spotify
     gimp
     darktable
-    neomutt
+    # neomutt
     krita 
     hyprpicker
     hyprshot

@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 
 {
-  boot.kernelPackages = pkgs.linuxPackages_7_0;
+  boot.kernelPackages = pkgs.linuxPackages_7_1;
   boot.loader = {
     systemd-boot.enable = true;
     efi.canTouchEfiVariables = true;
@@ -44,6 +44,9 @@
     # To fix a problem with anki
     QTWEBENGINE_CHROMIUM_FLAGS = "--disable-gpu";
 
+    # To fix a problem with ghidra
+    _JAVA_AWT_WM_NONREPARENTING= 1;
+
     # Change this below if different
     CONFIG_lOCATION = "/home/gabriel/System/";
   };
@@ -68,6 +71,19 @@
     # };
   };
   
-  programs.nix-ld.enable = true;
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      zlib zstd stdenv.cc.cc curl openssl attr libssh bzip2 libxml2 acl libsodium util-linux xz systemd
+    ];
+  };
+  # https://github.com/nix-community/nix-ld?tab=readme-ov-file#my-pythonnodejsrubyinterpreter-libraries-do-not-find-the-libraries-configured-by-nix-ld
+  environment.systemPackages = [
+    (pkgs.writeShellScriptBin "python" ''
+      export LD_LIBRARY_PATH=$NIX_LD_LIBRARY_PATH
+      exec -a "$0" ${pkgs.python3}/bin/python "$@"
+    '')
+  ];
+
   # virtualisation.docker.enable = true;
 }
