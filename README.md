@@ -33,9 +33,7 @@
 
 
 ## Location
-- You can clone this repo and it should be usable from any location,
-- the only thing affected by the location is the `up` alias I made.
-- I personally have it at `~/`. 
+- The repo works if it's located at `/home/$(whoami)/System/`.
 
 
 ## Extra
@@ -44,8 +42,6 @@
 
 
 ## Credits:
-- Colour scheme: [hmorhetz/gruvbox](https://github.com/morhetz/gruvbox)
-*(Used extensively)*
-
 - Waybar config: [DreamMaoMao/mango-config](https://github.com/DreamMaoMao/mango-config)
 *(I ported the bar to nix and adjusted it)*
+
