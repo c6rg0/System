@@ -1,21 +1,23 @@
 # My NixOS config:
 ![desktop](pictures/desktop.png)
 
-![menu](pictures/menu.png)
-
 ![neovim](pictures/neovim.png)
 
-> Colour scheme: Gruvbox (with custom background colour)\
-> Dotfile management: Home-manager\
-> Display manager: tuigreet (greetd)\
-> Window manager: Sway (wayland)\
-> Bar: Waybar\
-> Terminal: Kitty\
-> Shell: zsh\
-> Text editor: Neovim\
-> App launcher: Rofi\
-> Wallpaper utility: awww\
-> Corners: Quickshell
+
+|               |               |
+| ------------- |:-------------:|
+| colour scheme | [kaolin-blossom](https://github.com/c6rg0/kaolin.nvim) |
+| operating system | nixos |
+| dotfile management | home-manager |
+| display manager | tuigreet (greetd) |
+| window manager | swaywm (wayland) |
+| bar | waybar |
+| terminal emulator | kitty |
+| shell | zsh |
+| app menu | rofi |
+| wallpaper utility | awww |
+| corners | quickshell |
+
 
 ## IMPORTANT!
 - Make sure that you have flakes enabled on your machine.
