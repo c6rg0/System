@@ -7,7 +7,7 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    zen-browser.url = "github:0xc000022070/zen-browser-flake/a7c2a9a5e492e0e62072547f7e4c2abf138425c5";
+    mactahoe-themes.url = "github:c6rg0/mactahoe-themes-flake";
   };
 
   outputs = {
@@ -15,7 +15,7 @@
     nixpkgs,
     systems,
     home-manager,
-    zen-browser,
+    mactahoe-themes, 
     ...
   } @ inputs: let
     inherit (self) outputs;

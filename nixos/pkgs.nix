@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, ... }:
 
 {
   environment.systemPackages = with pkgs; [
@@ -25,8 +25,6 @@
     man-pages-posix
     stdmanpages
     linux-manual
-
-    inputs.zen-browser.packages."${pkgs.system}".default
   ];
 }
 

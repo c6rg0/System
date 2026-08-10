@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   qt = {
@@ -16,8 +16,8 @@
     };
     
     iconTheme = {
-      name = "WhiteSur";
-      package = pkgs.whitesur-icon-theme;
+      name = "MacTahoe";
+      package = inputs.mactahoe-themes.packages."${pkgs.system}".mactahoe-icon-theme;
     };
     
     cursorTheme = {
