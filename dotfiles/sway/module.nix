@@ -84,7 +84,7 @@
         "${modifier}+b" = "exec firefox";
         "${modifier}+Shift+l" = "exec swaylock -c 282828";
 # "-c ..." specifies lock background colour
-        "${modifier}+w" = "exec waybar";
+        "${modifier}+Shift+s" = "exec hyprshot -m output";
 
 # Keybinds to disable/enable laptop screen (for external monitor)
         "${modifier}+d" = "exec ld0";

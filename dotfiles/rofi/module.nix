@@ -3,7 +3,7 @@
 {
   programs.rofi = {
     enable = true;
-    theme = "purple";
+    theme = ./theme.rasi;
 
     extraConfig = {
       modi = "window,drun,run";

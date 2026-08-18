@@ -16,8 +16,8 @@
     };
     
     iconTheme = {
-      name = "MacTahoe";
-      package = inputs.mactahoe-themes.packages."${pkgs.system}".mactahoe-icon-theme;
+      name = "WhiteSur";
+      package = pkgs.whitesur-icon-theme;
     };
     
     cursorTheme = {

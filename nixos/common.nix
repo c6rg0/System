@@ -36,7 +36,7 @@
   users.users.gabriel = {
     isNormalUser = true;
     description = "Gabriel";
-    extraGroups = [ "networkmanager" "wheel" "docker"];
+    extraGroups = [ "networkmanager" "wheel" "docker" "audio"];
     shell = pkgs.zsh;
   };
 

@@ -12,7 +12,10 @@
     };
   };
 
-  hardware.bluetooth.enable = true;
+  hardware.bluetooth = {
+    enable = true;
+  };
+
   services.printing.enable = false;
   
   networking.firewall.enable = true;
