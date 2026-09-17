@@ -38,6 +38,8 @@
         "HDMI-A-3" = {
           pos = "0 0";
           res = "1920x1080";
+          render_bit_depth = "10";
+          hdr = "disable";
         };
       };
 
