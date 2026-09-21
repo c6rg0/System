@@ -20,6 +20,4 @@
 
   networking.hostName = "desktop";
   system.stateVersion = "25.11"; # keep whatever yours currently is
-
-  services.displayManager.ly.enable = true;
 }

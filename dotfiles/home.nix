@@ -16,7 +16,8 @@
 
   imports = [
     ./pkgs.nix
-    ./sway/module.nix
+    # ./sway/module.nix
+    ./hypr/module.nix
     ./waybar/module.nix
     ./kitty/module.nix
     ./nvim/module.nix

@@ -21,12 +21,5 @@
   networking.hostName = "dell";
   system.stateVersion = "25.11"; # keep whatever yours currently is
 
-  services.greetd = {
-    enable = true;
-    settings.default_session = {
-      command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd 'sway --unsupported-gpu'";
-      user = "gabriel";
-    };
-  };
-
+  services.upower.enable = true;
 }

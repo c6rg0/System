@@ -55,10 +55,6 @@ stdenv.mkDerivation rec {
     curl
   ];
 
-  patchPhase = ''
-    files=$(grep -rl "/usr/share") && echo $files | xargs sed -i 's+/usr/share+/run/current-system/sw/share+g'
-  '';
-
   NIX_CFLAGS_COMPILE = toString [
     "-I${glib.dev}/include/gio-unix-2.0"
     "-I${glib.dev}/include/glib-2.0"

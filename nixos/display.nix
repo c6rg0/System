@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  inputs,
   ...
 }:
 
@@ -10,6 +11,14 @@
   services.xserver.xkb = {
     layout = "gb";
     variant = "";
+  };
+
+  services.greetd = {
+    enable = true;
+    settings.default_session = {
+      command = "${pkgs.tuigreet}/bin/tuigreet";
+      user = "gabriel";
+    };
   };
 
   environment.systemPackages = with pkgs; [
@@ -26,10 +35,11 @@
     nerd-fonts.iosevka-term
     nerd-fonts.symbols-only
     noto-fonts-cjk-sans
+    inputs.apple-fonts.packages."${pkgs.system}".sf-pro
   ];
 
   programs.sway = {
-    enable = true;
+    enable = false;
     extraSessionCommands = ''
       exec systemctl --user set-environment XDG_CURRENT_DESKTOP=sway
 
@@ -44,5 +54,15 @@
           XDG_CURRENT_DESKTOP=sway \
           WAYLAND_DISPLAY
     '';
+  };
+
+  programs.hyprland = {
+    enable = true;
+  };
+
+  environment.sessionVariables = {
+    QML_IMPORT_PATH = "${pkgs.qt6Packages.qt5compat}/lib/qt-6/qml";
+
+    QML2_IMPORT_PATH = "${pkgs.qt6Packages.qt5compat}/lib/qt-6/qml";
   };
 }

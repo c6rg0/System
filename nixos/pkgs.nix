@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
   environment.systemPackages = with pkgs; [
@@ -25,5 +30,9 @@
     man-pages-posix
     stdmanpages
     linux-manual
+
+    # hyprland plugins
+    hyprlandPlugins.hyprbars
+    inputs.hyprview.packages."${pkgs.system}".hyprview
   ];
 }

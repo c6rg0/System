@@ -100,6 +100,7 @@
       systemd
     ];
   };
+
   # https://github.com/nix-community/nix-ld?tab=readme-ov-file#my-pythonnodejsrubyinterpreter-libraries-do-not-find-the-libraries-configured-by-nix-ld
   environment.systemPackages = [
     (pkgs.writeShellScriptBin "python" ''
@@ -109,4 +110,6 @@
   ];
 
   # virtualisation.docker.enable = true;
+
+  xdg.portal.enable = true;
 }

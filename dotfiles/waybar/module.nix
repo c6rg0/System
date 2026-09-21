@@ -489,8 +489,8 @@
         spacing = 3;
 
         modules-left = [
-          "sway/mode"
-          "sway/workspaces"
+          "hyprland/mode"
+          "hyprland/workspaces"
         ];
 
         modules-right = [
@@ -504,12 +504,12 @@
           "clock"
         ];
 
-        "sway/mode" = {
+        "hyprland/mode" = {
           format = "{}";
           tooltip = false;
         };
 
-        "sway/workspaces" = {
+        "hyprland/workspaces" = {
           format = "{icon}";
           disable-scroll-wraparound = true;
           smooth-scrolling-threshold = 4;
