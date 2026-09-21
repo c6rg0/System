@@ -1,14 +1,17 @@
-{ ... }:
-let
-  configs = builtins.path {
-    path = ./.;
-    name = "quickshell-configs";
-  };
-in
+{ pkgs, config, ... }:
+
 {
   programs.quickshell = {
     enable = true;
-    activeConfig = configs;
     systemd.enable = true;
+  };
+
+  home.packages = with pkgs; [
+    qt6Packages.qt5compat
+  ];
+
+  xdg.configFile = {
+    "quickshell".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/System/dotfiles/quickshell";
   };
 }
