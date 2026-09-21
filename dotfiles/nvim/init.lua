@@ -125,7 +125,7 @@ require("gruvbox").setup({
     bright_green = "#990000",
   },
   --]]
-  transparent_mode = false,
+  transparent_mode = true,
 })
 vim.o.background = "dark" -- "dark"/"light"
 vim.cmd([[colorscheme gruvbox]]
