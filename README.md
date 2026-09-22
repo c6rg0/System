@@ -1,4 +1,7 @@
 # My NixOS config:
+- *Hyprland/quickshell configs are forked from [luyu-wu/Config](https://github.com/luyu-wu/Config).*
+
+## *Outdated showcase*:
 ![desktop](pictures/desktop.png)
 
 ![neovim](pictures/neovim.png)
@@ -6,17 +9,17 @@
 
 |               |               |
 | ------------- |:-------------:|
-| colour scheme | [kaolin-blossom](https://github.com/c6rg0/kaolin.nvim) |
-| operating system | nixos |
+| operating system | nixos linux |
 | dotfile management | home-manager |
 | display manager | tuigreet (greetd) |
-| window manager | swaywm (wayland) |
-| bar | waybar |
+| window manager | hyprland (wayland) |
+| desktop shell | quickshell |
+| colour scheme | gruvbox |
+| gtk/icon/cursor theme | WhiteSur/MacTahoe |
 | terminal emulator | kitty |
 | shell | zsh |
-| app menu | rofi |
 | wallpaper utility | awww |
-| corners | quickshell |
+
 
 
 ## IMPORTANT!
@@ -33,15 +36,10 @@
 
 
 ## Location
-- The repo works if it's located at `/home/$(whoami)/System/`.
+- The repo works if it's located at `/home/$(whoami)/System/` (since I have some hardcoded paths).
 
 
 ## Extra
 - To disable the boot menu, use `shift+t ` in the menu until the timeout is 0.
   and install the config using the flake. 
-
-
-## Credits:
-- Waybar config: [DreamMaoMao/mango-config](https://github.com/DreamMaoMao/mango-config)
-*(I ported the bar to nix and adjusted it)*
 
