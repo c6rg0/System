@@ -9,12 +9,15 @@ import QtQuick.Effects
 Scope {
     id: root
 
-    // ── Whether spotlight is open (shared across all screen variants) ─
+    /* Whether spotlight is open (shared across all screen variants) */
     property bool open: false
 
-    // ── Global shortcut ───────────────────────────────────────────────
-    // Bind in hyprland.conf:
-    //   bind = SUPER, Space, global, quickshell:Spotlight
+    /* 
+     * Global shortcut,
+     * Bind in hyprland.conf:
+     * bind = SUPER, Space, global, quickshell:Spotlight 
+     */
+
     GlobalShortcut {
         name: "Spotlight"
         description: "Toggle Spotlight search"
@@ -90,7 +93,7 @@ Scope {
                 }
             }
 
-            // ── Search card (transparent container for shadow) ────────
+            /* Search card (transparent container for shadow) */
             Rectangle {
                 id: card
                 property real contentWidth: Math.min(640, parent.width - 80)
@@ -106,7 +109,7 @@ Scope {
                 radius: 16
                 color: "transparent"
 
-                // ── Shadow mask ────────────────────────────────────────
+                /* Shadow mask */
                 Item {
                     id: mask
                     anchors.fill: card
@@ -120,7 +123,7 @@ Scope {
                     }
                 }
 
-                // ── Shadow ─────────────────────────────────────────────
+                /* Shadow */
                 RectangularShadow {
                     id: outerShadow
                     anchors.fill: card
@@ -138,7 +141,7 @@ Scope {
                     maskInverted: true
                 }
 
-                // ── Visible card background ────────────────────────────
+                /* Visible card background */
                 Rectangle {
                     id: cardBg
                     anchors.fill: parent
@@ -159,7 +162,7 @@ Scope {
                 }
 
 
-                // ── Card content ───────────────────────────────────────
+                /* Card content */
                 ColumnLayout {
                     id: cardLayout
                     anchors {
@@ -168,7 +171,7 @@ Scope {
                     }
                     spacing: 6
 
-                    // ── Search bar ────────────────────────────────────
+                    /* Search bar */
                     Rectangle {
                         id: searchBar
                         Layout.fillWidth: true
@@ -237,7 +240,7 @@ Scope {
                         }
                     }
 
-                    // ── Results list ──────────────────────────────────
+                    /* Results list */
                     ListView {
                         id: resultsList
                         Layout.fillWidth: true
@@ -315,7 +318,7 @@ Scope {
                 }
             }
 
-            // ── Filtered model ────────────────────────────────────────
+            /* Filtered model */
             ScriptModel {
                 id: filteredModel
 

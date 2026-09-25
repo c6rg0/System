@@ -13,6 +13,7 @@
     mesa
     qemu
     quickemu
+    wireshark
 
     # Root
     wtype

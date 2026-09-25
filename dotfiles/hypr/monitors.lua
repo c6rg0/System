@@ -6,7 +6,7 @@ hl.monitor({
 	mode = "1920x1080",
 	position = "0x0",
 	bitdepth = 10,
-	disabled = true,
+	disabled = false,
 	scale = 1,
 })
 
@@ -16,6 +16,6 @@ hl.monitor({
 	vrr = 0,
 	position = "0x0", --"-792x-2160",
 	bitdepth = 10,
-	--disabled = true,
+	disabled = true,
 	scale = 1,
 })

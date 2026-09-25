@@ -102,7 +102,7 @@ PopupWindow {
         spacing: 0
 
         MenuItem {
-            label: "About This Framework"
+            label: "About This Device"
             onTriggered: {
                 root.visible = false;
                 aboutMac.show();
@@ -112,7 +112,7 @@ PopupWindow {
         MenuSep {}
 
         MenuItem {
-            label: "System Preferences…"
+            label: "System Preferences..."
             onTriggered: root.exec("systemsettings")
         }
         MenuItem {
@@ -160,7 +160,7 @@ PopupWindow {
             onTriggered: root.exec("hyprlock")
         }
         MenuItem {
-            label: "Log Out Chrysanthemum..."
+            label: "Log Out Current User..."
             shortcut: "⌃L"
             onTriggered: root.exec("hyprctl dispatch 'hl.dsp.exit()'")
         }

@@ -72,8 +72,11 @@ hl.bind(
 hl.bind("XF86PowerOff", hl.dsp.exec_cmd("pkill wleave || wleave -m 500 -c 50 -f"), { locked = true })
 hl.bind("SHIFT + XF86PowerOff", hl.dsp.exec_cmd("systemctl suspend"), { locked = true })
 hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"))
+hl.bind("SUPER + Return", hl.dsp.exec_cmd("playerctl play-pause"))
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"))
+hl.bind("SUPER + numbersign", hl.dsp.exec_cmd("playerctl previous"))
 hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"))
+hl.bind("SUPER + Shift_R", hl.dsp.exec_cmd("playerctl next"))
 hl.bind("XF86AudioMedia", hl.dsp.exec_cmd("~/.config/hypr/Scripts/powermode.sh"))
 
 local MAX_ZOOM = 10
