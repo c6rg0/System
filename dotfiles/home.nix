@@ -16,15 +16,15 @@
 
   imports = [
     ./pkgs.nix
-    # ./sway/module.nix
-    # ./waybar/module.nix
-    ./hypr/module.nix
-    ./quickshell/module.nix
-    ./gtk-qt/module.nix
-    ./kitty/module.nix
-    ./nvim/module.nix
-    ./rofi/module.nix
-    ./fastfetch/module.nix
+    ./theme.nix
+    # ./sway.nix
+    # ./waybar/default.nix
+    ./hypr/default.nix
+    ./quickshell/default.nix
+    ./kitty/default.nix
+    ./nvim/default.nix
+    # ./rofi/default.nix
+    ./fastfetch/default.nix
   ];
 
   home.sessionVariables = {
