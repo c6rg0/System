@@ -8,5 +8,12 @@
     enable = true;
     pulse.enable = true;
     wireplumber.enable = true;
+    extraConfig.client = {
+      "90-no-rt" = {
+        "context.properties" = {
+          "module.rt" = false;
+        };
+      };
+    };
   };
 }

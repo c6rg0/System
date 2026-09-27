@@ -160,6 +160,7 @@ hl.bind(SUPER .. " + A", hl.dsp.exec_cmd("scrcpy -w -S -K"))
 --   quickshell:regionEdit  -> open satty to annotate before saving
 hl.bind(SUPER_SHIFT .. " + S", hl.dsp.global("quickshell:region"))
 hl.bind("Print", hl.dsp.global("quickshell:regionTemp"), { locked = true })
+hl.bind(SUPER .. " + O", hl.dsp.exec_cmd("wtype '|'"))
 
 -- Pass F2 to OBS (push-to-talk / global shortcut)
 hl.bind("SHIFT + F2", hl.dsp.pass({ window = "class:^(com\\.obsproject\\.Studio)$" }), { non_consuming = true })
@@ -181,7 +182,6 @@ hl.bind(SUPER_SHIFT .. " + M", hl.dsp.exec_cmd("pkill hyprsunset || hyprsunset -
 -- Apps
 hl.bind(SUPER .. " + B", hl.dsp.exec_cmd("firefox"))
 hl.bind(SUPER_SHIFT .. " + W", hl.dsp.exec_cmd("firefox", { float = true }))
-hl.bind(SUPER .. " + O", hl.dsp.exec_cmd("osu-lazer"))
 hl.bind(SUPER .. " + I", hl.dsp.exec_cmd("systemsettings"))
 -- hl.bind(SUPER_SHIFT .. " + I", hl.dsp.exec_cmd("invertactivewindow"))
 hl.bind(SUPER .. " + Q", hl.dsp.exec_cmd("kitty"))

@@ -13,9 +13,9 @@
     ../../nixos/display.nix
     ../../nixos/networking.nix
     ../../nixos/nvidia.nix
-    ../../nixos/tablet/module.nix
     ../../nixos/locale.nix
     ../../nixos/shell.nix
+    ../../nixos/tablet/default.nix
   ];
 
   networking.hostName = "dell";

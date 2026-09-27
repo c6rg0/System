@@ -245,15 +245,17 @@ PopupWindow {
             label: "Sound Settings..."
             labelElement.font.family: "SF Pro"
             onTriggered: {
-                preferences.running = true;
+                // preferences.running = true;
                 root.visible = false;
             }
         }
+        /*
         Process {
             id: preferences
             command: ["bash", "-c", "kcmshell6 kcm_pulseaudio"]
             running: false
         }
+        */
 
         // bottom padding
         Item {

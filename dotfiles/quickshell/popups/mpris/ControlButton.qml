@@ -29,7 +29,7 @@ Item {
         anchors.centerIn: parent
         text: root.icon
         font.pixelSize: root.size * 0.55
-        color: root.active ? palette.highlight : palette.windowText
+        color: "#fff" 
     }
 
     MouseArea {

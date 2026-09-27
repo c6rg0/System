@@ -190,7 +190,7 @@ PanelWindow {
                     Layout.fillWidth: true
                     visible: root.artist.length > 0 || root.album.length > 0
                     text: [root.artist, root.album].filter(Boolean).join("  ·  ")
-                    color: "#666"
+                    color: v.textColor
                     font.pixelSize: 12
                     elide: Text.ElideRight
                     horizontalAlignment: Text.AlignHCenter
@@ -260,7 +260,7 @@ PanelWindow {
 
                 Text {
                     text: formatMs(root.position)
-                    color: v.textSecondary
+                    color: v.textColor
                     font.pixelSize: 10
                 }
                 Item {
@@ -268,7 +268,7 @@ PanelWindow {
                 }
                 Text {
                     text: root.length > 0 ? formatMs(root.length) : "-:--"
-                    color: v.textSecondary
+                    color: v.textColor
                     font.pixelSize: 10
                 }
             }
