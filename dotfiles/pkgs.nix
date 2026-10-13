@@ -72,7 +72,7 @@
     osu-lazer-bin
     protonup-qt
     wine
-    etterna
+    # etterna
 
     # Dependencies for screensharing (AFAIK)
     # slurp

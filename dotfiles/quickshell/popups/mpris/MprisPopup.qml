@@ -16,20 +16,18 @@ PanelWindow {
     implicitHeight: contentColumn.implicitHeight + 64
     exclusionMode: "Ignore"
     WlrLayershell.namespace: "qs:popup"
-    //grabFocus: true
+
     anchors {
         top: true
         left: true
-        //item: parent
-        //edges: Edges.Bottom
-        //rect.x: mprisLabel.mapToItem(null, 0, 0).x + mprisLabel.width / 2 - width / 2
-        //rect.y: 32
     }
+
     margins.top: 32
     margins.left: popupX
     updatesEnabled: false
-    color: "transparent"
     property real popupX: mprisLabel.mapToItem(null, 0, 0).x + mprisLabel.width / 2 - width / 2
+
+    color: "transparent"
     property string albumPlaceholder: "image://share/media-album-cover"
     property var player: null
     readonly property string artUrl: player?.trackArtUrl ?? ""

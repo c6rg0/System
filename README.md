@@ -22,11 +22,10 @@
 
 
 ## To do list
-- [ ] Fix quickshell freezing problems
-- [ ] Fix hyprland titlebar artifacts caused by quickshell
+- [ ] Fix hyprbar artifacts caused by quickshell PopupWindow (and not by PanelWindow)
 - [ ] Improve (and potentially nix-ify?) hyprland config
 - [ ] Declare things that I've done procedurally
-- [ ] Fix lauching application in cairo-dock
+- [ ] Fix lauching applications in cairo-dock
 - [ ] Un-hardcode file paths across this repo
 
 ## Tips

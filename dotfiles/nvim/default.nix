@@ -8,7 +8,8 @@
   };
 
   home.packages = with pkgs; [
-    vimPlugins.nvim-treesitter
+    tree-sitter
+    # vimPlugins.nvim-treesitter
     lua-language-server
     typescript-language-server
     pyright

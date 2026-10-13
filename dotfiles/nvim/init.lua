@@ -58,6 +58,14 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "c", "cpp" },
+    callback = function()
+        vim.treesitter.start()
+        vim.cmd("syntax off")
+    end,
+})
+
 vim.opt.clipboard = 'unnamedplus'
 -- {'n', 'v'} = vim modes
 -- <C-c> = Ctrl + C

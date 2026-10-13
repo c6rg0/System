@@ -56,6 +56,7 @@
       };
 
       colors = {
+        #TODO: update these
         focused = {
           border = "#3A2930";
           background = "#2F2025";
