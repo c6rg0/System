@@ -63,7 +63,7 @@ Singleton {
         root.maxBrightness = root.readInt(maxBrightnessFile);
     }
 
-    // ── sysfs ───────────────────────────────────────────────────────
+    //  sysfs
     FileView {
         id: brightnessFile
 

@@ -10,7 +10,7 @@ import "../.."
 PanelWindow {
     id: root
 
-    // ── Calendar data model ─────────────────────────────────────
+    //  Calendar data model
     property var calendarModel: {
         var days = [];
         var firstDay = new Date(viewYear, viewMonth, 1);
@@ -71,7 +71,7 @@ PanelWindow {
     }
     readonly property var monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
-    // ── Date state ──────────────────────────────────────────────
+    //  Date state
     property date today: new Date()
     property int viewMonth: today.getMonth()  // 0‑based
 
@@ -95,7 +95,7 @@ PanelWindow {
         top: true
     }
 
-    // ── Tick timer ──────────────────────────────────────────────
+    //  Tick timer
     Timer {
         interval: 1000
         repeat: true
@@ -182,7 +182,7 @@ PanelWindow {
                     top: parent.top
                 }
 
-                // ── Time ─────────────────────────────────────────────
+                //  Time
                 Item {
                     Layout.bottomMargin: 4
                     Layout.fillWidth: true
@@ -212,7 +212,7 @@ PanelWindow {
                     }
                 }
 
-                // ── Full date ────────────────────────────────────────
+                //  Full date
                 Text {
                     Layout.bottomMargin: 14
                     Layout.fillWidth: true
@@ -225,14 +225,14 @@ PanelWindow {
                     text: root.today.toLocaleDateString(Qt.locale(), "dddd, MMMM d, yyyy")
                 }
 
-                // ── Separator ────────────────────────────────────────
+                //  Separator
                 Rectangle {
                     Layout.fillWidth: true
                     Layout.preferredHeight: 1
                     color: "#22000000"
                 }
 
-                // ── Month navigation ─────────────────────────────────
+                //  Month navigation
                 Item {
                     Layout.fillWidth: true
                     Layout.preferredHeight: 32
@@ -324,7 +324,7 @@ PanelWindow {
                     }
                 }
 
-                // ── Weekday headers ──────────────────────────────────
+                //  Weekday headers
                 RowLayout {
                     Layout.fillWidth: true
                     Layout.preferredHeight: 22
@@ -345,7 +345,7 @@ PanelWindow {
                     }
                 }
 
-                // ── Calendar grid ────────────────────────────────────
+                //  Calendar grid
                 GridLayout {
                     id: calendarGrid
 
@@ -479,7 +479,7 @@ PanelWindow {
                     top: card2.top
                 }
 
-                // ── Heading ───────────────────────────────────────
+                //  Heading
                 Text {
                     Layout.bottomMargin: 8
                     Layout.fillWidth: true
@@ -492,7 +492,7 @@ PanelWindow {
                     text: "Notifications"
                 }
 
-                // ── Empty state ───────────────────────────────────
+                //  Empty state
                 Text {
                     Layout.bottomMargin: 16
                     Layout.fillWidth: true
@@ -506,7 +506,7 @@ PanelWindow {
                     visible: true
                 }
 
-                // ── Notification list ─────────────────────────────
+                //  Notification list
                 ColumnLayout {
                     id: notifList
 

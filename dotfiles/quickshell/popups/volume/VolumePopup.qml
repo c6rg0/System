@@ -14,7 +14,7 @@ import "../.."
 PopupWindow {
     id: root
 
-    // ── pipewire nodes ───────────────────────────────────────────────────────
+    //  pipewire nodes
     // Every audio node currently in the graph. Node type/name/description are
     // parsed from the registry global before the node lands in `nodes`, so
     // filtering on them here is safe.
@@ -108,7 +108,7 @@ PopupWindow {
         radius: dropdown.radius
     }
 
-    // ── menu contents ────────────────────────────────────────────────────────
+    //  menu contents
     ColumnLayout {
         id: menuColumn
 
@@ -187,7 +187,7 @@ PopupWindow {
         MenuDiv {
         }
 
-        // ── no devices placeholder ───────────────────────────────────────
+        //  no devices placeholder
         Loader {
             Layout.fillWidth: true
             visible: root.audioNodes.length === 0
@@ -204,7 +204,7 @@ PopupWindow {
             }
         }
 
-        // ── output devices (pipewire sinks) ──────────────────────────────
+        //  output devices (pipewire sinks)
         MenuLabel {
             label: "Output"
             labelElement.color: v.textPlaceholder
@@ -228,7 +228,7 @@ PopupWindow {
             }
         }
 
-        // ── input devices (pipewire sources) ─────────────────────────────
+        //  input devices (pipewire sources)
         MenuLabel {
             label: "Input"
             labelElement.color: v.textPlaceholder

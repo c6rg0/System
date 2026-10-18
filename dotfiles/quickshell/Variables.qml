@@ -2,7 +2,7 @@ import QtQuick
 
 QtObject {
 
-    // ── Accent ─────────────────────────────────────────────────────
+    //  Accent
     // Active/selected accent fill (toggles, selected items, highlights)
     readonly property color accentColor: "#1071db"
 
@@ -12,7 +12,7 @@ QtObject {
     // Muted/track fill for inactive toggles
     readonly property color accentMuted: "#afb0b5"
 
-    // ── Bar colors ──────────────────────────────────────────────────
+    //  Bar colors
     // Top bar background
     readonly property color barBackground: "#8034373f"
 
@@ -20,7 +20,7 @@ QtObject {
     //readonly property color barBorder: "#a0a0a0"
     readonly property color barBorder: "#60606060"
 
-    // ── Menu colors ─────────────────────────────────────────────────
+    //  Menu colors
     // Menu divider / separator line
     //readonly property color menuDividerColor: "#33000000"
     readonly property color menuDividerColor: "#33ffffff"
@@ -28,7 +28,7 @@ QtObject {
     // Outer contour border (1px outside card fill)
     readonly property color outerBorderColor: "#90303030"
 
-    // ── Shared popup colors ─────────────────────────────────────────
+    //  Shared popup colors
     // Popup dropdown / card background
     //readonly property color popupBackground: "#b1e4e7ef"
     readonly property color popupBackground: "#80303030"
@@ -37,10 +37,10 @@ QtObject {
     //readonly property color popupBorder: "#A0A0A0"
     readonly property color popupBorder: "#C0909090"
 
-    // ── Shadow & outer border ───────────────────────────────────────
+    //  Shadow & outer border
     // Drop shadow color
     readonly property color shadowColor: "#70000000"
-    // ── Shared text colors ──────────────────────────────────────────
+    //  Shared text colors
     //
     // Primary text color used across all labels and text elements
     //readonly property color textColor: "#202020"
@@ -58,7 +58,7 @@ QtObject {
     //readonly property color textSecondary: "#666666"
     readonly property color textSecondary: "#B0B0B0"
 
-    // ── Widget highlight ───────────────────────────────────────────
+    //  Widget highlight
     // Active/pressed/hovered widget background overlay
     //readonly property color widgetHighlight: "#20000000"
     readonly property color widgetHighlight: "#20ffffff"

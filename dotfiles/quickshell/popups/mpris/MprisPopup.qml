@@ -12,12 +12,6 @@ import "../.."
 PanelWindow {
     id: root
 
-    HyprlandFocusGrab {
-        windows: [root]
-        active: root.visible
-        onCleared: root.visible = false
-    }
-
     readonly property string album: player?.trackAlbum ?? ""
     property string albumPlaceholder: "image://share/media-album-cover"
     readonly property string artUrl: player?.trackArtUrl ?? ""
@@ -49,6 +43,12 @@ PanelWindow {
     margins.top: 32
     updatesEnabled: false
 
+    HyprlandFocusGrab {
+        active: root.visible
+        windows: [root]
+
+        onCleared: root.visible = false
+    }
     Variables {
         id: v
     }

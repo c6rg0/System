@@ -17,7 +17,7 @@ Item {
     // Kept small enough to stay inside OsdWindow's shadowMargin.
     readonly property real bumpNudge: 9
 
-    // ── At-limit spring ─────────────────────────────────────────────
+    //  At-limit spring
     property int bumpToken: 0
     property string iconName: "audio-volume-high"
     readonly property real progress: Math.max(0, Math.min(1, value))
@@ -92,7 +92,7 @@ Item {
         x: 18
     }
 
-    // ── Progress track ───────────────────────────────────────────
+    //  Progress track
     Rectangle {
         id: track
 

@@ -21,7 +21,7 @@ import "../.."
 PopupWindow {
     id: root
 
-    // ── networking ───────────────────────────────────────────────────────────
+    //  networking
     // Networking is a singleton — access directly, do not instantiate.
     // Find the first WifiDevice from Networking.devices.
     property WifiDevice wifiDev: {
@@ -53,7 +53,7 @@ PopupWindow {
         rect.y: 38
     }
 
-    // ── visual chrome (unchanged) ────────────────────────────────────────────
+    //  visual chrome (unchanged)
     Item {
         id: mask
 
@@ -107,7 +107,7 @@ PopupWindow {
         radius: dropdown.radius
     }
 
-    // ── menu contents ────────────────────────────────────────────────────────
+    //  menu contents
     ColumnLayout {
         id: menuColumn
 
@@ -185,7 +185,7 @@ PopupWindow {
             labelElement.font.weight: 600
         }
 
-        // ── no adapter / scanning placeholder ────────────────────────────────
+        //  no adapter / scanning placeholder
         Loader {
             Layout.fillWidth: true
             visible: !wifiDev || (wifiDev.networks.count === 0)
@@ -202,7 +202,7 @@ PopupWindow {
             }
         }
 
-        // ── network list ─────────────────────────────────────────────────────
+        //  network list
         // WifiDevice.networks is an ObjectModel; each item is a
         // connect(), disconnect(), forget()
         Repeater {
@@ -256,7 +256,7 @@ PopupWindow {
         }
     }
 
-    // ── processes ────────────────────────────────────────────────────────────
+    //  processes
     Process {
         id: preferences
 

@@ -66,7 +66,7 @@ Scope {
             // Only visible when spotlight is open AND this is the focused monitor
             visible: root.open && isFocusedScreen()
 
-            // ── Reset state when opened ────────────────────────────────
+            //  Reset state when opened
             onVisibleChanged: {
                 if (visible) {
                     searchInput.text = "";
@@ -85,7 +85,7 @@ Scope {
                 id: v
             }
 
-            // ── Focus grab for click-outside-to-dismiss ────────────────
+            //  Focus grab for click-outside-to-dismiss
             HyprlandFocusGrab {
                 id: focusGrab
 
@@ -97,7 +97,7 @@ Scope {
                 }
             }
 
-            // ── Dimming background ────────────────────────────────────
+            //  Dimming background
             Rectangle {
                 anchors.fill: parent
                 color: 'transparent'

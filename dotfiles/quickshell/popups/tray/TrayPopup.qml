@@ -84,7 +84,7 @@ PopupWindow {
         radius: dropdown.radius
     }
 
-    // ── menu contents ────────────────────────────────────────────────────────
+    //  menu contents
     ColumnLayout {
         id: menuColumn
 

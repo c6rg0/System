@@ -4,6 +4,7 @@ import QtQuick.Controls
 import QtQuick.Effects
 import Quickshell
 import Quickshell.Wayland
+import Quickshell.Hyprland
 import Quickshell.Io
 import Quickshell.Services.UPower
 
@@ -16,7 +17,6 @@ PopupWindow {
     readonly property var battery: UPower.displayDevice
 
     color: "transparent"
-    grabFocus: true
     implicitHeight: menuColumn.implicitHeight + 8
     implicitWidth: 280
 
@@ -82,7 +82,7 @@ PopupWindow {
         radius: dropdown.radius
     }
 
-    // ── menu contents ────────────────────────────────────────────────────────
+    //  menu contents
     ColumnLayout {
         id: menuColumn
 

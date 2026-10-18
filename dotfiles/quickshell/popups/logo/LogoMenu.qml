@@ -90,7 +90,7 @@ PopupWindow {
         running: false
     }
 
-    // ── menu contents ────────────────────────────────────────────────────────
+    //  menu contents
     ColumnLayout {
         id: menuColumn
 
@@ -136,7 +136,7 @@ PopupWindow {
         MenuSep {
         }
 
-        // ── Force Quit ───────────────────────────────────────────────────────
+        //  Force Quit
         MenuItem {
             label: "Force Quit…"
             shortcut: "⌃Q"

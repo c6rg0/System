@@ -13,18 +13,18 @@ Item {
     readonly property real bandTop: Math.max(0, root.selectionY)
     property bool canceled: false
 
-    // ── Dimming ─────────────────────────────────────
+    //  Dimming
     property color dimColor: v.shadowColor
     readonly property real dragThreshold: 5
 
-    // ── Input ───────────────────────────────────────
+    //  Input
     // Not named `enabled`, which would shadow Item.enabled.
     property bool inputEnabled: true
     // Pointer position, seeded from `hyprctl cursorpos` when the overlay shows.
     property real mouseX: 0
     property real mouseY: 0
 
-    // ── Theme ───────────────────────────────────────────────
+    //  Theme
     // `dimOpacity` is folded into `dimColor`, and `borderRadius` went away with
     // the shader, which was its only consumer.
     property real outlineThickness: 1
@@ -98,7 +98,7 @@ Item {
         z: 2
     }
 
-    // ── Pointer input ───────────────────────────────────────
+    //  Pointer input
     MouseArea {
         id: mouseArea
 
@@ -156,7 +156,7 @@ Item {
         }
     }
 
-    // ── Size readout ────────────────────────────────────────────────
+    //  Size readout
     Rectangle {
         id: dimLabel
 

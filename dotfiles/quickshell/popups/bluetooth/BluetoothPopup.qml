@@ -81,7 +81,7 @@ PopupWindow {
         radius: dropdown.radius
     }
 
-    // ── menu contents ────────────────────────────────────────────────────────
+    //  menu contents
     ColumnLayout {
         id: menuColumn
 
@@ -153,7 +153,7 @@ PopupWindow {
         }
         MenuDiv {
         }
-        // ── no adapter placeholder ────────────────────────────────────
+        //  no adapter placeholder
         Loader {
             Layout.fillWidth: true
             visible: !Bluetooth.defaultAdapter
@@ -170,7 +170,7 @@ PopupWindow {
             }
         }
 
-        // ── paired devices ─────────────────────────────────────────────
+        //  paired devices
         MenuLabel {
             label: "Paired"
             labelElement.color: v.textHeader
@@ -199,7 +199,7 @@ PopupWindow {
             }
         }
 
-        // ── available devices (unpaired, with a real name) ─────────────
+        //  available devices (unpaired, with a real name)
         MenuLabel {
             label: "Available"
             labelElement.color: v.textHeader
