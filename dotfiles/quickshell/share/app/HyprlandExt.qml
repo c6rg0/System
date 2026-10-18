@@ -7,11 +7,12 @@ import qs.share.app
 
 Singleton {
     id: root
+
     property bool appInFullscreen: false
-    property bool exposeOpen: false
     property string applicationName: ""
+    property bool exposeOpen: false
+
     Connections {
-        target: Hyprland
         function onActiveToplevelChanged(event) {
             const window = Hyprland.activeToplevel?.wayland || null;
             if (window == null) {
@@ -47,5 +48,7 @@ Singleton {
                 }
             }
         }
+
+        target: Hyprland
     }
 }

@@ -12,115 +12,126 @@ import qs.share.menu
 import "../.."
 
 PopupWindow {
-    Variables { id: v }
     id: root
 
-    implicitWidth: 340
-    implicitHeight: menuColumn.implicitHeight + 8
-    grabFocus: true
-
-    anchor {
-        item: bluetoothWidget
-        edges: Edges.Bottom
-        rect.y: 38
-        rect.x: 16 - bluetoothWidget.width / 2
-    }
     color: "transparent"
+    grabFocus: true
+    implicitHeight: menuColumn.implicitHeight + 8
+    implicitWidth: 340
 
+    Variables {
+        id: v
+    }
+    anchor {
+        edges: Edges.Bottom
+        item: bluetoothWidget
+        rect.x: 16 - bluetoothWidget.width / 2
+        rect.y: 38
+    }
     Item {
         id: mask
+
         anchors.fill: parent
-        visible: false
         layer.enabled: true
+        visible: false
+
         Rectangle {
             anchors.fill: parent
             anchors.margins: 8
             anchors.topMargin: 0
-            radius: 8
             color: "#fff"
+            radius: 8
         }
     }
     RectangularShadow {
         id: outerShadow
+
         anchors.fill: parent
-        radius: dropdown.radius
         blur: 10
         color: v.shadowColor
+        radius: dropdown.radius
         spread: -8
         visible: false
     }
     MultiEffect {
         anchors.fill: outerShadow
-        source: outerShadow
-        maskSource: mask
         maskEnabled: true
         maskInverted: true
+        maskSource: mask
+        source: outerShadow
     }
-
     Rectangle {
         id: dropdown
+
         anchors.fill: parent
         anchors.margins: 8
         anchors.topMargin: 0
-
-        radius: 8
-        color: v.popupBackground
         border.color: v.popupBorder
         border.width: 1
+        color: v.popupBackground
+        radius: 8
     }
-
     Rectangle {
         anchors.fill: parent
         anchors.margins: 7
         anchors.topMargin: -1
-        radius: dropdown.radius
-        color: "transparent"
         border.color: v.outerBorderColor
         border.width: 1
+        color: "transparent"
+        radius: dropdown.radius
     }
 
     // ── menu contents ────────────────────────────────────────────────────────
     ColumnLayout {
         id: menuColumn
-        anchors {
-            top: dropdown.top
-            left: dropdown.left
-            right: dropdown.right
-            topMargin: 4
-            bottomMargin: 4
-            leftMargin: 0
-            rightMargin: 0
-        }
+
         spacing: 0
+
+        anchors {
+            bottomMargin: 4
+            left: dropdown.left
+            leftMargin: 0
+            right: dropdown.right
+            rightMargin: 0
+            top: dropdown.top
+            topMargin: 4
+        }
         Rectangle {
             Layout.fillWidth: true
-            implicitHeight: 10
             color: "transparent"
+            implicitHeight: 10
         }
         RowLayout {
-
             Layout.fillWidth: true
             Layout.leftMargin: 0
             Layout.rightMargin: 14
 
             MenuLabel {
+                Layout.fillWidth: true
                 label: "Bluetooth"
                 labelElement.font.weight: 600
-                Layout.fillWidth: true
             }
             Rectangle {
-
-                implicitWidth: 48
-                implicitHeight: 28
                 color: Bluetooth.defaultAdapter.enabled ? v.accentColor : v.accentMuted
+                implicitHeight: 28
+                implicitWidth: 48
                 radius: 16
+
+                Behavior on color {
+                    ColorAnimation {
+                        duration: 160
+                        easing.type: Easing.InOutQuad
+                    }
+                }
+
                 Rectangle {
                     anchors.verticalCenter: parent.verticalCenter
-                    x: 2
-                    implicitWidth: 24
-                    implicitHeight: 24
                     color: v.accentForeground
+                    implicitHeight: 24
+                    implicitWidth: 24
                     radius: 12
+                    x: 2
+
                     Behavior on x {
                         NumberAnimation {
                             duration: 160
@@ -130,33 +141,31 @@ PopupWindow {
                 }
                 MouseArea {
                     anchors.fill: parent
+
                     onClicked: Bluetooth.defaultAdapter.enabled = !Bluetooth.defaultAdapter.enabled
-                }
-                Behavior on color {
-                    ColorAnimation {
-                        duration: 160
-                        easing.type: Easing.InOutQuad
-                    }
                 }
             }
         }
         Rectangle {
             Layout.fillWidth: true
-            implicitHeight: 6
             color: "transparent"
+            implicitHeight: 6
         }
-        MenuDiv {}
+        MenuDiv {
+        }
         // ── no adapter placeholder ────────────────────────────────────
         Loader {
             Layout.fillWidth: true
             visible: !Bluetooth.defaultAdapter
+
             sourceComponent: Item {
                 implicitHeight: 36
+
                 Text {
                     anchors.centerIn: parent
-                    text: "No Bluetooth adapter found"
                     color: v.textPlaceholder
                     font.pixelSize: 13
+                    text: "No Bluetooth adapter found"
                 }
             }
         }
@@ -164,23 +173,21 @@ PopupWindow {
         // ── paired devices ─────────────────────────────────────────────
         MenuLabel {
             label: "Paired"
-            labelElement.font.weight: 600
             labelElement.color: v.textHeader
+            labelElement.font.weight: 600
             visible: Bluetooth.defaultAdapter && Bluetooth.defaultAdapter.enabled
         }
-
         Repeater {
             model: Bluetooth.defaultAdapter ? Bluetooth.defaultAdapter.devices : null
 
             delegate: IconItem {
-                required property var modelData
                 readonly property BluetoothDevice device: modelData
+                required property var modelData
 
-                visible: device.paired
-
-                label: device.name || device.deviceName || device.address
                 iconName: device.icon || (device.connected ? "network-bluetooth-symbolic" : "bluetooth-symbolic")
+                label: device.name || device.deviceName || device.address
                 selected: device.connected
+                visible: device.paired
 
                 onTriggered: {
                     if (device.connected) {
@@ -195,8 +202,8 @@ PopupWindow {
         // ── available devices (unpaired, with a real name) ─────────────
         MenuLabel {
             label: "Available"
-            labelElement.font.weight: 600
             labelElement.color: v.textHeader
+            labelElement.font.weight: 600
             visible: {
                 if (!Bluetooth.defaultAdapter || !Bluetooth.defaultAdapter.enabled)
                     return false;
@@ -208,30 +215,30 @@ PopupWindow {
                 return false;
             }
         }
-
         Repeater {
             model: Bluetooth.defaultAdapter ? Bluetooth.defaultAdapter.devices : null
 
             delegate: IconItem {
-                required property var modelData
                 readonly property BluetoothDevice device: modelData
+                required property var modelData
+
+                iconName: device.icon || "bluetooth-symbolic"
+                label: device.name || device.deviceName
+                selected: false
 
                 // Only show unpaired devices that report a proper name
                 visible: !device.paired && (device.deviceName && device.deviceName.length > 0)
-
-                label: device.name || device.deviceName
-                iconName: device.icon || "bluetooth-symbolic"
-                selected: false
 
                 onTriggered: {
                     device.connect();
                 }
             }
         }
-
-        MenuDiv {}
+        MenuDiv {
+        }
         MenuItem {
             label: "Bluetooth Settings..."
+
             onTriggered: {
                 preferences.running = true;
                 root.visible = false;
@@ -239,10 +246,10 @@ PopupWindow {
         }
         Process {
             id: preferences
+
             command: ["bash", "-c", "kcmshell6 kcm_bluetooth"]
             running: false
         }
-
         Item {
             Layout.preferredHeight: 8
         }

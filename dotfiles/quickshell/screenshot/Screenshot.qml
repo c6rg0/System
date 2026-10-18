@@ -22,113 +22,43 @@ Singleton {
     // ── State ───────────────────────────────────────────────
     // True from the moment a capture starts until the overlay is dismissed.
     property bool active: false
-    // The overlay surface only exists once the freeze frame has been grabbed,
-    // which also keeps a brief flash of the live desktop from being captured.
-    property bool overlayVisible: false
-
-    // "region" for now; "edit"/"temp" are the quick-save variants.
-    property string mode: "region"
-    property bool editActive: false
-    property bool tempActive: false
-
-    readonly property var modes: ["edit", "region", "temp"]
-
-    // The screen the overlay is anchored to: the focused monitor, falling back
-    // to the first screen before Hyprland has reported one.
-    readonly property var targetMonitor: Hyprland.focusedMonitor
     readonly property string activeScreenName: {
         if (targetMonitor)
             return targetMonitor.name;
         return Quickshell.screens.length > 0 ? Quickshell.screens[0].name : "";
     }
 
-    // ── Toggles ─────────────────────────────────────────────────────
-    function setEditActive(value) {
-        root.editActive = !!value;
-        if (root.editActive)
-            root.tempActive = false;
-    }
+    // ── Configuration ───────────────────────────────────────────────
+    // Mirrors the standalone theme. `satty` matches the value that actually
+    // took effect before, where the theme was a bare object with no fields.
+    property string annotationTool: "satty"
+    property bool editActive: false
+    property string lastSavedPath: ""
+    property string lastTimestamp: ""
 
-    function setTempActive(value) {
-        root.tempActive = !!value;
-        if (root.tempActive)
-            root.editActive = false;
-    }
+    // "region" for now; "edit"/"temp" are the quick-save variants.
+    property string mode: "region"
+    readonly property var modes: ["edit", "region", "temp"]
+    // The overlay surface only exists once the freeze frame has been grabbed,
+    // which also keeps a brief flash of the live desktop from being captured.
+    property bool overlayVisible: false
+    readonly property string postSaveHook: ""
 
-    function toggleEdit() {
-        root.setEditActive(!root.editActive);
-    }
+    // The screen the overlay is anchored to: the focused monitor, falling back
+    // to the first screen before Hyprland has reported one.
+    readonly property var targetMonitor: Hyprland.focusedMonitor
+    property bool tempActive: false
 
-    function toggleTemp() {
-        root.setTempActive(!root.tempActive);
-    }
+    // ── Saving ──────────────────────────────────────────────────────
+    property string tempPath: ""
 
-    function toggleEditMode() {
-        root.mode = root.mode === "edit" ? "region" : "edit";
-    }
-
-    // ── Entry points ────────────────────────────────────────
-    function start(mode, action): void {
-        if (root.active)
-            return;
-        root.mode = mode === "edit" ? "edit" : "region";
-        root.editActive = action === "edit";
-        root.tempActive = action === "temp";
-        root.active = true;
-        root.overlayVisible = false;
-        freezeTimer.restart();
-    }
-
-    function cancel(): void {
-        if (!root.active)
-            return;
-        root.teardown();
-    }
-
-    // `rm` on a single file path, not Quickshell.execDetached: that would need a
-    // shell to expand it.
-    function discardFrame() {
-        if (!root.tempPath)
-            return;
-        cleanupProcess.exec(["rm", "-f", root.tempPath]);
-    }
-
-    function teardown(): void {
-        captureProcess.running = false;
-        // Left running on purpose: a save that was already pipelined still
-        // needs its freeze frame. It cleans up after itself either way.
-        freezeTimer.stop();
-        if (!screenshotProcess.running) {
-            root.discardFrame();
-            root.tempPath = "";
-        }
-        root.active = false;
-        root.overlayVisible = false;
-    }
-
-    // ── Global shortcuts ────────────────────────────────────
-    // Registered with Hyprland's global shortcut protocol, so the keybinds
-    // dispatch straight into the running shell with no process spawn and no IPC
-    // round trip:
-    //   hl.bind(SUPER_SHIFT .. " + S", hl.dsp.global("quickshell:region"))
-    // `locked = true` has no effect on a global bind unless it is also flagged
-    // non_consuming; the overlay is already reachable from the lock screen.
-    GlobalShortcut {
-        name: "region"
-        description: "Take a region screenshot (save and copy)"
-        onPressed: root.start("region", "")
-    }
-
-    GlobalShortcut {
-        name: "regionTemp"
-        description: "Take a region screenshot, copied to the clipboard only"
-        onPressed: root.start("region", "temp")
-    }
-
-    GlobalShortcut {
-        name: "regionEdit"
-        description: "Take a region screenshot and annotate it first"
-        onPressed: root.start("region", "edit")
+    // Freeze frame taken on activation. Screenshot before the overlay shows,
+    // so the overlay is never part of its own capture.
+    function beginCapture() {
+        const timestamp = `${Date.now()}-${Math.floor(Math.random() * 100000)}`;
+        root.tempPath = `/tmp/hqs-frame-${timestamp}.png`;
+        captureProcess.command = ["grim", "-l", "0", root.tempPath];
+        captureProcess.running = true;
     }
 
     // ── Region → full screen ──────────────────────────────────────────
@@ -165,16 +95,39 @@ Singleton {
             "scaledHeight": Math.round(height * scale)
         };
     }
-
-    function shellEscape(s) {
-        return "'" + String(s).replace(/'/g, "'\\''") + "'";
+    function cancel(): void {
+        if (!root.active)
+            return;
+        root.teardown();
     }
 
-    // ── Saving ──────────────────────────────────────────────────────
-    property string tempPath: ""
-    property string lastSavedPath: ""
-    property string lastTimestamp: ""
-
+    // `rm` on a single file path, not Quickshell.execDetached: that would need a
+    // shell to expand it.
+    function discardFrame() {
+        if (!root.tempPath)
+            return;
+        cleanupProcess.exec(["rm", "-f", root.tempPath]);
+    }
+    function onCaptureFinished(code) {
+        if (code !== 0 || !root.active) {
+            root.teardown();
+            return;
+        }
+        root.overlayVisible = true;
+    }
+    function runPostSaveHook() {
+        if (!root.postSaveHook || !root.lastSavedPath)
+            return;
+        const filePath = root.lastSavedPath;
+        const fileName = filePath.substring(filePath.lastIndexOf('/') + 1);
+        const dirPath = filePath.substring(0, filePath.lastIndexOf('/'));
+        let cmd = root.postSaveHook;
+        cmd = cmd.replace(/%f/g, root.shellEscape(filePath));
+        cmd = cmd.replace(/%n/g, root.shellEscape(fileName));
+        cmd = cmd.replace(/%d/g, root.shellEscape(dirPath));
+        cmd = cmd.replace(/%t/g, root.shellEscape(root.lastTimestamp));
+        Quickshell.execDetached(["sh", "-c", cmd]);
+    }
     function saveScreenshot(x, y, width, height, screenName) {
         if (!root.tempPath)
             return;
@@ -217,50 +170,86 @@ Singleton {
         screenshotProcess.running = true;
     }
 
-    // ── Configuration ───────────────────────────────────────────────
-    // Mirrors the standalone theme. `satty` matches the value that actually
-    // took effect before, where the theme was a bare object with no fields.
-    property string annotationTool: "satty"
-    readonly property string postSaveHook: ""
-
-    function runPostSaveHook() {
-        if (!root.postSaveHook || !root.lastSavedPath)
-            return;
-        const filePath = root.lastSavedPath;
-        const fileName = filePath.substring(filePath.lastIndexOf('/') + 1);
-        const dirPath = filePath.substring(0, filePath.lastIndexOf('/'));
-        let cmd = root.postSaveHook;
-        cmd = cmd.replace(/%f/g, root.shellEscape(filePath));
-        cmd = cmd.replace(/%n/g, root.shellEscape(fileName));
-        cmd = cmd.replace(/%d/g, root.shellEscape(dirPath));
-        cmd = cmd.replace(/%t/g, root.shellEscape(root.lastTimestamp));
-        Quickshell.execDetached(["sh", "-c", cmd]);
+    // ── Toggles ─────────────────────────────────────────────────────
+    function setEditActive(value) {
+        root.editActive = !!value;
+        if (root.editActive)
+            root.tempActive = false;
+    }
+    function setTempActive(value) {
+        root.tempActive = !!value;
+        if (root.tempActive)
+            root.editActive = false;
+    }
+    function shellEscape(s) {
+        return "'" + String(s).replace(/'/g, "'\\''") + "'";
     }
 
-    // Freeze frame taken on activation. Screenshot before the overlay shows,
-    // so the overlay is never part of its own capture.
-    function beginCapture() {
-        const timestamp = `${Date.now()}-${Math.floor(Math.random() * 100000)}`;
-        root.tempPath = `/tmp/hqs-frame-${timestamp}.png`;
-        captureProcess.command = ["grim", "-l", "0", root.tempPath];
-        captureProcess.running = true;
-    }
-
-    function onCaptureFinished(code) {
-        if (code !== 0 || !root.active) {
-            root.teardown();
+    // ── Entry points ────────────────────────────────────────
+    function start(mode, action): void {
+        if (root.active)
             return;
+        root.mode = mode === "edit" ? "edit" : "region";
+        root.editActive = action === "edit";
+        root.tempActive = action === "temp";
+        root.active = true;
+        root.overlayVisible = false;
+        freezeTimer.restart();
+    }
+    function teardown(): void {
+        captureProcess.running = false;
+        // Left running on purpose: a save that was already pipelined still
+        // needs its freeze frame. It cleans up after itself either way.
+        freezeTimer.stop();
+        if (!screenshotProcess.running) {
+            root.discardFrame();
+            root.tempPath = "";
         }
-        root.overlayVisible = true;
+        root.active = false;
+        root.overlayVisible = false;
+    }
+    function toggleEdit() {
+        root.setEditActive(!root.editActive);
+    }
+    function toggleEditMode() {
+        root.mode = root.mode === "edit" ? "region" : "edit";
+    }
+    function toggleTemp() {
+        root.setTempActive(!root.tempActive);
     }
 
+    // ── Global shortcuts ────────────────────────────────────
+    // Registered with Hyprland's global shortcut protocol, so the keybinds
+    // dispatch straight into the running shell with no process spawn and no IPC
+    // round trip:
+    //   hl.bind(SUPER_SHIFT .. " + S", hl.dsp.global("quickshell:region"))
+    // `locked = true` has no effect on a global bind unless it is also flagged
+    // non_consuming; the overlay is already reachable from the lock screen.
+    GlobalShortcut {
+        description: "Take a region screenshot (save and copy)"
+        name: "region"
+
+        onPressed: root.start("region", "")
+    }
+    GlobalShortcut {
+        description: "Take a region screenshot, copied to the clipboard only"
+        name: "regionTemp"
+
+        onPressed: root.start("region", "temp")
+    }
+    GlobalShortcut {
+        description: "Take a region screenshot and annotate it first"
+        name: "regionEdit"
+
+        onPressed: root.start("region", "edit")
+    }
     Process {
         id: captureProcess
 
         running: false
+
         onExited: code => root.onCaptureFinished(code)
     }
-
     Process {
         id: cleanupProcess
 
@@ -274,24 +263,23 @@ Singleton {
 
         interval: 50
         repeat: false
+
         onTriggered: {
             if (root.active)
                 root.beginCapture();
         }
     }
-
     Process {
         id: screenshotProcess
 
         running: false
-        onExited: code => {
-            if (code !== 0)
-                console.error("Screenshot pipeline failed with exit code:", code);
-            else
-                root.runPostSaveHook();
-            root.teardown();
-        }
 
+        stderr: StdioCollector {
+            onStreamFinished: {
+                if (this.text.trim())
+                    console.warn(this.text);
+            }
+        }
         stdout: StdioCollector {
             onStreamFinished: {
                 if (this.text.trim())
@@ -299,11 +287,12 @@ Singleton {
             }
         }
 
-        stderr: StdioCollector {
-            onStreamFinished: {
-                if (this.text.trim())
-                    console.warn(this.text);
-            }
+        onExited: code => {
+            if (code !== 0)
+                console.error("Screenshot pipeline failed with exit code:", code);
+            else
+                root.runPostSaveHook();
+            root.teardown();
         }
     }
 }

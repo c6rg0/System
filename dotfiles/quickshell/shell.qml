@@ -6,17 +6,19 @@ import "osd"
 import "screenshot"
 
 ShellRoot {
-    Corners {}
-
-    Bar {}
-
-    Spotlight {}
-
-    Hyprview {}
-
-    OsdWindow {}
+    Corners {
+    }
+    Bar {
+    }
+    Spotlight {
+    }
+    Hyprview {
+    }
+    OsdWindow {
+    }
 
     // Region screenshot overlay, driven by the global shortcuts declared in
     // Screenshot.qml (quickshell:region, quickshell:regionTemp, quickshell:regionEdit).
-    ScreenshotOverlay {}
+    ScreenshotOverlay {
+    }
 }

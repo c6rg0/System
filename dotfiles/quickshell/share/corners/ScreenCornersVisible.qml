@@ -2,18 +2,20 @@ import Quickshell
 import QtQuick
 
 Item {
-	implicitWidth: parent.width
-	implicitHeight: parent.height
-	anchors {
-		fill: parent
-	}
-	CutoutCorner {
+    implicitHeight: parent.height
+    implicitWidth: parent.width
+
+    anchors {
+        fill: parent
+    }
+    CutoutCorner {
+        color: "black"
+        cornerHeight: 16
+        cornerType: "inverted"
         corners: 4
-		cornerHeight: 16
-		cornerType: "inverted"
+
         anchors {
-          right: parent.right
+            right: parent.right
         }
-		color: "black"
-	}
+    }
 }

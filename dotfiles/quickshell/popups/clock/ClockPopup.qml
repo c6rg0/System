@@ -8,436 +8,7 @@ import Quickshell.Widgets
 import "../.."
 
 PanelWindow {
-    Variables { id: v }
     id: root
-
-    implicitWidth: 340
-    implicitHeight: outerLayout.implicitHeight
-    exclusionMode: "Ignore"
-    WlrLayershell.namespace: "qs:popup"
-    anchors {
-        top: true
-        right: true
-    }
-    margins.top: 32
-    margins.right: -6
-    updatesEnabled: false
-    color: "transparent"
-
-    // ── Date state ──────────────────────────────────────────────
-    property date today: new Date()
-    property int viewYear: today.getFullYear()
-    property int viewMonth: today.getMonth()  // 0‑based
-
-    readonly property var monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-    readonly property var weekdayHeaders: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
-
-    // ── Tick timer ──────────────────────────────────────────────
-    Timer {
-        running: root.visible
-        interval: 1000
-        repeat: true
-        onTriggered: root.today = new Date()
-    }
-    ColumnLayout {
-        id: outerLayout
-        anchors {
-            top: parent.top
-            left: parent.left
-            right: parent.right
-        }
-        spacing: -16
-
-        Rectangle {
-            id: card
-            Layout.fillWidth: true
-            implicitHeight: contentColumn.implicitHeight + 64
-            radius: 16
-            color: "transparent"
-
-            Item {
-                id: mask
-                anchors.fill: card
-                visible: false
-                layer.enabled: true
-                Rectangle {
-                    anchors.fill: parent
-                    anchors.margins: 16
-                    radius: card.radius
-                    color: "#fff"
-                }
-            }
-            RectangularShadow {
-                id: outerShadow
-                anchors.fill: card
-                radius: card.radius
-                blur: 16
-                color: v.shadowColor
-                spread: -16
-                visible: false
-            }
-            MultiEffect {
-                anchors.fill: outerShadow
-                source: outerShadow
-                maskSource: mask
-                maskEnabled: true
-                maskInverted: true
-            }
-
-            Rectangle {
-                id: borderRect
-                anchors.fill: parent
-                anchors.margins: 16
-                radius: parent.radius
-                color: v.popupBackground
-                border.color: v.popupBorder
-                border.width: 1
-            }
-
-            Rectangle {
-                anchors.fill: parent
-                anchors.margins: 15
-                radius: parent.radius
-                color: "transparent"
-                border.color: v.outerBorderColor
-                border.width: 1
-            }
-
-            ColumnLayout {
-                id: contentColumn
-                anchors {
-                    top: parent.top
-                    left: parent.left
-                    right: parent.right
-                    margins: 32
-                }
-                spacing: 0
-
-                // ── Time ─────────────────────────────────────────────
-                Item {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: timeColumn.implicitHeight
-                    Layout.topMargin: 16
-                    Layout.bottomMargin: 4
-
-                    ColumnLayout {
-                        id: timeColumn
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        spacing: 0
-
-                        Text {
-                            Layout.alignment: Qt.AlignHCenter
-                            text: root.today.toLocaleTimeString(Qt.locale(), "hh:mm")
-                            font.family: "SF Pro"
-                            font.pixelSize: 48
-                            color: "#fff"
-                        }
-                        Text {
-                            Layout.alignment: Qt.AlignHCenter
-                            text: root.today.toLocaleTimeString(Qt.locale(), "AP")
-                            font.family: "SF Pro"
-                            font.pixelSize: 14
-                            color: "#fff"
-                        }
-                    }
-                }
-
-                // ── Full date ────────────────────────────────────────
-                Text {
-                    Layout.fillWidth: true
-                    Layout.topMargin: 0
-                    Layout.bottomMargin: 14
-                    text: root.today.toLocaleDateString(Qt.locale(), "dddd, MMMM d, yyyy")
-                    font.family: "SF Pro"
-                    font.pixelSize: 12
-                    font.weight: Font.Normal
-                    color: "#aaa"
-                    horizontalAlignment: Text.AlignHCenter
-                }
-
-                // ── Separator ────────────────────────────────────────
-                Rectangle {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: 1
-                    color: "#22000000"
-                }
-
-                // ── Month navigation ─────────────────────────────────
-                Item {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: 32
-                    Layout.topMargin: 8
-
-                    RowLayout {
-                        anchors.centerIn: parent
-                        width: parent.width - 8
-                        spacing: 0
-
-                        // Previous month
-                        Text {
-                            text: "◀"
-                            font.family: "SF Pro"
-                            font.pixelSize: 12
-                            color: "#888"
-                            Layout.preferredWidth: 28
-                            horizontalAlignment: Text.AlignHCenter
-
-                            MouseArea {
-                                anchors.fill: parent
-                                cursorShape: Qt.PointingHandCursor
-                                onClicked: {
-                                    if (root.viewMonth === 0) {
-                                        root.viewMonth = 11;
-                                        root.viewYear--;
-                                    } else {
-                                        root.viewMonth--;
-                                    }
-                                }
-                            }
-                        }
-
-                        // Month + Year label
-                        Text {
-                            Layout.fillWidth: true
-                            text: root.monthNames[root.viewMonth] + " " + root.viewYear
-                            font.family: "SF Pro"
-                            font.pixelSize: 13
-                            font.weight: Font.DemiBold
-                            color: "#fff"
-                            horizontalAlignment: Text.AlignHCenter
-                        }
-
-                        // Go to today
-                        Text {
-                            text: "●"
-                            font.family: "SF Pro"
-                            font.pixelSize: 8
-                            color: "#888"
-                            Layout.preferredWidth: 28
-                            horizontalAlignment: Text.AlignHCenter
-
-                            MouseArea {
-                                anchors.fill: parent
-                                cursorShape: Qt.PointingHandCursor
-                                onClicked: {
-                                    root.viewMonth = root.today.getMonth();
-                                    root.viewYear = root.today.getFullYear();
-                                }
-                            }
-                        }
-
-                        // Next month
-                        Text {
-                            text: "▶"
-                            font.family: "SF Pro"
-                            font.pixelSize: 12
-                            color: "#888"
-                            Layout.preferredWidth: 28
-                            horizontalAlignment: Text.AlignHCenter
-
-                            MouseArea {
-                                anchors.fill: parent
-                                cursorShape: Qt.PointingHandCursor
-                                onClicked: {
-                                    if (root.viewMonth === 11) {
-                                        root.viewMonth = 0;
-                                        root.viewYear++;
-                                    } else {
-                                        root.viewMonth++;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                // ── Weekday headers ──────────────────────────────────
-                RowLayout {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: 22
-                    spacing: 0
-
-                    Repeater {
-                        model: root.weekdayHeaders
-                        delegate: Text {
-                            Layout.fillWidth: true
-                            text: modelData
-                            font.family: "SF Pro"
-                            font.pixelSize: 10
-                            font.weight: Font.Bold
-                            color: "#999"
-                            horizontalAlignment: Text.AlignHCenter
-                        }
-                    }
-                }
-
-                // ── Calendar grid ────────────────────────────────────
-                GridLayout {
-                    id: calendarGrid
-                    Layout.fillWidth: true
-                    Layout.bottomMargin: 16
-                    columns: 7
-                    columnSpacing: 0
-                    rowSpacing: 0
-
-                    Repeater {
-                        model: root.calendarModel
-                        delegate: Rectangle {
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 30
-                            color: "transparent"
-
-                            readonly property var d: modelData
-
-                            Rectangle {
-                                anchors.centerIn: parent
-                                width: 28
-                                height: 28
-                                radius: 14
-                                color: {
-                                    if (d.isToday)
-                                        return "#007aff";                     // macOS blue
-                                    if (d.isCurrentMonth && d.isWeekend)
-                                        return "#20000000";
-                                    return "transparent";
-                                }
-
-                                Text {
-                                    anchors.centerIn: parent
-                                    text: d.dayNumber
-                                    font.family: "SF Pro"
-                                    font.pixelSize: 12
-                                    font.weight: d.isToday ? Font.DemiBold : Font.Normal
-                                    color: {
-                                        if (d.isToday)
-                                            return "#fff";
-                                        if (!d.isCurrentMonth)
-                                            return "#666";
-                                        return "#fff";
-                                    }
-                                }
-                            }
-
-                            MouseArea {
-                                anchors.fill: parent
-                                cursorShape: Qt.PointingHandCursor
-                                onClicked: {
-                                    if (d.isCurrentMonth) {
-                                        root.viewMonth = d.monthIndex;
-                                        root.viewYear = d.yearNumber;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            } // ColumnLayout
-        } // card
-
-        Rectangle {
-            id: card2
-            Layout.fillWidth: true
-            radius: 16
-            color: "transparent"
-
-            implicitHeight: contentColumn2.implicitHeight + 64
-
-            Item {
-                id: mask2
-                anchors.fill: card2
-                visible: false
-                layer.enabled: true
-                Rectangle {
-                    anchors.fill: parent
-                    anchors.margins: 16
-                    radius: card2.radius
-                    color: "#fff"
-                }
-            }
-            RectangularShadow {
-                id: outerShadow2
-                anchors.fill: card2
-                radius: card2.radius
-                blur: 16
-                color: v.shadowColor
-                spread: -16
-                visible: false
-            }
-            MultiEffect {
-                anchors.fill: outerShadow2
-                source: outerShadow2
-                maskSource: mask2
-                maskEnabled: true
-                maskInverted: true
-            }
-
-            Rectangle {
-                id: borderRect2
-                anchors.fill: card2
-                anchors.margins: 16
-                radius: card2.radius
-                color: v.popupBackground
-                border.color: v.popupBorder
-                border.width: 1
-            }
-
-            Rectangle {
-                anchors.fill: card2
-                anchors.margins: 15
-                radius: card2.radius
-                color: "transparent"
-                border.color: v.outerBorderColor
-                border.width: 1
-            }
-
-            ColumnLayout {
-                id: contentColumn2
-                anchors {
-                    top: card2.top
-                    left: card2.left
-                    right: card2.right
-                    margins: 32
-                }
-                spacing: 0
-
-                // ── Heading ───────────────────────────────────────
-                Text {
-                    Layout.fillWidth: true
-                    Layout.topMargin: 16
-                    Layout.bottomMargin: 8
-                    text: "Notifications"
-                    font.family: "SF Pro"
-                    font.pixelSize: 12
-                    font.weight: Font.DemiBold
-                    color: "#555"
-                    horizontalAlignment: Text.AlignHCenter
-                }
-
-                // ── Empty state ───────────────────────────────────
-                Text {
-                    Layout.fillWidth: true
-                    Layout.bottomMargin: 16
-                    text: "No notifications"
-                    font.family: "SF Pro"
-                    font.pixelSize: 11
-                    font.weight: Font.Light
-                    color: "#aaa"
-                    horizontalAlignment: Text.AlignHCenter
-                    //visible: notifRepeater.count === 0
-                    visible: true
-                }
-
-                // ── Notification list ─────────────────────────────
-                ColumnLayout {
-                    id: notifList
-                    Layout.fillWidth: true
-                    Layout.bottomMargin: 12
-                    spacing: 6
-                    visible: false
-                }
-            }
-        }
-    }
 
     // ── Calendar data model ─────────────────────────────────────
     property var calendarModel: {
@@ -497,5 +68,454 @@ PanelWindow {
         }
 
         return days;
+    }
+    readonly property var monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+
+    // ── Date state ──────────────────────────────────────────────
+    property date today: new Date()
+    property int viewMonth: today.getMonth()  // 0‑based
+
+    property int viewYear: today.getFullYear()
+    readonly property var weekdayHeaders: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
+
+    WlrLayershell.namespace: "qs:popup"
+    color: "transparent"
+    exclusionMode: "Ignore"
+    implicitHeight: outerLayout.implicitHeight
+    implicitWidth: 340
+    margins.right: -6
+    margins.top: 32
+    updatesEnabled: false
+
+    Variables {
+        id: v
+    }
+    anchors {
+        right: true
+        top: true
+    }
+
+    // ── Tick timer ──────────────────────────────────────────────
+    Timer {
+        interval: 1000
+        repeat: true
+        running: root.visible
+
+        onTriggered: root.today = new Date()
+    }
+    ColumnLayout {
+        id: outerLayout
+
+        spacing: -16
+
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: parent.top
+        }
+        Rectangle {
+            id: card
+
+            Layout.fillWidth: true
+            color: "transparent"
+            implicitHeight: contentColumn.implicitHeight + 64
+            radius: 16
+
+            Item {
+                id: mask
+
+                anchors.fill: card
+                layer.enabled: true
+                visible: false
+
+                Rectangle {
+                    anchors.fill: parent
+                    anchors.margins: 16
+                    color: "#fff"
+                    radius: card.radius
+                }
+            }
+            RectangularShadow {
+                id: outerShadow
+
+                anchors.fill: card
+                blur: 16
+                color: v.shadowColor
+                radius: card.radius
+                spread: -16
+                visible: false
+            }
+            MultiEffect {
+                anchors.fill: outerShadow
+                maskEnabled: true
+                maskInverted: true
+                maskSource: mask
+                source: outerShadow
+            }
+            Rectangle {
+                id: borderRect
+
+                anchors.fill: parent
+                anchors.margins: 16
+                border.color: v.popupBorder
+                border.width: 1
+                color: v.popupBackground
+                radius: parent.radius
+            }
+            Rectangle {
+                anchors.fill: parent
+                anchors.margins: 15
+                border.color: v.outerBorderColor
+                border.width: 1
+                color: "transparent"
+                radius: parent.radius
+            }
+            ColumnLayout {
+                id: contentColumn
+
+                spacing: 0
+
+                anchors {
+                    left: parent.left
+                    margins: 32
+                    right: parent.right
+                    top: parent.top
+                }
+
+                // ── Time ─────────────────────────────────────────────
+                Item {
+                    Layout.bottomMargin: 4
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: timeColumn.implicitHeight
+                    Layout.topMargin: 16
+
+                    ColumnLayout {
+                        id: timeColumn
+
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        spacing: 0
+
+                        Text {
+                            Layout.alignment: Qt.AlignHCenter
+                            color: "#fff"
+                            font.family: "SF Pro"
+                            font.pixelSize: 48
+                            text: root.today.toLocaleTimeString(Qt.locale(), "hh:mm")
+                        }
+                        Text {
+                            Layout.alignment: Qt.AlignHCenter
+                            color: "#fff"
+                            font.family: "SF Pro"
+                            font.pixelSize: 14
+                            text: root.today.toLocaleTimeString(Qt.locale(), "AP")
+                        }
+                    }
+                }
+
+                // ── Full date ────────────────────────────────────────
+                Text {
+                    Layout.bottomMargin: 14
+                    Layout.fillWidth: true
+                    Layout.topMargin: 0
+                    color: "#aaa"
+                    font.family: "SF Pro"
+                    font.pixelSize: 12
+                    font.weight: Font.Normal
+                    horizontalAlignment: Text.AlignHCenter
+                    text: root.today.toLocaleDateString(Qt.locale(), "dddd, MMMM d, yyyy")
+                }
+
+                // ── Separator ────────────────────────────────────────
+                Rectangle {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 1
+                    color: "#22000000"
+                }
+
+                // ── Month navigation ─────────────────────────────────
+                Item {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 32
+                    Layout.topMargin: 8
+
+                    RowLayout {
+                        anchors.centerIn: parent
+                        spacing: 0
+                        width: parent.width - 8
+
+                        // Previous month
+                        Text {
+                            Layout.preferredWidth: 28
+                            color: "#888"
+                            font.family: "SF Pro"
+                            font.pixelSize: 12
+                            horizontalAlignment: Text.AlignHCenter
+                            text: "◀"
+
+                            MouseArea {
+                                anchors.fill: parent
+                                cursorShape: Qt.PointingHandCursor
+
+                                onClicked: {
+                                    if (root.viewMonth === 0) {
+                                        root.viewMonth = 11;
+                                        root.viewYear--;
+                                    } else {
+                                        root.viewMonth--;
+                                    }
+                                }
+                            }
+                        }
+
+                        // Month + Year label
+                        Text {
+                            Layout.fillWidth: true
+                            color: "#fff"
+                            font.family: "SF Pro"
+                            font.pixelSize: 13
+                            font.weight: Font.DemiBold
+                            horizontalAlignment: Text.AlignHCenter
+                            text: root.monthNames[root.viewMonth] + " " + root.viewYear
+                        }
+
+                        // Go to today
+                        Text {
+                            Layout.preferredWidth: 28
+                            color: "#888"
+                            font.family: "SF Pro"
+                            font.pixelSize: 8
+                            horizontalAlignment: Text.AlignHCenter
+                            text: "●"
+
+                            MouseArea {
+                                anchors.fill: parent
+                                cursorShape: Qt.PointingHandCursor
+
+                                onClicked: {
+                                    root.viewMonth = root.today.getMonth();
+                                    root.viewYear = root.today.getFullYear();
+                                }
+                            }
+                        }
+
+                        // Next month
+                        Text {
+                            Layout.preferredWidth: 28
+                            color: "#888"
+                            font.family: "SF Pro"
+                            font.pixelSize: 12
+                            horizontalAlignment: Text.AlignHCenter
+                            text: "▶"
+
+                            MouseArea {
+                                anchors.fill: parent
+                                cursorShape: Qt.PointingHandCursor
+
+                                onClicked: {
+                                    if (root.viewMonth === 11) {
+                                        root.viewMonth = 0;
+                                        root.viewYear++;
+                                    } else {
+                                        root.viewMonth++;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // ── Weekday headers ──────────────────────────────────
+                RowLayout {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 22
+                    spacing: 0
+
+                    Repeater {
+                        model: root.weekdayHeaders
+
+                        delegate: Text {
+                            Layout.fillWidth: true
+                            color: "#999"
+                            font.family: "SF Pro"
+                            font.pixelSize: 10
+                            font.weight: Font.Bold
+                            horizontalAlignment: Text.AlignHCenter
+                            text: modelData
+                        }
+                    }
+                }
+
+                // ── Calendar grid ────────────────────────────────────
+                GridLayout {
+                    id: calendarGrid
+
+                    Layout.bottomMargin: 16
+                    Layout.fillWidth: true
+                    columnSpacing: 0
+                    columns: 7
+                    rowSpacing: 0
+
+                    Repeater {
+                        model: root.calendarModel
+
+                        delegate: Rectangle {
+                            readonly property var d: modelData
+
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 30
+                            color: "transparent"
+
+                            Rectangle {
+                                anchors.centerIn: parent
+                                color: {
+                                    if (d.isToday)
+                                        return "#007aff";                     // macOS blue
+                                    if (d.isCurrentMonth && d.isWeekend)
+                                        return "#20000000";
+                                    return "transparent";
+                                }
+                                height: 28
+                                radius: 14
+                                width: 28
+
+                                Text {
+                                    anchors.centerIn: parent
+                                    color: {
+                                        if (d.isToday)
+                                            return "#fff";
+                                        if (!d.isCurrentMonth)
+                                            return "#666";
+                                        return "#fff";
+                                    }
+                                    font.family: "SF Pro"
+                                    font.pixelSize: 12
+                                    font.weight: d.isToday ? Font.DemiBold : Font.Normal
+                                    text: d.dayNumber
+                                }
+                            }
+                            MouseArea {
+                                anchors.fill: parent
+                                cursorShape: Qt.PointingHandCursor
+
+                                onClicked: {
+                                    if (d.isCurrentMonth) {
+                                        root.viewMonth = d.monthIndex;
+                                        root.viewYear = d.yearNumber;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } // ColumnLayout
+        } // card
+
+        Rectangle {
+            id: card2
+
+            Layout.fillWidth: true
+            color: "transparent"
+            implicitHeight: contentColumn2.implicitHeight + 64
+            radius: 16
+
+            Item {
+                id: mask2
+
+                anchors.fill: card2
+                layer.enabled: true
+                visible: false
+
+                Rectangle {
+                    anchors.fill: parent
+                    anchors.margins: 16
+                    color: "#fff"
+                    radius: card2.radius
+                }
+            }
+            RectangularShadow {
+                id: outerShadow2
+
+                anchors.fill: card2
+                blur: 16
+                color: v.shadowColor
+                radius: card2.radius
+                spread: -16
+                visible: false
+            }
+            MultiEffect {
+                anchors.fill: outerShadow2
+                maskEnabled: true
+                maskInverted: true
+                maskSource: mask2
+                source: outerShadow2
+            }
+            Rectangle {
+                id: borderRect2
+
+                anchors.fill: card2
+                anchors.margins: 16
+                border.color: v.popupBorder
+                border.width: 1
+                color: v.popupBackground
+                radius: card2.radius
+            }
+            Rectangle {
+                anchors.fill: card2
+                anchors.margins: 15
+                border.color: v.outerBorderColor
+                border.width: 1
+                color: "transparent"
+                radius: card2.radius
+            }
+            ColumnLayout {
+                id: contentColumn2
+
+                spacing: 0
+
+                anchors {
+                    left: card2.left
+                    margins: 32
+                    right: card2.right
+                    top: card2.top
+                }
+
+                // ── Heading ───────────────────────────────────────
+                Text {
+                    Layout.bottomMargin: 8
+                    Layout.fillWidth: true
+                    Layout.topMargin: 16
+                    color: "#555"
+                    font.family: "SF Pro"
+                    font.pixelSize: 12
+                    font.weight: Font.DemiBold
+                    horizontalAlignment: Text.AlignHCenter
+                    text: "Notifications"
+                }
+
+                // ── Empty state ───────────────────────────────────
+                Text {
+                    Layout.bottomMargin: 16
+                    Layout.fillWidth: true
+                    color: "#aaa"
+                    font.family: "SF Pro"
+                    font.pixelSize: 11
+                    font.weight: Font.Light
+                    horizontalAlignment: Text.AlignHCenter
+                    text: "No notifications"
+                    //visible: notifRepeater.count === 0
+                    visible: true
+                }
+
+                // ── Notification list ─────────────────────────────
+                ColumnLayout {
+                    id: notifList
+
+                    Layout.bottomMargin: 12
+                    Layout.fillWidth: true
+                    spacing: 6
+                    visible: false
+                }
+            }
+        }
     }
 }

@@ -9,32 +9,34 @@ import ".."
 Item {
     id: root
 
-    Variables { id: v }
+    readonly property real bandHeight: Math.min(root.selectionHeight, Math.max(0, root.height - root.selectionY))
+    readonly property real bandTop: Math.max(0, root.selectionY)
+    property bool canceled: false
+
+    // ── Dimming ─────────────────────────────────────
+    property color dimColor: v.shadowColor
+    readonly property real dragThreshold: 5
+
+    // ── Input ───────────────────────────────────────
+    // Not named `enabled`, which would shadow Item.enabled.
+    property bool inputEnabled: true
+    // Pointer position, seeded from `hyprctl cursorpos` when the overlay shows.
+    property real mouseX: 0
+    property real mouseY: 0
 
     // ── Theme ───────────────────────────────────────────────
     // `dimOpacity` is folded into `dimColor`, and `borderRadius` went away with
     // the shader, which was its only consumer.
     property real outlineThickness: 1
-
-    // ── Input ───────────────────────────────────────
-    // Not named `enabled`, which would shadow Item.enabled.
-    property bool inputEnabled: true
-    property point startPos
-    // Pointer position, seeded from `hyprctl cursorpos` when the overlay shows.
-    property real mouseX: 0
-    property real mouseY: 0
-    property bool canceled: false
     property bool selecting: false
-
+    property real selectionHeight: 0
+    property real selectionWidth: 0
     property real selectionX: 0
     property real selectionY: 0
-    property real selectionWidth: 0
-    property real selectionHeight: 0
+    property point startPos
 
-    readonly property real dragThreshold: 5
-
-    signal regionSelected(real x, real y, real width, real height)
     signal pointerPressed
+    signal regionSelected(real x, real y, real width, real height)
 
     function clearSelection() {
         root.selecting = false;
@@ -44,60 +46,55 @@ Item {
         root.selectionWidth = 0;
         root.selectionHeight = 0;
     }
-
     function updateMouse(x, y) {
         root.mouseX = x;
         root.mouseY = y;
     }
 
-    // ── Dimming ─────────────────────────────────────
-    property color dimColor: v.shadowColor
-
-    readonly property real bandTop: Math.max(0, root.selectionY)
-    readonly property real bandHeight: Math.min(root.selectionHeight, Math.max(0, root.height - root.selectionY))
-
+    Variables {
+        id: v
+    }
     Rectangle {
+        color: root.dimColor
+        height: Math.max(0, root.selectionY)
+        width: root.width
         x: 0
         y: 0
-        width: root.width
-        height: Math.max(0, root.selectionY)
-        color: root.dimColor
         z: 0
     }
     Rectangle {
+        color: root.dimColor
+        height: Math.max(0, root.height - (root.selectionY + root.selectionHeight))
+        width: root.width
         x: 0
         y: Math.max(0, root.selectionY + root.selectionHeight)
-        width: root.width
-        height: Math.max(0, root.height - (root.selectionY + root.selectionHeight))
-        color: root.dimColor
         z: 0
     }
     Rectangle {
+        color: root.dimColor
+        height: root.bandHeight
+        width: Math.max(0, root.selectionX)
         x: 0
         y: root.bandTop
-        width: Math.max(0, root.selectionX)
-        height: root.bandHeight
-        color: root.dimColor
         z: 1
     }
     Rectangle {
+        color: root.dimColor
+        height: root.bandHeight
+        width: Math.max(0, root.width - (root.selectionX + root.selectionWidth))
         x: Math.max(0, root.selectionX + root.selectionWidth)
         y: root.bandTop
-        width: Math.max(0, root.width - (root.selectionX + root.selectionWidth))
-        height: root.bandHeight
-        color: root.dimColor
         z: 1
     }
-
     Rectangle {
-        x: root.selectionX
-        y: root.selectionY
-        width: root.selectionWidth
-        height: root.selectionHeight
-        visible: root.selecting && root.selectionWidth > 0 && root.selectionHeight > 0
-        color: "transparent"
         border.color: Qt.rgba(1, 1, 1, 0.85)
         border.width: root.outlineThickness
+        color: "transparent"
+        height: root.selectionHeight
+        visible: root.selecting && root.selectionWidth > 0 && root.selectionHeight > 0
+        width: root.selectionWidth
+        x: root.selectionX
+        y: root.selectionY
         z: 2
     }
 
@@ -105,17 +102,25 @@ Item {
     MouseArea {
         id: mouseArea
 
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
         anchors.fill: parent
-        z: 3
+        cursorShape: Qt.CrossCursor
         enabled: root.inputEnabled
         hoverEnabled: true
-        acceptedButtons: Qt.LeftButton | Qt.RightButton
-        cursorShape: Qt.CrossCursor
+        z: 3
 
         // Keeps the aiming crosshair under the pointer as soon as the cursor
         // crosses onto the overlay, before any button is pressed.
         onEntered: root.updateMouse(mouseArea.mouseX, mouseArea.mouseY)
-
+        onPositionChanged: mouse => {
+            root.updateMouse(mouse.x, mouse.y);
+            if (root.selecting && !root.canceled && (mouse.buttons & Qt.LeftButton)) {
+                root.selectionX = Math.min(root.startPos.x, mouse.x);
+                root.selectionY = Math.min(root.startPos.y, mouse.y);
+                root.selectionWidth = Math.abs(mouse.x - root.startPos.x);
+                root.selectionHeight = Math.abs(mouse.y - root.startPos.y);
+            }
+        }
         onPressed: mouse => {
             if (mouse.button === Qt.RightButton) {
                 root.canceled = true;
@@ -132,17 +137,6 @@ Item {
             root.selectionHeight = 0;
             root.pointerPressed();
         }
-
-        onPositionChanged: mouse => {
-            root.updateMouse(mouse.x, mouse.y);
-            if (root.selecting && !root.canceled && (mouse.buttons & Qt.LeftButton)) {
-                root.selectionX = Math.min(root.startPos.x, mouse.x);
-                root.selectionY = Math.min(root.startPos.y, mouse.y);
-                root.selectionWidth = Math.abs(mouse.x - root.startPos.x);
-                root.selectionHeight = Math.abs(mouse.y - root.startPos.y);
-            }
-        }
-
         onReleased: mouse => {
             if (mouse.button === Qt.RightButton || root.canceled) {
                 root.canceled = false;
@@ -166,24 +160,24 @@ Item {
     Rectangle {
         id: dimLabel
 
-        visible: root.selecting && root.selectionWidth > 20
-        z: 4
-        x: root.selectionX + root.selectionWidth / 2 - width / 2
-        y: root.selectionY < 40 ? root.selectionY + 10 : root.selectionY - 35
-        width: labelText.implicitWidth + 16
-        height: labelText.implicitHeight + 8
-        radius: 6
-        color: v.popupBackground
         border.color: v.popupBorder
         border.width: 1
+        color: v.popupBackground
+        height: labelText.implicitHeight + 8
+        radius: 6
+        visible: root.selecting && root.selectionWidth > 20
+        width: labelText.implicitWidth + 16
+        x: root.selectionX + root.selectionWidth / 2 - width / 2
+        y: root.selectionY < 40 ? root.selectionY + 10 : root.selectionY - 35
+        z: 4
 
         Text {
             id: labelText
 
             anchors.centerIn: parent
-            text: `${Math.round(root.selectionWidth)} × ${Math.round(root.selectionHeight)}`
             color: v.textColor
             font.pixelSize: 12
+            text: `${Math.round(root.selectionWidth)} × ${Math.round(root.selectionHeight)}`
         }
     }
 }

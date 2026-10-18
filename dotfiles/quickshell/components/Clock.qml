@@ -5,42 +5,46 @@ import qs.popups.clock
 import ".."
 
 Item {
-    Variables { id: v }
     id: root
-    Layout.leftMargin: 6
 
-    Layout.rightMargin: 3
     Layout.fillHeight: true
+    Layout.leftMargin: 6
+    Layout.rightMargin: 3
     implicitWidth: clockLabel.implicitWidth + 24  // 6px left + 18px right
 
+    Variables {
+        id: v
+    }
     SystemClock {
         id: sysClock
+
         precision: SystemClock.Minutes
     }
     Rectangle {
         anchors.fill: parent
-        radius: 6
         color: clockPopup.visible ? v.widgetHighlight : "transparent"
+        radius: 6
     }
-
     Text {
         id: clockLabel
-        anchors {
-            verticalCenter: parent.verticalCenter
-            left: parent.left
-            leftMargin: 6
-        }
-        text: Qt.formatDateTime(sysClock.date, "ddd MMM d   hh:mm AP")
+
+        color: v.textColor
         font.family: "SF Pro"
         font.pixelSize: 20
-        color: v.textColor
         renderType: Text.NativeRendering
-    }
+        text: Qt.formatDateTime(sysClock.date, "ddd MMM d   hh:mm AP")
 
+        anchors {
+            left: parent.left
+            leftMargin: 6
+            verticalCenter: parent.verticalCenter
+        }
+    }
     MouseArea {
         anchors.fill: parent
-        hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
+        hoverEnabled: true
+
         onClicked: {
             clockPopup.visible = !clockPopup.visible;
             clockPopup.updatesEnabled = clockPopup.visible;
@@ -48,6 +52,7 @@ Item {
     }
     ClockPopup {
         id: clockPopup
+
         visible: false
     }
 }

@@ -9,153 +9,39 @@ import Qt5Compat.GraphicalEffects
 import "../"
 
 Item {
-    Variables { id: v }
     id: thumbContainer
-
-    property var hWin: null
-    property var wHandle: null
-
-    property string winKey: ''
-
-    property real thumbW: -1
-    property real thumbH: -1
-
-    property var clientInfo: {}
-    property bool hovered: false
-
-    property real targetX: -1000
-    property real targetY: -1000
-    property real targetZ: 0
-    property real targetRotation: 0
-
-    width: thumbW
-    height: thumbH
-
-    x: 0
-    y: 0
-    z: targetZ
-    rotation: 0
-
-    RectangularShadow {
-        anchors.fill: card
-        radius: 4
-        color: Qt.rgba(0, 0, 0, 0.35)
-        blur: 16
-        spread: 0
-        visible: true
-    }
-
-    visible: !!wHandle
 
     // If true, the thumbnail will animate from workspace position to layout position
     property bool animateIn: root.animateWindows
+    property var clientInfo: {}
+    property var hWin: null
+    property bool hovered: false
+    property real targetRotation: 0
+    property real targetX: -1000
+    property real targetY: -1000
+    property real targetZ: 0
+    property real thumbH: -1
+    property real thumbW: -1
+    property var wHandle: null
+    property string winKey: ''
 
-    function updateLastPos() {
-        var lp = root.lastPositions || ({});
-        var prev = lp[winKey] || ({});
-        prev.x = x;
-        prev.y = y;
-        lp[winKey] = prev;
-        root.lastPositions = lp;
-    }
+    function activateWindow() {
+        if (!hWin)
+            return;
+        var targetIsSpecial = (hWin?.workspace ?? 0) < 0 || (hWin?.workspace?.name ?? "").startsWith("special");
 
-    onTargetXChanged: {
-        if (!startAnim.running && !closeAnim.running) {
-            x = targetX;
+        if (root.specialActive && !targetIsSpecial) {
+            Hyprland.dispatch('hl.dsp.workspace.toggle_special()');
         }
-        updateLastPos();
-    }
 
-    onTargetYChanged: {
-        if (!startAnim.running && !closeAnim.running) {
-            y = targetY;
+        if (hWin.workspace) {
+            root.closingWorkspace = hWin.workspace;
+            hWin.workspace.activate();
         }
-        updateLastPos();
-    }
+        root.toggleExpose();
 
-    onTargetRotationChanged: {
-        rotation = targetRotation;
-    }
-
-    onXChanged: updateLastPos()
-    onYChanged: updateLastPos()
-
-    // Open animation: from workspace position/size to layout position/size
-    ParallelAnimation {
-        id: startAnim
-        PropertyAnimation {
-            target: thumbContainer
-            property: "x"
-            to: targetX
-            duration: 400
-            easing.type: Easing.OutCubic
-        }
-        PropertyAnimation {
-            target: thumbContainer
-            property: "y"
-            to: targetY
-            duration: 400
-            easing.type: Easing.OutCubic
-        }
-        PropertyAnimation {
-            target: thumbContainer
-            property: "width"
-            to: thumbW
-            duration: 400
-            easing.type: Easing.OutCubic
-        }
-        PropertyAnimation {
-            target: thumbContainer
-            property: "height"
-            to: thumbH
-            duration: 400
-            easing.type: Easing.OutCubic
-        }
-    }
-
-    // Close animation: focused workspace windows animate back to workspace position
-    ParallelAnimation {
-        id: closeAnim
-        PropertyAnimation {
-            id: closeAnimX
-            target: thumbContainer
-            property: "x"
-            duration: 400
-            easing.type: Easing.OutCubic
-        }
-        PropertyAnimation {
-            id: closeAnimY
-            target: thumbContainer
-            property: "y"
-            duration: 400
-            easing.type: Easing.OutCubic
-        }
-        PropertyAnimation {
-            id: closeAnimW
-            target: thumbContainer
-            property: "width"
-            duration: 400
-            easing.type: Easing.OutCubic
-        }
-        PropertyAnimation {
-            id: closeAnimH
-            target: thumbContainer
-            property: "height"
-            duration: 400
-            easing.type: Easing.OutCubic
-        }
-    }
-
-    function isOnFocusedWorkspace() {
-        if (!hWin || !hWin.workspace)
-            return false;
-        // When a special workspace is active, match its windows by name
-        if (root.specialActive && root.specialWorkspaceName)
-            return hWin.workspace.name === root.specialWorkspaceName;
-        var focused = Hyprland.focusedWorkspace;
-        if (!focused)
-            return false;
-        return hWin.workspace.id === focused.id;
+        Hyprland.dispatch('hl.dsp.focus({ window = "address:0x' + hWin.address + '"})');
+        Hyprland.dispatch('hl.dsp.window.alter_zorder({ mode = "top" })');
     }
 
     // Used for close animation: respects explicit closingWorkspace, falls back accordingly
@@ -177,40 +63,16 @@ Item {
             return false;
         return hWin.workspace.id === focused.id;
     }
-
-    // Map the window's screen-space center to exposeArea-local coords
-    function workspaceToLocalCenter() {
-        if (!clientInfo || !clientInfo.at || clientInfo.at[0] <= -1000) {
-            return null;
-        }
-        var parentItem = thumbContainer.parent;
-        if (!parentItem) {
-            return null;
-        }
-        var screenCX = (clientInfo.at[0] || 0) + (clientInfo.size[0] || 0) / 2;
-        var screenCY = (clientInfo.at[1] || 0) + (clientInfo.size[1] || 0) / 2;
-        return parentItem.mapFromItem(null, screenCX, screenCY);
-    }
-
-    // Fade-in for windows not on the focused workspace (open)
-    PropertyAnimation {
-        id: fadeInAnim
-        target: thumbContainer
-        property: "opacity"
-        from: 0
-        to: 1
-        duration: 400
-        easing.type: Easing.OutCubic
-    }
-
-    // Fade-out for off-workspace windows (close)
-    PropertyAnimation {
-        id: fadeOutAnim
-        target: thumbContainer
-        property: "opacity"
-        to: 0
-        duration: 400
-        easing.type: Easing.OutCubic
+    function isOnFocusedWorkspace() {
+        if (!hWin || !hWin.workspace)
+            return false;
+        // When a special workspace is active, match its windows by name
+        if (root.specialActive && root.specialWorkspaceName)
+            return hWin.workspace.name === root.specialWorkspaceName;
+        var focused = Hyprland.focusedWorkspace;
+        if (!focused)
+            return false;
+        return hWin.workspace.id === focused.id;
     }
 
     // Called by Hyprview when expose is closing. Triggers reverse animations.
@@ -234,6 +96,36 @@ Item {
             fadeOutAnim.start();
         }
     }
+    function updateLastPos() {
+        var lp = root.lastPositions || ({});
+        var prev = lp[winKey] || ({});
+        prev.x = x;
+        prev.y = y;
+        lp[winKey] = prev;
+        root.lastPositions = lp;
+    }
+
+    // Map the window's screen-space center to exposeArea-local coords
+    function workspaceToLocalCenter() {
+        if (!clientInfo || !clientInfo.at || clientInfo.at[0] <= -1000) {
+            return null;
+        }
+        var parentItem = thumbContainer.parent;
+        if (!parentItem) {
+            return null;
+        }
+        var screenCX = (clientInfo.at[0] || 0) + (clientInfo.size[0] || 0) / 2;
+        var screenCY = (clientInfo.at[1] || 0) + (clientInfo.size[1] || 0) / 2;
+        return parentItem.mapFromItem(null, screenCX, screenCY);
+    }
+
+    height: thumbH
+    rotation: 0
+    visible: !!wHandle
+    width: thumbW
+    x: 0
+    y: 0
+    z: targetZ
 
     Component.onCompleted: {
         rotation = targetRotation;
@@ -269,49 +161,150 @@ Item {
         }
         updateLastPos();
     }
-
-    function activateWindow() {
-        if (!hWin)
-            return;
-        var targetIsSpecial = (hWin?.workspace ?? 0) < 0 || (hWin?.workspace?.name ?? "").startsWith("special");
-
-        if (root.specialActive && !targetIsSpecial) {
-            Hyprland.dispatch('hl.dsp.workspace.toggle_special()');
+    onTargetRotationChanged: {
+        rotation = targetRotation;
+    }
+    onTargetXChanged: {
+        if (!startAnim.running && !closeAnim.running) {
+            x = targetX;
         }
-
-        if (hWin.workspace) {
-            root.closingWorkspace = hWin.workspace;
-            hWin.workspace.activate();
+        updateLastPos();
+    }
+    onTargetYChanged: {
+        if (!startAnim.running && !closeAnim.running) {
+            y = targetY;
         }
-        root.toggleExpose();
+        updateLastPos();
+    }
+    onXChanged: updateLastPos()
+    onYChanged: updateLastPos()
 
-        Hyprland.dispatch(
-            'hl.dsp.focus({ window = "address:0x' + hWin.address + '"})'
-        );
-        Hyprland.dispatch(
-             'hl.dsp.window.alter_zorder({ mode = "top" })');
+    Variables {
+        id: v
+    }
+    RectangularShadow {
+        anchors.fill: card
+        blur: 16
+        color: Qt.rgba(0, 0, 0, 0.35)
+        radius: 4
+        spread: 0
+        visible: true
     }
 
+    // Open animation: from workspace position/size to layout position/size
+    ParallelAnimation {
+        id: startAnim
+
+        PropertyAnimation {
+            duration: 400
+            easing.type: Easing.OutCubic
+            property: "x"
+            target: thumbContainer
+            to: targetX
+        }
+        PropertyAnimation {
+            duration: 400
+            easing.type: Easing.OutCubic
+            property: "y"
+            target: thumbContainer
+            to: targetY
+        }
+        PropertyAnimation {
+            duration: 400
+            easing.type: Easing.OutCubic
+            property: "width"
+            target: thumbContainer
+            to: thumbW
+        }
+        PropertyAnimation {
+            duration: 400
+            easing.type: Easing.OutCubic
+            property: "height"
+            target: thumbContainer
+            to: thumbH
+        }
+    }
+
+    // Close animation: focused workspace windows animate back to workspace position
+    ParallelAnimation {
+        id: closeAnim
+
+        PropertyAnimation {
+            id: closeAnimX
+
+            duration: 400
+            easing.type: Easing.OutCubic
+            property: "x"
+            target: thumbContainer
+        }
+        PropertyAnimation {
+            id: closeAnimY
+
+            duration: 400
+            easing.type: Easing.OutCubic
+            property: "y"
+            target: thumbContainer
+        }
+        PropertyAnimation {
+            id: closeAnimW
+
+            duration: 400
+            easing.type: Easing.OutCubic
+            property: "width"
+            target: thumbContainer
+        }
+        PropertyAnimation {
+            id: closeAnimH
+
+            duration: 400
+            easing.type: Easing.OutCubic
+            property: "height"
+            target: thumbContainer
+        }
+    }
+
+    // Fade-in for windows not on the focused workspace (open)
+    PropertyAnimation {
+        id: fadeInAnim
+
+        duration: 400
+        easing.type: Easing.OutCubic
+        from: 0
+        property: "opacity"
+        target: thumbContainer
+        to: 1
+    }
+
+    // Fade-out for off-workspace windows (close)
+    PropertyAnimation {
+        id: fadeOutAnim
+
+        duration: 400
+        easing.type: Easing.OutCubic
+        property: "opacity"
+        target: thumbContainer
+        to: 0
+    }
     Item {
         id: card
-        anchors.fill: parent
 
+        anchors.fill: parent
         scale: 1
         transformOrigin: Item.Center
 
         MouseArea {
-            anchors.fill: parent
-            hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
             acceptedButtons: Qt.LeftButton | Qt.MiddleButton
+            anchors.fill: parent
+            cursorShape: Qt.PointingHandCursor
+            hoverEnabled: true
 
-            onEntered: {
-                exposeArea.currentIndex = index;
-            }
             onClicked: event => {
                 exposeArea.currentIndex = index;
 
                 thumbContainer.activateWindow();
+            }
+            onEntered: {
+                exposeArea.currentIndex = index;
             }
             onExited: {
                 if (exposeArea.currentIndex === index) {
@@ -319,65 +312,67 @@ Item {
                 }
             }
         }
-
         Loader {
             id: thumbLoader
-            anchors.fill: parent
+
             active: root.isActive && !!thumbContainer.wHandle
-            Rectangle{
-                anchors.fill: parent
-                color: "#333333"
-                radius: 12
-            }
+            anchors.fill: parent
+
             sourceComponent: ScreencopyView {
                 id: thumb
+
                 anchors.fill: parent
                 captureSource: thumbContainer.wHandle
+                layer.enabled: true
                 live: root.isActive
                 paintCursor: false
                 visible: root.isActive && thumbContainer.wHandle && hasContent
 
-                layer.enabled: true
                 layer.effect: OpacityMask {
                     maskSource: Rectangle {
-                        width: thumb.width
                         height: thumb.height
                         radius: 12
+                        width: thumb.width
                     }
                 }
 
                 Rectangle {
                     anchors.fill: parent
-                    color: "transparent"
-                    border.width: thumbContainer.hovered ? 4 : 1
                     border.color: "#444"
+                    border.width: thumbContainer.hovered ? 4 : 1
+                    color: "transparent"
                     radius: 12
                 }
             }
-        }
 
+            Rectangle {
+                anchors.fill: parent
+                color: "#333333"
+                radius: 12
+            }
+        }
         Rectangle {
             id: badge
-            z: 100
-            width: Math.min(titleText.implicitWidth + 24, thumbContainer.thumbW * 0.75)
-            height: titleText.implicitHeight + 12
 
+            color: thumbContainer.hovered ? v.accentColor : "#e4e7ef"
+            height: titleText.implicitHeight + 12
+            radius: 4
+            width: Math.min(titleText.implicitWidth + 24, thumbContainer.thumbW * 0.75)
             x: (card.width - width) / 2
             y: card.height - height - (card.height * 0.08)
-
-            radius: 4
-            color: thumbContainer.hovered ? v.accentColor : "#e4e7ef"
+            z: 100
 
             Text {
                 id: titleText
+
                 anchors.centerIn: parent
-                width: parent.width - 16
-                text: hWin.title
                 color: thumbContainer.hovered ? "#fff" : "#222"
-                font.pixelSize: 12
                 elide: Text.ElideRight
+                font.pixelSize: 12
                 horizontalAlignment: Text.AlignHCenter
+                text: hWin.title
                 verticalAlignment: Text.AlignVCenter
+                width: parent.width - 16
             }
         }
     }

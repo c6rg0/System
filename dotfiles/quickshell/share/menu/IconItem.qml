@@ -5,65 +5,71 @@ import QtQuick.Controls
 import "../.."
 
 Rectangle {
-    Variables { id: v }
     id: item
+
+    property bool hovered: false
+    property alias iconName: iconButton.icon.name
+    property string label: ""
     property alias labelElement: labelText
     property alias mouseArea: mouseArea
-    property alias iconName: iconButton.icon.name
     property bool selected: false
-    property string label: ""
+
     signal triggered
 
     Layout.fillWidth: true
     Layout.leftMargin: 4
     Layout.rightMargin: 4
+    color: hovered ? v.widgetHighlight : "transparent"
     implicitHeight: 40
     radius: 4
-    color: hovered ? v.widgetHighlight : "transparent"
 
-    property bool hovered: false
-
+    Variables {
+        id: v
+    }
     RowLayout {
+        spacing: 10
+
         anchors {
             fill: parent
             leftMargin: 14
             rightMargin: 14
         }
-        spacing: 10
         Rectangle {
-            implicitWidth: 32
-            implicitHeight: 32
             color: selected ? v.accentColor : "#20A0A0A0"
-
+            implicitHeight: 32
+            implicitWidth: 32
             radius: 16
+
             Button {
                 id: iconButton
-                implicitWidth: 32
-                implicitHeight: 32
 
-                icon.name: "headphone"
-                icon.color: selected ? v.accentForeground : "#888"
                 flat: true
+                icon.color: selected ? v.accentForeground : "#888"
+                icon.name: "headphone"
+                implicitHeight: 32
+                implicitWidth: 32
             }
         }
         Text {
             id: labelText
-            text: item.label
+
+            Layout.fillWidth: true
             color: v.textColor
             font.family: "SF Pro"
             font.pixelSize: 18
-            Layout.fillWidth: true
+            text: item.label
             verticalAlignment: Text.AlignVCenter
         }
     }
-
     MouseArea {
         id: mouseArea
+
         anchors.fill: parent
+        cursorShape: Qt.PointingHandCursor
         hoverEnabled: true
+
+        onClicked: item.triggered()
         onEntered: item.hovered = true
         onExited: item.hovered = false
-        onClicked: item.triggered()
-        cursorShape: Qt.PointingHandCursor
     }
 }

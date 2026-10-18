@@ -9,32 +9,36 @@ Variants {
     model: Quickshell.screens
 
     PanelWindow {
-        Variables { id: v }
         required property var modelData
 
-        screen: modelData
-        anchors.top: true
+        WlrLayershell.layer: HyprlandExt.exposeOpen ? WlrLayer.Overlay : WlrLayer.Top
         anchors.left: true
         anchors.right: true
-        implicitHeight: 56  // 40px bar + 16px shadow
-        exclusiveZone: 50
-        WlrLayershell.layer: HyprlandExt.exposeOpen ? WlrLayer.Overlay : WlrLayer.Top
+        anchors.top: true
         color: "transparent"
+        exclusiveZone: 50
+        implicitHeight: 56  // 40px bar + 16px shadow
+        screen: modelData
+
+        Variables {
+            id: v
+        }
 
         /* Shadow gradient below the bar */
         Rectangle {
+            anchors.bottom: parent.bottom
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.bottom: parent.bottom
             implicitHeight: 16
+
             gradient: Gradient {
                 GradientStop {
-                    position: 0.0
                     color: Qt.rgba(0, 0, 0, 0.15)
+                    position: 0.0
                 }
                 GradientStop {
-                    position: 1.0
                     color: Qt.rgba(0, 0, 0, 0.0)
+                    position: 1.0
                 }
             }
         }
@@ -42,23 +46,27 @@ Variants {
         /* Bar background */
         Rectangle {
             id: barBackground
-            anchors.top: parent.top
+
             anchors.left: parent.left
             anchors.right: parent.right
-            implicitHeight: 40
+            anchors.top: parent.top
             //color: "#d1e4e7ef"
             color: v.barBackground
+            implicitHeight: 40
 
             RowLayout {
-                anchors {
-                    fill: parent
-                    bottomMargin: 1
-                }
                 spacing: 0
 
+                anchors {
+                    bottomMargin: 1
+                    fill: parent
+                }
+
                 /* Left */
-                Logo {}
-                WindowTitle {}
+                Logo {
+                }
+                WindowTitle {
+                }
 
                 /* Spacer */
                 Item {
@@ -66,13 +74,20 @@ Variants {
                 }
 
                 /* Right */
-                TrayWidget {}
-                MprisWidget {}
-                VolumeWidget {}
-                BluetoothWidget {}
-                BatteryWidget {}
-                NetworkWidget {}
-                Clock {}
+                TrayWidget {
+                }
+                MprisWidget {
+                }
+                VolumeWidget {
+                }
+                BluetoothWidget {
+                }
+                BatteryWidget {
+                }
+                NetworkWidget {
+                }
+                Clock {
+                }
             }
 
             /* Bottom border */
@@ -80,8 +95,8 @@ Variants {
                 anchors.bottom: parent.bottom
                 anchors.left: parent.left
                 anchors.right: parent.right
-                implicitHeight: 1
                 color: v.barBorder
+                implicitHeight: 1
             }
         }
     }

@@ -12,95 +12,22 @@ import "hyprview/layouts"
 PanelWindow {
     id: root
 
-    // --- SETTINGS ---
-    property string layoutAlgorithm: "smartgrid"
-    property string lastLayoutAlgorithm: ""
-    property bool liveCapture: false
+    property bool animateWindows: false
+    property bool closing: false
+    property var closingWorkspace: null
 
     // --- INTERNAL STATE ---
     property bool isActive: false
-    property bool closing: false
-    property var closingWorkspace: null
-    property bool visualActive: isActive && !closing
+    property string lastLayoutAlgorithm: ""
+    property var lastPositions: {}
+
+    // --- SETTINGS ---
+    property string layoutAlgorithm: "smartgrid"
+    property bool liveCapture: false
     property bool specialActive: false
     property string specialWorkspaceName: ""
-    property bool animateWindows: false
-    property var lastPositions: {}
+    property bool visualActive: isActive && !closing
     property string wallpaperPath: ""
-
-    Process {
-        //TODO: The below
-        id: wallpaperProc
-        command: ["sh", "-c", "hyprctl hyprpaper listactive | awk -F': ' '{print $2}'"]
-
-        stdout: SplitParser {
-            onRead: data => {
-                var path = data.trim();
-                if (path) {
-                    root.wallpaperPath = "file://" + path;
-                }
-            }
-        }
-    }
-
-    anchors {
-        top: true
-        bottom: true
-        left: true
-        right: true
-    }
-    color: "transparent"
-    visible: isActive || closing
-
-    // LayerShell Configs
-    WlrLayershell.layer: WlrLayer.Overlay
-    WlrLayershell.exclusiveZone: -1
-    WlrLayershell.keyboardFocus: WlrKeyboardFocus.None //(isActive && !closing) ? 1 : 0
-    WlrLayershell.namespace: "qs:expose"
-
-    // --- IPC & EVENTS ---
-    IpcHandler {
-        target: "expose"
-        function toggle() {
-            root.toggleExpose();
-        }
-
-        function open() {
-            if (root.isActive)
-                return;
-            root.toggleExpose();
-        }
-
-        function close() {
-            if (!root.isActive)
-                return;
-            root.toggleExpose();
-        }
-    }
-
-    Connections {
-        target: Hyprland
-        function onRawEvent(ev) {
-            if ((!root.isActive || root.closing) && ev.name !== "activespecial")
-                return;
-            switch (ev.name) {
-            case "openwindow":
-            case "closewindow":
-            case "changefloatingmode":
-            case "movewindow":
-                Hyprland.refreshToplevels();
-                return;
-            case "activespecial":
-                var dataStr = String(ev.data);
-                var namePart = dataStr.split(",")[0];
-                root.specialActive = (namePart.length > 0);
-                root.specialWorkspaceName = root.specialActive ? namePart : "";
-                return;
-            default:
-                return;
-            }
-        }
-    }
 
     function toggleExpose() {
         if (root.isActive && !root.closing) {
@@ -125,9 +52,84 @@ PanelWindow {
         }
     }
 
+    WlrLayershell.exclusiveZone: -1
+    WlrLayershell.keyboardFocus: WlrKeyboardFocus.None //(isActive && !closing) ? 1 : 0
+
+    // LayerShell Configs
+    WlrLayershell.layer: WlrLayer.Overlay
+    WlrLayershell.namespace: "qs:expose"
+    color: "transparent"
+    visible: isActive || closing
+
+    Process {
+        //TODO: The below
+        id: wallpaperProc
+
+        command: ["sh", "-c", "hyprctl hyprpaper listactive | awk -F': ' '{print $2}'"]
+
+        stdout: SplitParser {
+            onRead: data => {
+                var path = data.trim();
+                if (path) {
+                    root.wallpaperPath = "file://" + path;
+                }
+            }
+        }
+    }
+    anchors {
+        bottom: true
+        left: true
+        right: true
+        top: true
+    }
+
+    // --- IPC & EVENTS ---
+    IpcHandler {
+        function close() {
+            if (!root.isActive)
+                return;
+            root.toggleExpose();
+        }
+        function open() {
+            if (root.isActive)
+                return;
+            root.toggleExpose();
+        }
+        function toggle() {
+            root.toggleExpose();
+        }
+
+        target: "expose"
+    }
+    Connections {
+        function onRawEvent(ev) {
+            if ((!root.isActive || root.closing) && ev.name !== "activespecial")
+                return;
+            switch (ev.name) {
+            case "openwindow":
+            case "closewindow":
+            case "changefloatingmode":
+            case "movewindow":
+                Hyprland.refreshToplevels();
+                return;
+            case "activespecial":
+                var dataStr = String(ev.data);
+                var namePart = dataStr.split(",")[0];
+                root.specialActive = (namePart.length > 0);
+                root.specialWorkspaceName = root.specialActive ? namePart : "";
+                return;
+            default:
+                return;
+            }
+        }
+
+        target: Hyprland
+    }
     Timer {
         id: closeTimer
+
         interval: 400
+
         onTriggered: {
             root.isActive = false;
             HyprlandExt.exposeOpen = false;
@@ -141,6 +143,7 @@ PanelWindow {
     // --- USER INTERFACE ---
     FocusScope {
         id: mainScope
+
         anchors.fill: parent
         focus: true
 
@@ -241,6 +244,7 @@ PanelWindow {
             anchors.fill: parent
             hoverEnabled: false
             z: 0
+
             onClicked: {
                 if (!root.closing) {
                     root.toggleExpose();
@@ -251,21 +255,27 @@ PanelWindow {
         // Dim background
         Rectangle {
             anchors.fill: parent
-            z: -4
-            bottomRightRadius: 16
             bottomLeftRadius: 16
+            bottomRightRadius: 16
             color: Qt.rgba(0.2, 0.2, 0.2)
+            z: -4
         }
-
         Rectangle {
             id: bgRect
-            anchors.fill: parent
-            color: "transparent"
 
             property int targetMargins: 128
             property int targetRadius: 64
 
+            anchors.fill: parent
             anchors.margins: visualActive ? targetMargins : 0
+            color: "transparent"
+
+            Behavior on anchors.margins {
+                NumberAnimation {
+                    duration: 400
+                    easing.type: Easing.OutCubic
+                }
+            }
             //opacity: visualActive ? 1 : 0
             Behavior on opacity {
                 NumberAnimation {
@@ -274,23 +284,17 @@ PanelWindow {
                 }
             }
 
-            Behavior on anchors.margins {
-                NumberAnimation {
-                    duration: 400
-                    easing.type: Easing.OutCubic
-                }
-            }
-
             RectangularShadow {
                 id: bgShadow
-                anchors.fill: parent
-                z: -2
-                color: Qt.rgba(0, 0, 0, 0.3)
 
-                radius: visualActive ? bgRect.targetRadius : 8
+                anchors.fill: parent
                 blur: 30
-                spread: 10
+                color: Qt.rgba(0, 0, 0, 0.3)
                 opacity: visualActive ? 1 : 0
+                radius: visualActive ? bgRect.targetRadius : 8
+                spread: 10
+                z: -2
+
                 Behavior on opacity {
                     NumberAnimation {
                         duration: 200
@@ -304,12 +308,12 @@ PanelWindow {
                     }
                 }
             }
-
             ClippingRectangle {
                 anchors.fill: parent
                 color: "transparent"
                 radius: visualActive ? bgRect.targetRadius : 8
                 z: -1
+
                 Behavior on radius {
                     NumberAnimation {
                         duration: 400
@@ -324,11 +328,12 @@ PanelWindow {
                 }
             }
         }
-
         Item {
             id: layoutContainer
+
             anchors.fill: parent
             anchors.margins: 32
+
             Behavior on opacity {
                 NumberAnimation {
                     duration: 200
@@ -338,6 +343,7 @@ PanelWindow {
 
             Column {
                 id: layoutRoot
+
                 anchors.fill: parent
                 anchors.margins: 48
                 anchors.topMargin: 96
@@ -345,17 +351,18 @@ PanelWindow {
 
                 Item {
                     id: exposeArea
-                    width: layoutRoot.width
-                    height: layoutRoot.height - layoutRoot.spacing
 
                     property int currentIndex: 0
+
+                    height: layoutRoot.height - layoutRoot.spacing
+                    width: layoutRoot.width
 
                     ScriptModel {
                         id: windowLayoutModel
 
-                        property int areaW: exposeArea.width
-                        property int areaH: exposeArea.height
                         property string algo: root.lastLayoutAlgorithm
+                        property int areaH: exposeArea.height
+                        property int areaW: exposeArea.width
                         property var rawToplevels: Hyprland.toplevels.values
 
                         values: {
@@ -410,26 +417,25 @@ PanelWindow {
                             return LayoutsManager.doLayout(algo, windowList, areaW, areaH);
                         }
                     }
-
                     Repeater {
                         id: winRepeater
+
                         model: windowLayoutModel
 
                         delegate: WindowThumbnail {
-                            hWin: modelData.win
-                            wHandle: hWin.wayland
-                            winKey: String(hWin.address)
-                            thumbW: modelData.width
-                            thumbH: modelData.height
                             clientInfo: hWin.lastIpcObject
+                            hWin: modelData.win
+                            hovered: visible && (exposeArea.currentIndex === index)
+                            targetRotation: modelData.rotation || 0
 
                             // Layout-generated coordinates
                             targetX: modelData.x
                             targetY: modelData.y
                             targetZ: (visible && (exposeArea.currentIndex === index)) ? 1000 : modelData.zIndex || 0
-                            targetRotation: modelData.rotation || 0
-
-                            hovered: visible && (exposeArea.currentIndex === index)
+                            thumbH: modelData.height
+                            thumbW: modelData.width
+                            wHandle: hWin.wayland
+                            winKey: String(hWin.address)
                         }
                     }
                 }

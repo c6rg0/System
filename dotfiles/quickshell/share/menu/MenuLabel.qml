@@ -4,46 +4,49 @@ import QtQuick.Layouts
 import "../.."
 
 Rectangle {
-    Variables { id: v }
     id: item
-    property alias labelElement: labelText
-    property alias secondaryElement: labelSecondary
 
+    property bool hovered: false
     property string label: ""
+    property alias labelElement: labelText
     property string secondary: ""
+    property alias secondaryElement: labelSecondary
 
     Layout.fillWidth: true
     Layout.leftMargin: 4
     Layout.rightMargin: 4
-    implicitHeight: 32
     color: "transparent"
+    implicitHeight: 32
 
-    property bool hovered: false
-
+    Variables {
+        id: v
+    }
     RowLayout {
+        spacing: 0
+
         anchors {
             fill: parent
             leftMargin: 14
             rightMargin: 14
         }
-        spacing: 0
-
         Text {
             id: labelText
-            text: item.label
+
+            Layout.fillWidth: true
             color: v.textColor
             font.family: "SF Pro"
             font.pixelSize: 18
-            Layout.fillWidth: true
+            text: item.label
             verticalAlignment: Text.AlignVCenter
         }
         Text {
             id: labelSecondary
-            visible: item.secondary !== ""
-            text: item.secondary
+
             color: "#808080"
             font.family: "SF Pro"
             font.pixelSize: 16
+            text: item.secondary
+            visible: item.secondary !== ""
         }
     }
 }

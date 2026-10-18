@@ -6,14 +6,17 @@ import ".."
 import qs.popups.tray
 
 Item {
-    Variables { id: v }
     id: rootWidget
 
     Layout.fillHeight: true
     implicitWidth: trayRow.implicitWidth + 12
 
+    Variables {
+        id: v
+    }
     Row {
         id: trayRow
+
         anchors.centerIn: parent
         spacing: 8
 
@@ -22,39 +25,43 @@ Item {
 
             delegate: Item {
                 id: root
+
                 required property var modelData
-                implicitWidth: 32
+
                 implicitHeight: 40
+                implicitWidth: 32
+
                 TrayPopup {
                     id: trayPopup
+
                     anchorPoint: trayIconItem
                     menuHandle: modelData.menu
                 }
-
                 Rectangle {
                     anchors.fill: parent
                     color: trayPopup.visible ? v.widgetHighlight : "transparent"
                     radius: 6
 
                     Image {
-                        anchors.fill: parent
-                        anchors.topMargin: 10
                         anchors.bottomMargin: 10
+                        anchors.fill: parent
                         anchors.leftMargin: 6
                         anchors.rightMargin: 6
-                        source: modelData.icon
-                        sourceSize.width: width
-                        sourceSize.height: height
+                        anchors.topMargin: 10
+                        asynchronous: true
                         fillMode: Image.PreserveAspectFit
                         mipmap: true
-                        asynchronous: true
+                        source: modelData.icon
+                        sourceSize.height: height
+                        sourceSize.width: width
                     }
                     MouseArea {
                         id: trayIconItem
-                        anchors.fill: parent
+
                         acceptedButtons: Qt.LeftButton | Qt.RightButton
-                        hoverEnabled: true
+                        anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
+                        hoverEnabled: true
 
                         onPressed: mouse => {
                             if (mouse.button == Qt.RightButton) {

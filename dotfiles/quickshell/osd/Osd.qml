@@ -16,44 +16,17 @@ import "."
 Singleton {
     id: root
 
-    // ── Configuration ───────────────────────────────────────────────
-    // Maximum volume, mirroring swayosd's max_volume = 100
-    readonly property real maxVolume: 1.0
-
-    // Default volume step (swayosd's "raise"/"lower" used 5%).
-    readonly property real volumeStep: 0.05
-    // Fine volume step (the SHIFT + volume binds used 1%).
-    readonly property real volumeFineStep: 0.01
-
-    // How long the OSD stays on screen after the last change.
-    readonly property int displayDuration: 800
-
-    // Vertical offset from the top of the screen to the visible pill. OsdWindow
-    // insets its layer surface by the pill's shadow margin, so this is measured
-    // from the pill, not from the surface's edge.
-    property real topMargin: 60
-
-    // ── State ───────────────────────────────────────────────────────
-    // "volume" | "brightness" | ""
-    property string kind: ""
-    property real value: 0
-    property bool muted: false
-    property bool visible: false
+    property int bumpDirection: 1
 
     // Bumped whenever a keypress pushes past a limit with nothing left to change
     // (volume already at 100%, brightness already at 0%, ...). The pill springs
     // on every change, so the keypress isn't silently swallowed.
     // +1 for a push past the top, -1 for a push past the bottom.
     property int bumpToken: 0
-    property int bumpDirection: 1
 
-    readonly property var sink: Pipewire.defaultAudioSink
+    // How long the OSD stays on screen after the last change.
+    readonly property int displayDuration: 800
     readonly property bool hasSink: sink !== null && sink.audio !== null
-
-    PwObjectTracker {
-        objects: Pipewire.defaultAudioSink ? [Pipewire.defaultAudioSink] : []
-    }
-
     readonly property string iconName: {
         if (root.kind === "brightness")
             return root.value > 0.5 ? "brightness-high" : "brightness-low";
@@ -65,26 +38,27 @@ Singleton {
         return "";
     }
 
-    // ── Show / hide ─────────────────────────────────────────────────
-    function show(what) {
-        if (what === "volume") {
-            root.value = root.hasSink ? root.sink.audio.volume : 0;
-            root.muted = root.hasSink ? root.sink.audio.muted : false;
-        } else if (what === "brightness") {
-            root.value = Backlight.percentage;
-            root.muted = false;
-        } else {
-            return;
-        }
-        root.kind = what;
-        root.visible = true;
-        hideTimer.restart();
-    }
+    // ── State ───────────────────────────────────────────────────────
+    // "volume" | "brightness" | ""
+    property string kind: ""
 
-    function hide() {
-        root.visible = false;
-        hideTimer.stop();
-    }
+    // ── Configuration ───────────────────────────────────────────────
+    // Maximum volume, mirroring swayosd's max_volume = 100
+    readonly property real maxVolume: 1.0
+    property bool muted: false
+    readonly property var sink: Pipewire.defaultAudioSink
+
+    // Vertical offset from the top of the screen to the visible pill. OsdWindow
+    // insets its layer surface by the pill's shadow margin, so this is measured
+    // from the pill, not from the surface's edge.
+    property real topMargin: 60
+    property real value: 0
+    property bool visible: false
+    // Fine volume step (the SHIFT + volume binds used 1%).
+    readonly property real volumeFineStep: 0.01
+
+    // Default volume step (swayosd's "raise"/"lower" used 5%).
+    readonly property real volumeStep: 0.05
 
     // A push past a limit: nudge the pill in the direction of the push. The
     // token drives the animation, the direction its sign; see OsdPill.qml.
@@ -92,11 +66,9 @@ Singleton {
         root.bumpDirection = direction >= 0 ? 1 : -1;
         root.bumpToken += 1;
     }
-
-    Timer {
-        id: hideTimer
-        interval: root.displayDuration
-        onTriggered: root.hide()
+    function hide() {
+        root.visible = false;
+        hideTimer.stop();
     }
 
     // ── Volume control ──────────────────────────────────────────────
@@ -116,73 +88,87 @@ Singleton {
         root.show("volume");
     }
 
-    function volumeUp(step) {
-        if (!root.hasSink)
+    // ── Show / hide ─────────────────────────────────────────────────
+    function show(what) {
+        if (what === "volume") {
+            root.value = root.hasSink ? root.sink.audio.volume : 0;
+            root.muted = root.hasSink ? root.sink.audio.muted : false;
+        } else if (what === "brightness") {
+            root.value = Backlight.percentage;
+            root.muted = false;
+        } else {
             return;
-        root.setVolume(root.sink.audio.volume + (step !== undefined ? step : root.volumeStep));
+        }
+        root.kind = what;
+        root.visible = true;
+        hideTimer.restart();
     }
-
-    function volumeDown(step) {
-        if (!root.hasSink)
-            return;
-        root.setVolume(root.sink.audio.volume - (step !== undefined ? step : root.volumeStep));
-    }
-
     function toggleMute() {
         if (!root.hasSink)
             return;
         root.sink.audio.muted = !root.sink.audio.muted;
         root.show("volume");
     }
+    function volumeDown(step) {
+        if (!root.hasSink)
+            return;
+        root.setVolume(root.sink.audio.volume - (step !== undefined ? step : root.volumeStep));
+    }
+    function volumeUp(step) {
+        if (!root.hasSink)
+            return;
+        root.setVolume(root.sink.audio.volume + (step !== undefined ? step : root.volumeStep));
+    }
+
+    PwObjectTracker {
+        objects: Pipewire.defaultAudioSink ? [Pipewire.defaultAudioSink] : []
+    }
+    Timer {
+        id: hideTimer
+
+        interval: root.displayDuration
+
+        onTriggered: root.hide()
+    }
 
     // ── IPC ─────────────────────────────────────────────────────────
     // All functions take no arguments so the keybinds stay simple:
     //   quickshell ipc -p ~/.config/quickshell call osd volumeUp
     IpcHandler {
-        target: "osd"
-
+        function brightnessDown(): void {
+            Backlight.decrease();
+        }
+        function brightnessDownFine(): void {
+            Backlight.decrease(Backlight.fineStep);
+        }
+        function brightnessRefresh(): void {
+            root.show("brightness");
+        }
+        function brightnessUp(): void {
+            Backlight.increase();
+        }
+        function brightnessUpFine(): void {
+            Backlight.increase(Backlight.fineStep);
+        }
+        function volumeDown(): void {
+            root.volumeDown();
+        }
+        function volumeDownFine(): void {
+            root.volumeDown(root.volumeFineStep);
+        }
+        function volumeMute(): void {
+            root.toggleMute();
+        }
+        function volumeRefresh(): void {
+            root.show("volume");
+        }
         function volumeUp(): void {
             root.volumeUp();
         }
-
         function volumeUpFine(): void {
             root.volumeUp(root.volumeFineStep);
         }
 
-        function volumeDown(): void {
-            root.volumeDown();
-        }
-
-        function volumeDownFine(): void {
-            root.volumeDown(root.volumeFineStep);
-        }
-
-        function volumeMute(): void {
-            root.toggleMute();
-        }
-
-        function volumeRefresh(): void {
-            root.show("volume");
-        }
-
-        function brightnessUp(): void {
-            Backlight.increase();
-        }
-
-        function brightnessUpFine(): void {
-            Backlight.increase(Backlight.fineStep);
-        }
-
-        function brightnessDown(): void {
-            Backlight.decrease();
-        }
-
-        function brightnessDownFine(): void {
-            Backlight.decrease(Backlight.fineStep);
-        }
-
-        function brightnessRefresh(): void {
-            root.show("brightness");
-        }
+        target: "osd"
     }
 }

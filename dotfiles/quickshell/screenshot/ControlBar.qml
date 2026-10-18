@@ -10,14 +10,12 @@ import ".."
 Rectangle {
     id: root
 
-    Variables { id: v }
-
-    property var modes: []
-    property string mode: "region"
     property bool editActive: false
-    property bool tempActive: false
-
+    property string mode: "region"
+    property var modes: []
+    readonly property int selectedIndex: Math.max(0, visibleModes.indexOf(root.mode))
     readonly property real tabItemSize: 100
+    property bool tempActive: false
     readonly property var visibleModes: modes.filter(m => {
         if (m === "edit")
             return !root.editActive;
@@ -25,45 +23,47 @@ Rectangle {
             return !root.tempActive;
         return true;
     })
-    readonly property int selectedIndex: Math.max(0, visibleModes.indexOf(root.mode))
 
     signal modeSelected(string mode)
 
+    border.color: v.popupBorder
+    border.width: 1
+    color: "#303030"
     implicitHeight: 50
     implicitWidth: visibleModes.length * tabItemSize + 8
     radius: height / 2
-    color: "#303030"
-    border.color: v.popupBorder
-    border.width: 1
 
     Behavior on implicitWidth {
         enabled: root.tabItemSize > 0
+
         SpringAnimation {
-            spring: 4
             damping: 0.25
             mass: 1
+            spring: 4
         }
     }
 
+    Variables {
+        id: v
+    }
     Rectangle {
         id: highlight
 
-        width: root.tabItemSize
-        height: parent.height - 8
-        y: 4
-        radius: height / 2
         color: v.accentColor
+        height: parent.height - 8
+        radius: height / 2
+        width: root.tabItemSize
         x: 4 + root.selectedIndex * root.tabItemSize
+        y: 4
 
         Behavior on x {
             SpringAnimation {
-                spring: 4
                 damping: 0.25
                 mass: 1
+                spring: 4
             }
         }
     }
-
     Row {
         anchors.fill: parent
         anchors.margins: 4
@@ -76,18 +76,21 @@ Rectangle {
 
                 required property string modelData
 
-                width: root.tabItemSize
                 height: root.height - 8
+                width: root.tabItemSize
 
                 MouseArea {
                     anchors.fill: parent
-                    hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
+                    hoverEnabled: true
+
                     onClicked: root.modeSelected(tabItem.modelData)
                 }
-
                 Text {
                     anchors.centerIn: parent
+                    color: root.mode === tabItem.modelData ? v.accentForeground : v.textSecondary
+                    font.pixelSize: 15
+                    font.weight: root.mode === tabItem.modelData ? Font.Bold : Font.Medium
                     text: {
                         const icons = {
                             "region": "󰒉",
@@ -101,9 +104,6 @@ Rectangle {
                         };
                         return (icons[tabItem.modelData] || "") + "  " + (labels[tabItem.modelData] || tabItem.modelData);
                     }
-                    color: root.mode === tabItem.modelData ? v.accentForeground : v.textSecondary
-                    font.weight: root.mode === tabItem.modelData ? Font.Bold : Font.Medium
-                    font.pixelSize: 15
                 }
             }
         }

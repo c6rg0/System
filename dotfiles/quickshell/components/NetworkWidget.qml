@@ -6,28 +6,7 @@ import ".."
 import qs.popups.network
 
 Item {
-    Variables { id: v }
     id: root
-
-    Layout.fillHeight: true
-    implicitWidth: 44
-    Rectangle {
-        id: networkWidget
-        anchors.fill: parent
-        anchors.leftMargin: 0
-        anchors.rightMargin: 3
-        radius: 6
-        color: networkPopup.visible ? v.widgetHighlight : "transparent"
-    }
-
-    readonly property var wifiDevice: {
-        let devs = Networking.devices.values;
-        for (let i = 0; i < devs.length; i++) {
-            if (devs[i].connected && devs[i].type === DeviceType.Wifi)
-                return devs[i];
-        }
-        return null;
-    }
 
     readonly property var activeWifiNetwork: {
         if (!wifiDevice)
@@ -39,7 +18,6 @@ Item {
         }
         return null;
     }
-
     readonly property bool ethernetConnected: {
         let devs = Networking.devices.values;
         for (let i = 0; i < devs.length; i++) {
@@ -48,7 +26,6 @@ Item {
         }
         return false;
     }
-
     readonly property string iconName: {
         if (activeWifiNetwork) {
             let s = activeWifiNetwork.signalStrength;
@@ -66,14 +43,39 @@ Item {
             return "network-wired";
         return "nm-no-connection";
     }
+    readonly property var wifiDevice: {
+        let devs = Networking.devices.values;
+        for (let i = 0; i < devs.length; i++) {
+            if (devs[i].connected && devs[i].type === DeviceType.Wifi)
+                return devs[i];
+        }
+        return null;
+    }
+
+    Layout.fillHeight: true
+    implicitWidth: 44
+
+    Variables {
+        id: v
+    }
+    Rectangle {
+        id: networkWidget
+
+        anchors.fill: parent
+        anchors.leftMargin: 0
+        anchors.rightMargin: 3
+        color: networkPopup.visible ? v.widgetHighlight : "transparent"
+        radius: 6
+    }
     MouseArea {
         anchors.fill: parent
         cursorShape: Qt.PointingHandCursor
+
         onClicked: {
             networkPopup.visible = !networkPopup.visible;
-e       }
+            e;
+        }
     }
-
     IconImage {
         anchors.centerIn: parent
         implicitSize: 26
@@ -81,6 +83,7 @@ e       }
     }
     NetworkPopup {
         id: networkPopup
+
         visible: false
     }
 }

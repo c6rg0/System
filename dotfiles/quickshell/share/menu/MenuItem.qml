@@ -4,66 +4,68 @@ import QtQuick.Layouts
 import "../.."
 
 Rectangle {
-    Variables { id: v }
     id: item
+
+    property bool hasSubmenu: false
+    property bool hovered: false
+    property string label: ""
     property alias labelElement: labelText
     property alias mouseArea: mouseArea
-
-    property string label: ""
     property string shortcut: ""
-    property bool hasSubmenu: false
+
     signal triggered
 
     Layout.fillWidth: true
     Layout.leftMargin: 4
     Layout.rightMargin: 4
+    color: hovered ? v.accentColor : "transparent"
     implicitHeight: 32
     radius: 4
-    color: hovered ? v.accentColor : "transparent"
 
-    property bool hovered: false
-
+    Variables {
+        id: v
+    }
     RowLayout {
+        spacing: 0
+
         anchors {
             fill: parent
             leftMargin: 14
             rightMargin: 14
         }
-        spacing: 0
-
         Text {
             id: labelText
-            text: item.label
+
+            Layout.fillWidth: true
             color: item.hovered ? v.accentForeground : v.textColor
             font.family: "SF Pro"
             font.pixelSize: 18
-            Layout.fillWidth: true
+            text: item.label
             verticalAlignment: Text.AlignVCenter
         }
-
         Text {
-            visible: item.hasSubmenu
-            text: "›"
             color: item.hovered ? v.accentForeground : v.textColor
             font.pixelSize: 16
+            text: "›"
+            visible: item.hasSubmenu
         }
-
         Text {
-            visible: item.shortcut !== ""
-            text: item.shortcut
             color: item.hovered ? "#ddeeff" : v.textSecondary
             font.family: "SF Pro"
             font.pixelSize: 16
+            text: item.shortcut
+            visible: item.shortcut !== ""
         }
     }
-
     MouseArea {
         id: mouseArea
+
         anchors.fill: parent
+        cursorShape: Qt.PointingHandCursor
         hoverEnabled: true
+
+        onClicked: item.triggered()
         onEntered: item.hovered = true
         onExited: item.hovered = false
-        onClicked: item.triggered()
-        cursorShape: Qt.PointingHandCursor
     }
 }

@@ -8,97 +8,103 @@ import Quickshell.Io
 import "../.."
 
 PopupWindow {
-    Variables { id: v }
     id: root
 
-    property QsMenuHandle menuHandle
     property MouseArea anchorPoint
+    property QsMenuHandle menuHandle
 
+    color: "transparent"
+    grabFocus: true
+    implicitHeight: menuColumn.implicitHeight + 16
+    implicitWidth: 240
+
+    Variables {
+        id: v
+    }
     QsMenuOpener {
         id: opener
+
         menu: menuHandle
     }
-    implicitWidth: 240
-    implicitHeight: menuColumn.implicitHeight + 16
-    grabFocus: true
-
     anchor {
         item: anchorPoint
-        rect.y: 38
         rect.x: -12
+        rect.y: 38
     }
-    color: "transparent"
-
     Item {
         id: mask
+
         anchors.fill: parent
-        visible: false
         layer.enabled: true
+        visible: false
+
         Rectangle {
             anchors.fill: parent
             anchors.margins: 8
             anchors.topMargin: 0
-            radius: 8
             color: "#fff"
+            radius: 8
         }
     }
     RectangularShadow {
         id: outerShadow
+
         anchors.fill: parent
-        radius: dropdown.radius
         blur: 10
         color: v.shadowColor
+        radius: dropdown.radius
         spread: -8
         visible: false
     }
     MultiEffect {
         anchors.fill: outerShadow
-        source: outerShadow
-        maskSource: mask
         maskEnabled: true
         maskInverted: true
+        maskSource: mask
+        source: outerShadow
     }
-
     Rectangle {
         id: dropdown
+
         anchors.fill: parent
         anchors.margins: 8
         anchors.topMargin: 0
-
-        radius: 8
-        color: v.popupBackground
         border.color: v.popupBorder
         border.width: 1
+        color: v.popupBackground
+        radius: 8
     }
-
-        Rectangle {
-            anchors.fill: parent
-            anchors.margins: 7
-            anchors.topMargin: -1
-            radius: dropdown.radius
-            color: "transparent"
-            border.color: v.outerBorderColor
-            border.width: 1
-        }
+    Rectangle {
+        anchors.fill: parent
+        anchors.margins: 7
+        anchors.topMargin: -1
+        border.color: v.outerBorderColor
+        border.width: 1
+        color: "transparent"
+        radius: dropdown.radius
+    }
 
     // ── menu contents ────────────────────────────────────────────────────────
     ColumnLayout {
         id: menuColumn
-        anchors {
-            top: dropdown.top
-            left: dropdown.left
-            right: dropdown.right
-            topMargin: 4
-            bottomMargin: 4
-            leftMargin: 0
-            rightMargin: 0
-        }
+
         spacing: 0
+
+        anchors {
+            bottomMargin: 4
+            left: dropdown.left
+            leftMargin: 0
+            right: dropdown.right
+            rightMargin: 0
+            top: dropdown.top
+            topMargin: 4
+        }
         Repeater {
             model: opener.children
 
             delegate: TrayMenuItem {
                 required property QsMenuHandle modelData
+
                 dropdown: root
                 menuHandle: modelData
             }

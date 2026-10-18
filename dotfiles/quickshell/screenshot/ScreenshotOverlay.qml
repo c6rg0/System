@@ -23,29 +23,28 @@ Scope {
         PanelWindow {
             id: overlay
 
+            readonly property bool isFocused: modelData.name === Screenshot.activeScreenName
             required property var modelData
 
-            Variables { id: v }
-
-            readonly property bool isFocused: modelData.name === Screenshot.activeScreenName
-
-            screen: modelData
-            visible: Screenshot.overlayVisible
-            color: "transparent"
-
-            anchors {
-                top: true
-                left: true
-                right: true
-                bottom: true
-            }
-
-            exclusiveZone: -1
-            WlrLayershell.layer: WlrLayer.Overlay
-            WlrLayershell.namespace: "qs:screenshot"
             // On demand keeps the surface out of the keyboard focus stack until
             // it maps, so the Hyprland bind that started this isn't still held.
             WlrLayershell.keyboardFocus: WlrKeyboardFocus.OnDemand
+            WlrLayershell.layer: WlrLayer.Overlay
+            WlrLayershell.namespace: "qs:screenshot"
+            color: "transparent"
+            exclusiveZone: -1
+            screen: modelData
+            visible: Screenshot.overlayVisible
+
+            Variables {
+                id: v
+            }
+            anchors {
+                bottom: true
+                left: true
+                right: true
+                top: true
+            }
 
             // Deliberately no `mask` here. An empty Region mask does stop the
             // surface from taking pointer focus, but it also stops pointer
@@ -55,21 +54,23 @@ Scope {
             // Frozen desktop, behind the dimming layer drawn by RegionSelector.
             Image {
                 anchors.fill: parent
-                source: Screenshot.tempPath ? "file://" + Screenshot.tempPath : ""
-                fillMode: Image.PreserveAspectCrop
-                cache: false
                 asynchronous: true
-                sourceSize.width: overlay.width
+                cache: false
+                fillMode: Image.PreserveAspectCrop
+                source: Screenshot.tempPath ? "file://" + Screenshot.tempPath : ""
                 sourceSize.height: overlay.height
+                sourceSize.width: overlay.width
             }
-
             Item {
                 id: content
 
                 anchors.fill: parent
 
                 Connections {
-                    target: Screenshot
+                    function onActiveChanged() {
+                        if (!Screenshot.active)
+                            selector.clearSelection();
+                    }
 
                     // Once the capture is frozen, ask Hyprland where the cursor
                     // was so the guide crosshair starts under the pointer.
@@ -79,12 +80,8 @@ Scope {
                         cursorPosProcess.running = true;
                     }
 
-                    function onActiveChanged() {
-                        if (!Screenshot.active)
-                            selector.clearSelection();
-                    }
+                    target: Screenshot
                 }
-
                 Process {
                     id: cursorPosProcess
 
@@ -102,7 +99,6 @@ Scope {
                         }
                     }
                 }
-
                 RegionSelector {
                     id: selector
 
@@ -114,61 +110,59 @@ Scope {
                         Screenshot.saveScreenshot(x, y, width, height, overlay.modelData.name);
                     }
                 }
-
                 ControlBar {
                     id: controlBar
 
-                    visible: overlay.isFocused
-                    anchors.horizontalCenter: parent.horizontalCenter
                     anchors.bottom: parent.bottom
                     anchors.bottomMargin: 60
-
-                    modes: Screenshot.modes
-                    mode: Screenshot.mode
+                    anchors.horizontalCenter: parent.horizontalCenter
                     editActive: Screenshot.editActive
+                    mode: Screenshot.mode
+                    modes: Screenshot.modes
                     tempActive: Screenshot.tempActive
+                    visible: overlay.isFocused
 
                     onModeSelected: m => {
                         Screenshot.mode = m;
                     }
                 }
-
                 QuickToggle {
                     id: editToggleButton
 
-                    visible: overlay.isFocused
                     active: Screenshot.editActive
+                    backgroundColor: v.accentColor
                     // One action per bind, like the standalone overlay: turning
                     // the toggle on is what the keybind/click asks for, turning
                     // it off is done by the button again or by Temp.
                     behaviorOnDeactivate: false
-                    imageSource: Qt.resolvedUrl("icons/edit.svg")
-                    iconColor: v.accentForeground
-                    backgroundColor: v.accentColor
-                    shadowColor: v.shadowColor
                     borderColor: v.accentForeground
                     borderWidth: 1
+                    iconColor: v.accentForeground
+                    imageSource: Qt.resolvedUrl("icons/edit.svg")
+                    shadowColor: v.shadowColor
+                    sourceX: overlay.width / 2 - 204 + 32
                     targetX: (overlay.width - controlBar.targetMenuWidth) / 2 - 15 - width
                     targetY: controlBar.y + controlBar.height / 2
-                    sourceX: overlay.width / 2 - 204 + 32
+                    visible: overlay.isFocused
+
                     onClicked: Screenshot.toggleEdit()
                 }
-
                 QuickToggle {
                     id: tempToggleButton
 
-                    visible: overlay.isFocused
                     active: Screenshot.tempActive
-                    behaviorOnDeactivate: false
-                    imageSource: Qt.resolvedUrl("icons/temp.svg")
-                    iconColor: v.accentForeground
                     backgroundColor: v.accentColor
-                    shadowColor: v.shadowColor
+                    behaviorOnDeactivate: false
                     borderColor: v.accentForeground
                     borderWidth: 1
+                    iconColor: v.accentForeground
+                    imageSource: Qt.resolvedUrl("icons/temp.svg")
+                    shadowColor: v.shadowColor
+                    sourceX: overlay.width / 2 - 204 + 332
                     targetX: (overlay.width + controlBar.targetMenuWidth) / 2 + 15
                     targetY: controlBar.y + controlBar.height / 2
-                    sourceX: overlay.width / 2 - 204 + 332
+                    visible: overlay.isFocused
+
                     onClicked: Screenshot.toggleTemp()
                 }
             }
@@ -176,12 +170,6 @@ Scope {
             // The whole overlay is keyboard-modal while it's up, so the keys
             // below work on any monitor and the focused one only paints.
             Item {
-                anchors.fill: parent
-                focus: true
-                Keys.onPressed: event => {
-                    handleKey(event);
-                }
-
                 function handleKey(event) {
                     if (event.key === Qt.Key_Escape || event.key === Qt.Key_Q) {
                         Screenshot.cancel();
@@ -205,6 +193,13 @@ Scope {
                         Screenshot.toggleTemp();
                         event.accepted = true;
                     }
+                }
+
+                anchors.fill: parent
+                focus: true
+
+                Keys.onPressed: event => {
+                    handleKey(event);
                 }
             }
         }

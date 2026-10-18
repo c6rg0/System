@@ -5,78 +5,82 @@ import qs.share.menu
 import "../.."
 
 Rectangle {
-    Variables { id: v }
     id: root
-    property QsMenuHandle menuHandle
-    property PopupWindow dropdown
 
+    property PopupWindow dropdown
+    property QsMenuHandle menuHandle
+
+    Layout.bottomMargin: menuHandle.isSeparator ? 4 : 0
     Layout.fillWidth: true
     Layout.leftMargin: 4
     Layout.rightMargin: 4
-    implicitHeight: menuHandle.isSeparator ? 1 : 32
     Layout.topMargin: menuHandle.isSeparator ? 4 : 0
-    Layout.bottomMargin: menuHandle.isSeparator ? 4 : 0
-
     color: "transparent"
+    implicitHeight: menuHandle.isSeparator ? 1 : 32
+
+    Variables {
+        id: v
+    }
     Rectangle {
         anchors.fill: parent
         color: "#33000000"
         visible: menuHandle.isSeparator
     }
-
     Rectangle {
         id: item
-        visible: !menuHandle.isSeparator
-        anchors.fill: parent
-
-        radius: 4
-        color: hovered ? v.accentColor : "transparent"
 
         property bool hovered: false
 
+        anchors.fill: parent
+        color: hovered ? v.accentColor : "transparent"
+        radius: 4
+        visible: !menuHandle.isSeparator
+
         RowLayout {
+            spacing: 10
+
             anchors {
                 fill: parent
                 leftMargin: 14
                 rightMargin: 14
             }
-            spacing: 10
             Image {
-                visible: menuHandle.icon !== ""
                 source: menuHandle.icon
-                sourceSize.width: 18
                 sourceSize.height: 18
+                sourceSize.width: 18
+                visible: menuHandle.icon !== ""
             }
             Text {
                 id: labelText
-                text: menuHandle.text
+
+                Layout.fillWidth: true
                 color: item.hovered ? v.accentForeground : v.textColor
+                elide: Text.ElideRight
                 font.family: "SF Pro"
                 font.pixelSize: 18
-                Layout.fillWidth: true
+                text: menuHandle.text
                 verticalAlignment: Text.AlignVCenter
-                elide: Text.ElideRight
             }
             Rectangle {
-                visible: menuHandle.buttonType !== 0
-                implicitWidth: 16
-                implicitHeight: 16
-                radius: 8
-                color: "#10000000"
-                border.width: 1
                 border.color: "#77a0a2"
+                border.width: 1
+                color: "#10000000"
+                implicitHeight: 16
+                implicitWidth: 16
+                radius: 8
+                visible: menuHandle.buttonType !== 0
 
                 Rectangle {
                     anchors.fill: parent
                     anchors.margins: 3
-                    radius: 8
                     color: v.accentColor
+                    radius: 8
                     visible: menuHandle.checkState != 0
                 }
             }
             Text {
-                text: ""
                 color: item.hovered ? v.accentForeground : v.textSecondary
+                text: ""
                 visible: menuHandle.hasChildren
             }
         }
@@ -105,16 +109,18 @@ Rectangle {
 
         MouseArea {
             id: mouseArea
+
             anchors.fill: parent
+            cursorShape: Qt.PointingHandCursor
             hoverEnabled: true
-            onEntered: item.hovered = true
-            onExited: item.hovered = false
+
             onClicked: {
                 menuHandle.triggered();
                 dropdown.visible = menuHandle.hasChildren || (menuHandle.buttonType !== 0);
                 //childMenu.visible = menuHandle.hasChildren;
             }
-            cursorShape: Qt.PointingHandCursor
+            onEntered: item.hovered = true
+            onExited: item.hovered = false
         }
     }
 }

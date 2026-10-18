@@ -1,7 +1,7 @@
 /*
  * TODO, Optimise:
  * This module interupts the UI until a list of connectable
- * networks is gathered. Ideally, it should show the popup 
+ * networks is gathered. Ideally, it should show the popup
  * immediately and allow the disruption of its further
  * loading.
  */
@@ -19,18 +19,7 @@ import qs.share.menu
 import "../.."
 
 PopupWindow {
-    Variables { id: v }
     id: root
-    implicitWidth: 340
-    implicitHeight: menuColumn.implicitHeight + 8
-    grabFocus: true
-    anchor {
-        item: networkWidget
-        edges: Edges.Bottom
-        rect.y: 38
-        rect.x: 16 - networkWidget.width / 2
-    }
-    color: "transparent"
 
     // ── networking ───────────────────────────────────────────────────────────
     // Networking is a singleton — access directly, do not instantiate.
@@ -42,109 +31,133 @@ PopupWindow {
         }
         return null;
     }
+
+    color: "transparent"
+    grabFocus: true
+    implicitHeight: menuColumn.implicitHeight + 8
+    implicitWidth: 340
+
     // Enable scanner while popup is visible so the list stays live.
     onVisibleChanged: {
         if (wifiDev)
             wifiDev.scannerEnabled = visible;
     }
 
+    Variables {
+        id: v
+    }
+    anchor {
+        edges: Edges.Bottom
+        item: networkWidget
+        rect.x: 16 - networkWidget.width / 2
+        rect.y: 38
+    }
+
     // ── visual chrome (unchanged) ────────────────────────────────────────────
     Item {
         id: mask
+
         anchors.fill: parent
-        visible: false
         layer.enabled: true
+        visible: false
+
         Rectangle {
             anchors.fill: parent
             anchors.margins: 8
             anchors.topMargin: 0
-            radius: 8
             color: "#fff"
+            radius: 8
         }
     }
-
     RectangularShadow {
         id: outerShadow
+
         anchors.fill: parent
-        radius: dropdown.radius
         blur: 10
         color: v.shadowColor
+        radius: dropdown.radius
         spread: -8
         visible: false
     }
-
     MultiEffect {
         anchors.fill: outerShadow
-        source: outerShadow
-        maskSource: mask
         maskEnabled: true
         maskInverted: true
+        maskSource: mask
+        source: outerShadow
     }
-
     Rectangle {
         id: dropdown
+
         anchors.fill: parent
         anchors.margins: 8
         anchors.topMargin: 0
-        radius: 8
-        color: v.popupBackground
         border.color: v.popupBorder
         border.width: 1
+        color: v.popupBackground
+        radius: 8
     }
-
-        Rectangle {
-            anchors.fill: parent
-            anchors.margins: 7
-            anchors.topMargin: -1
-            radius: dropdown.radius
-            color: "transparent"
-            border.color: v.outerBorderColor
-            border.width: 1
-        }
+    Rectangle {
+        anchors.fill: parent
+        anchors.margins: 7
+        anchors.topMargin: -1
+        border.color: v.outerBorderColor
+        border.width: 1
+        color: "transparent"
+        radius: dropdown.radius
+    }
 
     // ── menu contents ────────────────────────────────────────────────────────
     ColumnLayout {
         id: menuColumn
-        anchors {
-            top: dropdown.top
-            left: dropdown.left
-            right: dropdown.right
-            topMargin: 4
-            bottomMargin: 4
-            leftMargin: 0
-            rightMargin: 0
-        }
+
         spacing: 0
 
+        anchors {
+            bottomMargin: 4
+            left: dropdown.left
+            leftMargin: 0
+            right: dropdown.right
+            rightMargin: 0
+            top: dropdown.top
+            topMargin: 4
+        }
         Rectangle {
             Layout.fillWidth: true
-            implicitHeight: 10
             color: "transparent"
+            implicitHeight: 10
         }
-
         RowLayout {
             Layout.fillWidth: true
             Layout.leftMargin: 0
             Layout.rightMargin: 14
 
             MenuLabel {
+                Layout.fillWidth: true
                 label: "Wi-Fi"
                 labelElement.font.weight: 600
-                Layout.fillWidth: true
             }
             Rectangle {
-
-                implicitWidth: 48
-                implicitHeight: 28
                 color: Networking.wifiEnabled ? v.accentColor : v.accentMuted
+                implicitHeight: 28
+                implicitWidth: 48
                 radius: 16
+
+                Behavior on color {
+                    ColorAnimation {
+                        duration: 160
+                        easing.type: Easing.InOutQuad
+                    }
+                }
+
                 Rectangle {
                     anchors.verticalCenter: parent.verticalCenter
-                    x: Networking.wifiEnabled ? 22 : 2
-                    implicitWidth: 24
-                    implicitHeight: 24
                     color: v.accentForeground
+                    implicitHeight: 24
+                    implicitWidth: 24
                     radius: 12
+                    x: Networking.wifiEnabled ? 22 : 2
+
                     Behavior on x {
                         NumberAnimation {
                             duration: 160
@@ -154,42 +167,37 @@ PopupWindow {
                 }
                 MouseArea {
                     anchors.fill: parent
+
                     onClicked: Networking.wifiEnabled = !Networking.wifiEnabled
-                }
-                Behavior on color {
-                    ColorAnimation {
-                        duration: 160
-                        easing.type: Easing.InOutQuad
-                    }
                 }
             }
         }
-
         Rectangle {
             Layout.fillWidth: true
-            implicitHeight: 3
             color: "transparent"
+            implicitHeight: 3
         }
-
-        MenuDiv {}
-
+        MenuDiv {
+        }
         MenuLabel {
             label: "Networks"
-            labelElement.font.weight: 600
             labelElement.color: v.textPlaceholder
+            labelElement.font.weight: 600
         }
 
         // ── no adapter / scanning placeholder ────────────────────────────────
         Loader {
             Layout.fillWidth: true
             visible: !wifiDev || (wifiDev.networks.count === 0)
+
             sourceComponent: Item {
                 implicitHeight: 36
+
                 Text {
                     anchors.centerIn: parent
-                    text: !wifiDev ? "No Wi-Fi adapter found" : wifiDev.scannerEnabled ? "Scanning…" : "No networks"
                     color: v.textPlaceholder
                     font.pixelSize: 13
+                    text: !wifiDev ? "No Wi-Fi adapter found" : wifiDev.scannerEnabled ? "Scanning…" : "No networks"
                 }
             }
         }
@@ -202,8 +210,6 @@ PopupWindow {
 
             delegate: IconItem {
                 required property WifiNetwork modelData
-
-                label: modelData.name || "(hidden)"
 
                 iconName: {
                     const secured = modelData.security !== WifiSecurityType.None;
@@ -218,6 +224,7 @@ PopupWindow {
                         return "network-wireless-signal-weak-symbolic";
                     return "network-wireless-signal-none-symbolic";
                 }
+                label: modelData.name || "(hidden)"
                 // Highlight the currently connected network
                 selected: modelData.connected
 
@@ -234,17 +241,16 @@ PopupWindow {
                 }
             }
         }
-
-        MenuDiv {}
-
+        MenuDiv {
+        }
         MenuItem {
             label: "Wi-Fi Settings…"
+
             onTriggered: {
                 preferences.running = true;
                 root.visible = false;
             }
         }
-
         Item {
             Layout.preferredHeight: 8
         }
@@ -253,6 +259,7 @@ PopupWindow {
     // ── processes ────────────────────────────────────────────────────────────
     Process {
         id: preferences
+
         command: ["bash", "-c", "kcmshell6 kcm_networkmanagement"]
         running: false
     }

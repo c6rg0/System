@@ -7,28 +7,7 @@ import ".."
 import qs.popups.volume
 
 Item {
-    Variables { id: v }
     id: root
-
-    Layout.fillHeight: true
-    Layout.leftMargin: 8
-    implicitWidth: icon.implicitWidth + 24
-
-    PwObjectTracker {
-        objects: Pipewire.defaultAudioSink ? [Pipewire.defaultAudioSink] : []
-    }
-
-    readonly property real volume: Pipewire.defaultAudioSink ? Pipewire.defaultAudioSink.audio.volume : 0.0
-    readonly property bool muted: Pipewire.defaultAudioSink ? Pipewire.defaultAudioSink.audio.muted : false
-
-    Rectangle {
-        id: volumeWidget
-        anchors.fill: parent
-        anchors.leftMargin: 0
-        anchors.rightMargin: 3
-        radius: 6
-        color: volumePopup.visible ? v.widgetHighlight : "transparent"
-    }
 
     readonly property string iconName: {
         if (muted || volume === 0.0)
@@ -39,15 +18,39 @@ Item {
             return "audio-volume-medium";
         return "audio-volume-high";
     }
+    readonly property bool muted: Pipewire.defaultAudioSink ? Pipewire.defaultAudioSink.audio.muted : false
+    readonly property real volume: Pipewire.defaultAudioSink ? Pipewire.defaultAudioSink.audio.volume : 0.0
+
+    Layout.fillHeight: true
+    Layout.leftMargin: 8
+    implicitWidth: icon.implicitWidth + 24
+
+    Variables {
+        id: v
+    }
+    PwObjectTracker {
+        objects: Pipewire.defaultAudioSink ? [Pipewire.defaultAudioSink] : []
+    }
+    Rectangle {
+        id: volumeWidget
+
+        anchors.fill: parent
+        anchors.leftMargin: 0
+        anchors.rightMargin: 3
+        color: volumePopup.visible ? v.widgetHighlight : "transparent"
+        radius: 6
+    }
     MouseArea {
         anchors.fill: parent
         cursorShape: Qt.PointingHandCursor
+
         onClicked: {
             volumePopup.visible = !volumePopup.visible;
         }
     }
     IconImage {
         id: icon
+
         anchors.centerIn: parent
         implicitSize: 27
         source: Qt.resolvedUrl("../share/icons/" + root.iconName + "-symbolic.svg")
@@ -55,6 +58,7 @@ Item {
     }
     VolumePopup {
         id: volumePopup
+
         visible: false
     }
 }
