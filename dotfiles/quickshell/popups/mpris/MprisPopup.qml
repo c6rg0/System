@@ -6,10 +6,17 @@ import Quickshell
 import Quickshell.Wayland
 import Quickshell.Services.Mpris
 import Quickshell.Widgets
+import Quickshell.Hyprland
 import "../.."
 
 PanelWindow {
     id: root
+
+    HyprlandFocusGrab {
+        windows: [root]
+        active: root.visible
+        onCleared: root.visible = false
+    }
 
     readonly property string album: player?.trackAlbum ?? ""
     property string albumPlaceholder: "image://share/media-album-cover"
