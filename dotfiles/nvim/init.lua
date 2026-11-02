@@ -73,6 +73,8 @@ vim.keymap.set({'n', 'v'}, '<C-c>', '"+y', { noremap = true })
 vim.keymap.set({'n', 'v'}, '<C-v>', '"+p', { noremap = true })
 vim.keymap.set('i', '<C-v>', '<C-r>+', { noremap = true })
 
+vim.api.nvim_create_user_command('E', 'Explore', {bang = tre})
+
 vim.pack.add({
   -- RULE: don't use unnecessary plugins.
   -- TO DO: pin packages to specific versions

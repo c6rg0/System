@@ -29,7 +29,6 @@
     onefetch
     uv
     ruff
-    iaito
     ghidra
     clang-tools
     gcc
