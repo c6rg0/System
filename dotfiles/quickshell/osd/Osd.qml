@@ -55,10 +55,10 @@ Singleton {
     property real value: 0
     property bool visible: false
     // Fine volume step (the SHIFT + volume binds used 1%).
-    readonly property real volumeFineStep: 0.01
+    readonly property real volumeFineStep: 0.025
 
     // Default volume step (swayosd's "raise"/"lower" used 5%).
-    readonly property real volumeStep: 0.05
+    readonly property real volumeStep: 0.0225
 
     // A push past a limit: nudge the pill in the direction of the push. The
     // token drives the animation, the direction its sign; see OsdPill.qml.

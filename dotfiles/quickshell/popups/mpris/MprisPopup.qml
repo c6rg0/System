@@ -11,6 +11,16 @@ import "../.."
 
 PanelWindow {
     id: root
+    WlrLayershell.namespace: "qs:popup"
+    WlrLayershell.layer: WlrLayer.Overlay
+    WlrLayershell.keyboardFocus: WlrKeyboardFocus.OnDemand
+    color: "transparent"
+    exclusionMode: "Ignore"
+    implicitHeight: contentColumn.implicitHeight + 64
+    implicitWidth: 340
+    margins.left: popupX
+    margins.top: 32
+    updatesEnabled: false
 
     readonly property string album: player?.trackAlbum ?? ""
     property string albumPlaceholder: "image://share/media-album-cover"
@@ -34,19 +44,9 @@ PanelWindow {
         return m + ":" + String(s).padStart(2, "0");
     }
 
-    WlrLayershell.namespace: "qs:popup"
-    color: "transparent"
-    exclusionMode: "Ignore"
-    implicitHeight: contentColumn.implicitHeight + 64
-    implicitWidth: 340
-    margins.left: popupX
-    margins.top: 32
-    updatesEnabled: false
-
     HyprlandFocusGrab {
         active: root.visible
         windows: [root]
-
         onCleared: root.visible = false
     }
     Variables {
@@ -169,7 +169,6 @@ PanelWindow {
                         anchors.fill: parent
                         fillMode: Image.PreserveAspectCrop
                         mipmap: true
-                        // TODO: trackArtUrl null warnings
                         source: root.player.trackArtUrl != null ? root.player.trackArtUrl : root.albumPlaceholder
                     }
                 }

@@ -56,7 +56,6 @@ Item {
     }
     IconImage {
         id: batteryIcon
-
         anchors.centerIn: parent
         implicitSize: 32
         source: Qt.resolvedUrl("../share/icons/" + root.iconName + "-symbolic.svg")

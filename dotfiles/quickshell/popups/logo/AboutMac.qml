@@ -8,7 +8,7 @@ FloatingWindow {
     id: root
 
     // TODO: Find an image to set
-    readonly property string imagePath: "file:///home/chrysanthemum/.config/waybar/scripts/sierra.jpg"
+    readonly property string imagePath: Qt.resolvedUrl("../../share/sierra.jpg")
 
     function show() {
         root.visible = true;

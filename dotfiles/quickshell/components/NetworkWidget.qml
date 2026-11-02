@@ -73,7 +73,6 @@ Item {
 
         onClicked: {
             networkPopup.visible = !networkPopup.visible;
-            e;
         }
     }
     IconImage {
