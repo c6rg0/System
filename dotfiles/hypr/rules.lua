@@ -10,12 +10,6 @@ hl.layer_rule({
 })
 
 hl.layer_rule({
-	name = "Popin",
-	match = { namespace = "ch.wysbd.hyprland-preview-screen-picker" },
-	animation = "popin",
-})
-
-hl.layer_rule({
 	name = "Enable Blur",
 	match = { namespace = "wofi|krunner|notifications" },
 	blur = true,
@@ -24,9 +18,9 @@ hl.layer_rule({
 
 hl.layer_rule({
 	name = "Blur SwayNC",
-	match = { namespace = "swaync-notification-window|snappy-switcher|qs:spotlight" },
-	blur = true,
-	ignore_alpha = 0.5,
+	match = { namespace = "swaync-notification-window|snappy-switcher" },
+	blur = false,
+	-- ignore_alpha = 0.5,
 	no_anim = true,
 })
 
@@ -55,10 +49,11 @@ hl.layer_rule({
 
 hl.layer_rule({
 	name = "Quickshell Popups",
-	match = { namespace = "qs:popup|quickshell|qs:osd" },
+	-- match = { namespace = "qs:popup|quickshell|qs:osd|qs:spotlight" },
+	match = { namespace = "quickshell|qs:osd|qs:spotlight" },
 	no_anim = false,
 	blur = true,
-	blur_popups = true,
+	blur_popups = false,
 	animation = "slide top",
 	ignore_alpha = 0.5,
 })

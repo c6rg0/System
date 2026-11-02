@@ -14,11 +14,13 @@ hl.env("QSG_RHI_BACKEND", "opengl")
 
 hl.on("hyprland.start", function()
   -- Manually loading plugins
-	hl.exec_cmd("hyprctl plugin load /run/current-system/sw/lib/libhyprbars.so")
-	hl.exec_cmd("hyprctl plugin load /run/current-system/sw/lib/libhyprview.so")
+	hl.exec_raw("dbus-update-activation-environment --systemd --all")
 
-	hl.exec_cmd("awww-daemon")
-	hl.exec_cmd("qs -p ~/System/dotfiles/quickshell")
-	hl.exec_cmd("waybar")
-	hl.exec_cmd("otd-daemon")
+	hl.exec_raw("hyprctl plugin load /run/current-system/sw/lib/libhyprbars.so")
+	hl.exec_raw("hyprctl plugin load /run/current-system/sw/lib/libhyprview.so")
+
+	hl.exec_raw("awww-daemon")
+	hl.exec_raw("qs -p ~/System/dotfiles/quickshell --log-rules $'quickshell.dbus.properties.warning=false;quickshell.dbus.dbusmenu.warning=false;quickshell.service.notifications.warning=false;quickshell.service.sni.host.warning=false;qt.qpa.wayland.textinput.warning=false' -d")
+	-- hl.exec_raw("waybar")
+	hl.exec_raw("otd-daemon")
 end)
