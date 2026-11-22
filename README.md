@@ -2,9 +2,11 @@
 - *Hyprland/quickshell configs are forked from [luyu-wu/Config](https://github.com/luyu-wu/Config).*
 
 ## Showcase:
-![desktop](pictures/desktop.png)
+![desktop](pictures/hyprland-macos/desktop.png)
 
-![neovim](pictures/neovim.png)
+![neovim](pictures/hyprland-macos/neovim.png)
+
+*- See all of my configs here -> [SHOWCASE.md](https://github.com/c6rg0/System/blob/master/pictures/SHOWCASE.md)*
 
 
 |               |               |
