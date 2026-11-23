@@ -8,7 +8,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     mactahoe-themes.url = "github:c6rg0/mactahoe-themes-flake";
-    hyprview.url = "github:c6rg0/hyprview-flake";
+    # hyprview.url = "github:c6rg0/hyprview-flake";
     apple-fonts.url = "github:Lyndeno/apple-fonts.nix";
   };
 
@@ -19,7 +19,7 @@
       systems,
       home-manager,
       mactahoe-themes,
-      hyprview,
+      # hyprview,
       apple-fonts,
       ...
     }@inputs:

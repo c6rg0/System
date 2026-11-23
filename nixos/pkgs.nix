@@ -34,6 +34,6 @@
 
     # hyprland plugins
     hyprlandPlugins.hyprbars
-    inputs.hyprview.packages."${pkgs.system}".hyprview
+    # inputs.hyprview.packages."${pkgs.system}".hyprview
   ];
 }
