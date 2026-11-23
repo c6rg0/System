@@ -36,6 +36,7 @@
     nerd-fonts.symbols-only
     noto-fonts-cjk-sans
     inputs.apple-fonts.packages."${pkgs.system}".sf-pro
+    inputs.apple-fonts.packages."${pkgs.system}".sf-mono
   ];
 
   programs.sway = {

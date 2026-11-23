@@ -10,270 +10,273 @@
     enable = true;
     systemd.enable = true;
     style = ''
-            /* Keyframes */
+      /* Keyframes */
+      @keyframes blink-critical {
+        to {
+          /*color: @white;*/
+          background-color: @critical;
+        }
+      }
 
-            @keyframes blink-critical {
-            	to {
-      			/*color: @white;*/
-      			background-color: @critical;
-      		}
-      	}
+      /* Styles */
 
+      /* Colors (gruvbox) */
+      @define-color black	#282828;
+      @define-color red	#cc241d;
+      @define-color green	#98971a;
+      @define-color yellow  #d79921;
+      @define-color blue	#458588;
+      @define-color purple	#b16286;
+      @define-color aqua	#689d6a;
+      @define-color gray	#928374;
+      @define-color brgray	#7C6F64;
+      @define-color brred	#9d0006;
+      @define-color brgreen	#79740e;
+      @define-color bryellow	#b57614;
+      @define-color brblue	#076678;
+      @define-color brpurple	#8f3f71;
+      @define-color braqua	#427b58;
+      @define-color white	#fbf1c7;
 
-      	/* Styles */
+      @define-color warning 	@bryellow;
+      @define-color critical	@brred;
+      @define-color mode	@black;
+      @define-color unfocused	@black;
+      @define-color focused	@white;
+      @define-color inactive	@black;
+      @define-color sound	@red;
+      @define-color network	@bryellow;
+      @define-color memory	@yellow;
+      @define-color cpu	@green;
+      @define-color temp	@aqua;
+      @define-color layout	@brblue;
+      @define-color battery	@braqua;
+      @define-color date	@black;
+      @define-color time	@white;
 
-      	/* Colors (gruvbox) */
-      	@define-color black	#282828;
-      	@define-color red	#cc241d;
-      	@define-color green	#98971a;
-      	@define-color yellow  #d79921;
-      	@define-color blue	#458588;
-      	@define-color purple	#b16286;
-      	@define-color aqua	#689d6a;
-      	@define-color gray	#928374;
-      	@define-color brgray	#7C6F64;
-      	@define-color brred	#9d0006;
-      	@define-color brgreen	#79740e;
-      	@define-color bryellow	#b57614;
-      	@define-color brblue	#076678;
-      	@define-color brpurple	#8f3f71;
-      	@define-color braqua	#427b58;
-      	@define-color white	#fbf1c7;
+      /* Reset all styles */
+      * {
+        border: none;
+        border-radius: 0;
+        min-height: 0;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+        text-shadow: none;
+        icon-shadow: none;
+      }
 
-      	@define-color warning 	@bryellow;
-      	@define-color critical	@brred;
-      	@define-color mode	@black;
-      	@define-color unfocused	@black;
-      	@define-color focused	@white;
-      	@define-color inactive	@black;
-      	@define-color sound	@bryellow;
-      	@define-color network	@yellow;
-      	@define-color memory	@green;
-      	@define-color cpu	@brgreen;
-      	@define-color temp	@aqua;
-      	@define-color layout	@brblue;
-      	@define-color battery	@braqua;
-      	@define-color date	@black;
-      	@define-color time	@white;
+      /* The whole bar */
+      #waybar {
+        background: rgba(40, 40, 40, 0.8784313725); /* #282828e0 */
+        color: @white;
+        font-family: SF Pro Mono, Siji;
+        font-size: 15pt;
+        /* font-weight: bold; */
+      }
 
-      	/* Reset all styles */
-      	* {
-      		border: none;
-      		border-radius: 0;
-      		min-height: 0;
-      		margin: 0;
-      		padding: 0;
-      		box-shadow: none;
-      		text-shadow: none;
-      		icon-shadow: none;
-      	}
+      /* Each module */
+      #battery,
+      #clock,
+      #cpu,
+      #memory,
+      #mode,
+      #network,
+      #pulseaudio,
+      #temperature,
+      #tray,
+      #backlight,
+      #idle_inhibitor,
+      #disk,
+      #user,
+      #mpris {
+        padding-left: 8pt;
+        padding-right: 8pt;
+      }
 
-      	/* The whole bar */
-      	#waybar {
-      		background: rgba(40, 40, 40, 0.8784313725); /* #282828e0 */
-      		color: @white;
-      		font-family: IosevkaTerm Nerd Font Mono, Siji;
-      		font-size: 15pt;
-      		/* font-weight: bold; */
-      	}
-      	
-      	/* Each module */
-      	#battery,
-      	#clock,
-      	#cpu,
-      	#memory,
-      	#mode,
-      	#network,
-      	#pulseaudio,
-      	#temperature,
-      	#tray,
-      	#backlight,
-      	#idle_inhibitor,
-      	#disk,
-      	#user,
-      	#mpris {
-      		padding-left: 8pt;
-      		padding-right: 8pt;
-      	}
+      /* Each critical module */
+      #mode,
+      #memory.critical,
+      #cpu.critical,
+      #temperature.critical,
+      #battery.critical.discharging {
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+        animation-name: blink-critical;
+        animation-duration: 1s;
+      }
 
-      	/* Each critical module */
-      	#mode,
-      	#memory.critical,
-      	#cpu.critical,
-      	#temperature.critical,
-      	#battery.critical.discharging {
-      		animation-timing-function: linear;
-      		animation-iteration-count: infinite;
-      		animation-direction: alternate;
-      		animation-name: blink-critical;
-      		animation-duration: 1s;
-      	}
+      /* Each warning */
+      #network.disconnected,
+      #memory.warning,
+      #cpu.warning,
+      #temperature.warning,
+      #battery.warning.discharging {
+        color: @warning;
+      }
 
-      	/* Each warning */
-      	#network.disconnected,
-      	#memory.warning,
-      	#cpu.warning,
-      	#temperature.warning,
-      	#battery.warning.discharging {
-      		color: @warning;
-      	}
+      /* And now modules themselves in their respective order */
 
-      	/* And now modules themselves in their respective order */
+      /* Current sway mode (resize etc) */
+      #mode {
+        color: @white;
+        background: @mode;
+      }
 
-      	/* Current sway mode (resize etc) */
-      	#mode {
-      		color: @white;
-      		background: @mode;
-      	}
+      /* Workspaces stuff */
+      #workspaces button {
+        /* font-weight: bold; */
+        padding-left: 2pt;
+        padding-right: 2pt;
+        color: @white;
+        background: @unfocused;
+      }
 
-      	/* Workspaces stuff */
-      	#workspaces button {
-      		/* font-weight: bold; */
-      		padding-left: 2pt;
-      		padding-right: 2pt;
-      		color: @white;
-      		background: @unfocused;
-      	}
+      /* Inactive (on unfocused output) */
+      #workspaces button.visible {
+        color: @white;
+        background: @inactive;
+      }
 
-      	/* Inactive (on unfocused output) */
-      	#workspaces button.visible {
-      		color: @white;
-      		background: @inactive;
-      	}
+      /* Active (on focused output) */
+      /* #workspaces button.focused { */
+      #workspaces button.active {
+        color: @black;
+        background: @focused;
+      }	
 
-      	/* Active (on focused output) */
-      	#workspaces button.focused {
-      		color: @black;
-      		background: @focused;
-      	}	
+      /* Contains an urgent window */
+      #workspaces button.urgent {
+        color: @black;
+        background: @warning;
+      }
 
-      	/* Contains an urgent window */
-      	#workspaces button.urgent {
-      		color: @black;
-      		background: @warning;
-      	}
+      /* Style when cursor is on the button */
+      #workspaces button.workspace-hover {
+        background: @black;
+        color: @white;
+      }
 
-      	/* Style when cursor is on the button */
-      	#workspaces button:hover {
-      		background: @black;
-      		color: @white;
-      	}
+      #window {
+        margin-right: 35pt;
+        margin-left: 35pt;
+      }
 
-      	#window {
-      		margin-right: 35pt;
-      		margin-left: 35pt;
-      	}
+      #pulseaudio {
+        background: @sound;
+        color: @black;
+      }
 
-      	#pulseaudio {
-      		background: @sound;
-      		color: @black;
-      	}
+      #network {
+        background: @network;
+        color: @white;
+      }
 
-      	#network {
-      		background: @network;
-      		color: @white;
-      	}
+      #memory {
+        background: @memory;
+        color: @black;
+      }
 
-      	#memory {
-      		background: @memory;
-      		color: @black;
-      	}
+      #cpu {
+        background: @cpu;
+        color: @white;
+      }
 
-      	#cpu {
-      		background: @cpu;
-      		color: @white;
-      	}
+      #temperature {
+        background: @temp;
+        color: @black;
+      }
 
-      	#temperature {
-      		background: @temp;
-      		color: @black;
-      	}
+      #battery {
+        background: @battery;
+        color: @white;
+      }
 
-      	#battery {
-      		background: @battery;
-      		color: @white;
-      	}
+      #tray {
+        background: @date;
+      }
 
-      	#tray {
-      		background: @date;
-      	}
+      #clock.date {
+        background: @date;
+        color: @white;
+      }
 
-      	#clock.date {
-      		background: @date;
-      		color: @white;
-      	}
+      #clock.time {
+        background: @time;
+        color: @black;
+      }
 
-      	#clock.time {
-      		background: @time;
-      		color: @black;
-      	}
+      #custom-arrow1 {
+        font-size: 11pt;
+        color: @time;
+        background: @date;
+      }
 
-        	#custom-arrow1 {
-      		font-size: 11pt;
-      		color: @time;
-      		background: @date;
-      	}
-      	
-      	#custom-arrow2 {
-      		font-size: 11pt;
-      		color: @date;
-      		background: @battery;
-      		padding: 0;
-      		margin: 0;
-      	}
+      #custom-arrow2 {
+        font-size: 11pt;
+        color: @date;
+        background: @battery;
+        padding: 0;
+        margin: 0;
+      }
 
-      	#custom-arrow3 {
-      		font-size: 11pt;
-      		color: @battery;
-      		background: @temp;
-      	}
+      #custom-arrow3 {
+        font-size: 11pt;
+        color: @battery;
+        background: @temp;
+        padding: 0;
+        margin: 0;
+      }
 
-      	#custom-arrow4 {
-      		font-size: 11pt;
-      		color: @temp;
-      		background: @cpu;
-      	}
+      #custom-arrow4 {
+        font-size: 11pt;
+        color: @temp;
+        background: @cpu;
+      }
 
-      	#custom-arrow5 {
-      		font-size: 11pt;
-      		color: @cpu;
-      		background: @memory;
-      	}
+      #custom-arrow5 {
+        font-size: 11pt;
+        color: @cpu;
+        background: @memory;
+      }
 
-      	#custom-arrow6 {
-      		font-size: 11pt;
-      		color: @memory;
-      		background: @network;
-      	}
+      #custom-arrow6 {
+        font-size: 11pt;
+        color: @memory;
+        background: @network;
+      }
 
-      	#custom-arrow7 {
-      		font-size: 11pt;
-      		color: @network;
-      		background: @sound;
-      	}
+      #custom-arrow7 {
+        font-size: 11pt;
+        color: @network;
+        background: @sound;
+      }
 
-      	#custom-arrow8 {
-      		font-size: 11pt;
-      		color: @sound;
-      		background: transparent;
-      	}
+      #custom-arrow8 {
+        font-size: 11pt;
+        color: @sound;
+        background: transparent;
+      }
 
-      	#custom-arrow9 {
-      		font-size: 11pt;
-      		color: @unfocused;
-      		background: transparent;
-      	}
+      #custom-arrow9 {
+        font-size: 11pt;
+        color: @focused;
+        background: transparent;
+      }
 
     '';
 
     settings = [
       {
-        layer = "bottom";
-        position = "bottom";
+        layer = "top";
+        position = "top";
 
         modules-left = [
-          "sway/mode"
-          "sway/workspaces"
+          # "sway/mode"
+          # "sway/workspaces"
+          "hyprland/mode"
+          "hyprland/workspaces"
           "custom/arrow9"
         ];
 
@@ -299,17 +302,17 @@
 
         battery = {
           format-time = "{H}:{M:02}";
-          format = "{icon} {capacity}% ({time})";
+          format = "{icon}  {capacity}% ({time})";
           format-charging = " {capacity}% ({time})";
           format-charging-full = " {capacity}%";
           format-full = "{icon}  {capacity}%";
           format-alt = "{icon}  {power}W";
           format-icons = [
-            "  "
-            "  "
-            "  "
-            "  "
-            "  "
+            ""
+            ""
+            ""
+            ""
+            ""
           ];
           tooltip = false;
         };
@@ -322,8 +325,18 @@
 
         "clock#date" = {
           interval = 20;
-          format = "{:%e %b %Y}";
-          tooltip = false;
+          format = "{:%Y-%m-%d}";
+          iso8601 = true;
+          tooltip = true;
+          tooltip-format = "<tt>{calendar}</tt>";
+          calendar = {
+            format = {
+              months = "<span color='#fbf1c7'><b>{}</b></span>";
+              today = "<span color='#d79921'><b>{}</b></span>";
+              days = "<span color='#fbf1c7'><b>{}</b></span>";
+              weekdays = "<span color='#ebdbb2'><b>{}</b></span>";
+            };
+          };
         };
 
         cpu = {
@@ -350,34 +363,36 @@
         network = {
           interval = 5;
           format-wifi = "<span size='18pt'></span>   {essid} ({signalStrength}%)";
-          format-ethernet = "<span size='18pt'></span>  {ifname}";
+          format-ethernet = "<span size='18pt'></span>  {ifname}";
           format-disconnected = "No connection";
-          format-alt = "<span size='18pt'></span>  {ipaddr}/{cidr}";
+          format-alt = "<span size='18pt'></span> 󰩠 {ipaddr}/{cidr}";
           tooltip = false;
         };
 
-        "sway/mode" = {
-          format = "{}";
-          tooltip = false;
-        };
+        # "sway/mode" = {
+        #   format = "{}";
+        #   tooltip = false;
+        # };
 
-        "sway/window" = {
+        # "sway/window" = {
+        "hyprland/window" = {
           format = "{}";
           max-length = 30;
           tooltip = false;
         };
 
-        "sway/workspaces" = {
-          disable-scroll-wraparound = true;
+        # "sway/workspaces" = {
+        "hyprland/workspaces" = {
+          format = "{name}";
+          disable-scroll-wraparound = false;
           smooth-scrolling-threshold = 4;
           enable-bar-scroll = true;
-          format = "{name}";
         };
 
         pulseaudio = {
           format = "{icon} {volume}%";
           format-bluetooth = "{icon}  {volume}%";
-          format-muted = "<span size='18pt'></span>  ";
+          format-muted = "<span size='40pt'></span> 󰝟 ";
           format-icons = {
             headphone = "<span size='40pt'></span>  ";
             hands-free = "<span size='40pt'></span> 󱡏 ";
@@ -391,7 +406,7 @@
             ];
           };
           scroll-step = 1;
-          on-click = "pactl set-sink-mute @DEFAULT_SINK@ toggle";
+          on-click = "exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
           tooltip = false;
         };
 

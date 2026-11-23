@@ -126,13 +126,13 @@
         "XF86MonBrightnessDown" = "exec brightnessctl set 10%-";
 
         # Audio
-        "XF86AudioRaiseVolume" = "exec pactl set-sink-volume @DEFAULT_SINK@ +2.5%";
-        "XF86AudioLowerVolume" = "exec pactl set-sink-volume @DEFAULT_SINK@ -2.5%";
-        "${modifier}+Shift+Equal" = "exec pactl set-sink-volume @DEFAULT_SINK@ +2.5%";
-        "${modifier}+Shift+Minus" = "exec pactl set-sink-volume @DEFAULT_SINK@ -2.5%";
+        "XF86AudioRaiseVolume" = "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 2.5%+";
+        "XF86AudioLowerVolume" = "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 2.5%-";
+        "${modifier}+Shift+Equal" = "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 2.5%+";
+        "${modifier}+Shift+Minus" = "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 2.5%-";
 
-        "XF86AudioMute" = "exec pactl set-sink-mute @DEFAULT_SINK@ toggle";
-        "${modifier}+m" = "exec pactl set-sink-mute @DEFAULT_SINK@ toggle";
+        "XF86AudioMute" = "exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+        "${modifier}+m" = "exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
 
         "XF86AudioPrev" = "exec playerctl previous";
         "${modifier}+numbersign" = "exec playerctl previous";
