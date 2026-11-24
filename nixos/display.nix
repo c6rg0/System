@@ -35,8 +35,8 @@
     nerd-fonts.iosevka-term
     nerd-fonts.symbols-only
     noto-fonts-cjk-sans
-    inputs.apple-fonts.packages."${pkgs.system}".sf-pro
-    inputs.apple-fonts.packages."${pkgs.system}".sf-mono
+    inputs.apple-fonts.packages.x86_64-linux.sf-pro
+    inputs.apple-fonts.packages.x86_64-linux.sf-mono
   ];
 
   programs.sway = {
