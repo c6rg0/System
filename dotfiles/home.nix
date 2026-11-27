@@ -18,11 +18,12 @@
     ./pkgs.nix
     ./theme.nix
     # ./sway.nix
-    # ./waybar/default.nix
     ./hypr/default.nix
-    ./quickshell/default.nix
+    ./waybar/arrows_bar.nix
+    # ./quickshell/default.nix
     ./kitty/default.nix
     ./nvim/default.nix
+    ./fuzzel.nix
     # ./rofi/default.nix
     ./fastfetch/default.nix
   ];

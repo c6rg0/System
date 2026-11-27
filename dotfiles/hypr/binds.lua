@@ -27,6 +27,7 @@ hl.bind(
 )
 
 -- Volume
+--[[
 hl.bind(
 	"XF86AudioRaiseVolume",
 	hl.dsp.exec_cmd("quickshell ipc -p ~/System/dotfiles/quickshell call osd volumeUp"),
@@ -57,8 +58,31 @@ hl.bind(
 	hl.dsp.exec_cmd("quickshell ipc -p ~/System/dotfiles/quickshell call osd volumeDownFine"),
 	{ repeating = true, locked = true }
 )
+--]]
+
+hl.bind(
+	"XF86AudioRaiseVolume",
+	hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 2.5%+"),
+	{ repeating = true, locked = true }
+)
+hl.bind(
+  "SUPER + SHIFT + equal",
+	hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 2.5%+"),
+	{ repeating = true, locked = true }
+)
+hl.bind(
+	"XF86AudioLowerVolume",
+	hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 2.5%-"),
+	{ repeating = true, locked = true }
+)
+hl.bind(
+	"SUPER + SHIFT + minus",
+	hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 2.5%-"),
+	{ repeating = true, locked = true }
+)
 
 -- Mute / Power / Media
+--[[
 hl.bind(
 	"XF86AudioMute",
 	hl.dsp.exec_cmd("quickshell ipc -p ~/System/dotfiles/quickshell call osd volumeMute"),
@@ -69,6 +93,19 @@ hl.bind(
 	hl.dsp.exec_cmd("quickshell ipc -p ~/System/dotfiles/quickshell call osd volumeMute"),
 	{ locked = true }
 )
+--]]
+
+hl.bind(
+	"XF86AudioMute",
+	hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),
+	{ locked = true }
+)
+hl.bind(
+	"SUPER + M",
+	hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),
+	{ locked = true }
+)
+
 hl.bind("XF86PowerOff", hl.dsp.exec_cmd("pkill wleave || wleave -m 500 -c 50 -f"), { locked = true })
 hl.bind("SHIFT + XF86PowerOff", hl.dsp.exec_cmd("systemctl suspend"), { locked = true })
 hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"))
@@ -166,14 +203,14 @@ hl.bind(SUPER .. " + O", hl.dsp.exec_cmd("wtype '|'"))
 hl.bind("SHIFT + F2", hl.dsp.pass({ window = "class:^(com\\.obsproject\\.Studio)$" }), { non_consuming = true })
 
 -- Expose / overview
-hl.bind(SUPER .. " + Tab", hl.dsp.exec_cmd("quickshell ipc -p ~/System/dotfiles/quickshell/ call expose toggle"))
+-- hl.bind(SUPER .. " + Tab", hl.dsp.exec_cmd("quickshell ipc -p ~/System/dotfiles/quickshell/ call expose toggle"))
 
 --hl.bind("ALT + Tab",hl.dsp.exec_cmd("snappy-switcher next --mod alt"),{bypass=true,repeating=true})
 --hl.bind("ALT + SHIFT + Tab",hl.dsp.exec_cmd("snappy-switcher prev --mod alt"),{bypass=true,repeating=true})
 
 -- App launcher
-hl.bind(SUPER .. " + space", hl.dsp.global("quickshell:Spotlight"))
--- hl.bind(SUPER .. " + space", hl.dsp.exec_cmd("rofi -show drun"))
+-- hl.bind(SUPER .. " + space", hl.dsp.global("quickshell:Spotlight"))
+hl.bind(SUPER .. " + space", hl.dsp.exec_cmd("fuzzel"))
 
 -- Night mode
 hl.bind(SUPER .. " + M", hl.dsp.exec_cmd("pkill hyprsunset || hyprsunset -t 4000"))

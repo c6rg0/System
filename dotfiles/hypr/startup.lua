@@ -12,15 +12,19 @@ hl.env("__GL_GSYNC_ALLOWED", "0")
 hl.env("__GL_VRR_ALLOWED", "0")
 hl.env("QSG_RHI_BACKEND", "opengl")
 
+hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
+
+
+hl.plugin.load("/run/current-system/sw/lib/libhyprbars.so")
+-- I need to compile this plugin against the new hyprland version
+-- hl.plugin.load("/run/current-system/sw/lib/libhyprview.so")
+
 hl.on("hyprland.start", function()
-  -- Manually loading plugins
-	hl.exec_raw("dbus-update-activation-environment --systemd --all")
-
-	hl.exec_raw("hyprctl plugin load /run/current-system/sw/lib/libhyprbars.so")
-	hl.exec_raw("hyprctl plugin load /run/current-system/sw/lib/libhyprview.so")
-
-	hl.exec_raw("awww-daemon")
-	hl.exec_raw("qs -p ~/System/dotfiles/quickshell --log-rules $'quickshell.dbus.properties.warning=false;quickshell.dbus.dbusmenu.warning=false;quickshell.service.notifications.warning=false;quickshell.service.sni.host.warning=false;qt.qpa.wayland.textinput.warning=false' -d")
-	-- hl.exec_raw("waybar")
-	hl.exec_raw("otd-daemon")
+	hl.exec_cmd("dbus-update-activation-environment --systemd --all")
+  --[[
+	hl.exec_cmd("awww-daemon")
+  hl.exec_cmd("qs -p ~/System/dotfiles/quickshell -d")
+	hl.exec_cmd("waybar")
+	hl.exec_cmd("otd-daemon")
+  --]]
 end)
